@@ -5,5 +5,5 @@ export const NumericCellValue = memo(function NumericCellValue<T>(
   props: CellValueProps<T, number>
 ) {
   const { value } = props;
-  return <>{value.toFixed(2)}</>;
+  return <>{value != null ? value.toFixed(2) : ""}</>;
 });
