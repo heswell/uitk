@@ -7,12 +7,15 @@ import { Blotter, BlotterRecord, makeFakeBlotterRecord } from "./grid/blotter";
 import {
   ColumnDefinition,
   ColumnGroupDefinition,
+  createHandler,
+  createHook,
   createNumericColumn,
   createTextColumn,
   DataGrid,
   DataSetColumnDefinition,
   Grid,
 } from "@brandname/lab";
+import { BehaviorSubject, Subject } from "rxjs";
 
 export default {
   title: "Lab/Grid/Vuu Data",
@@ -67,14 +70,18 @@ const columnDefinitions: ColumnDefinition<RowData>[] = [
   createTextColumn("ric", "RIC", "ric", 100),
 ];
 
-export const DefaultGridWithVuuData = () => {
-  const { columns, dataTypes } = vuuTableMeta.instruments;
-  const [data, setData] = useState<RowData[]>([]);
-  const [subscribedRange, setSubscribedRange] = useState<[number, number]>([
+class VuuGridModel {
+  public readonly data$ = new BehaviorSubject<RowData[]>([]);
+  public readonly subscribedRange$ = new BehaviorSubject<[number, number]>([
     0, 30,
   ]);
 
-  const [dataConfig, dataSource] = useMemo(() => {
+  public dataSource: RemoteDataSource;
+  public setRange: (range: [number, number]) => void;
+  public useData: () => RowData[];
+
+  constructor() {
+    const { columns, dataTypes } = vuuTableMeta.instruments;
     const dataConfig = {
       bufferSize: 100,
       columns,
@@ -82,21 +89,31 @@ export const DefaultGridWithVuuData = () => {
       tableName: { table: "instruments", module: "SIMUL" },
       serverUrl: "127.0.0.1:8090/websocket",
     };
-    return [dataConfig, new RemoteDataSource(dataConfig)];
-  }, []);
+    this.dataSource = new RemoteDataSource(dataConfig);
+    this.setRange = createHandler(this.subscribedRange$);
+    this.useData = createHook(this.data$);
+    this.subscribedRange$.subscribe((range) => {
+      console.log(`setRange(${range[0]}, ${range[1]}`);
+      this.dataSource.setRange(range[0], range[1]);
+    });
+  }
 
-  const viewportUpdateHandler = (
-    size: number | undefined,
-    rows: any[][] | undefined
-  ) => {
-    const newData: RowData[] = [];
+  private viewportUpdateHandler = (size: number | undefined, rows: any[][]) => {
+    const oldData = this.data$.getValue();
+    const range = this.subscribedRange$.getValue();
+    let newData: RowData[] = [];
 
     if (size !== undefined) {
       console.log(`data length updated to ${size}`);
       newData.length = size;
     } else {
-      newData.length = data.length;
+      newData.length = oldData.length;
     }
+
+    for (let i = range[0]; i <= range[1]; ++i) {
+      newData[i] = oldData[i];
+    }
+
     if (rows !== undefined) {
       console.log(`rows updated ${rows.length}`);
       for (let row of rows) {
@@ -122,44 +139,46 @@ export const DefaultGridWithVuuData = () => {
         };
       }
     }
-    setData(newData);
+    this.data$.next(newData);
   };
 
-  const datasourceMessageHandler = useCallback(
-    (message) => {
-      const { type, ...msg } = message;
-      console.log(`message from viewport ${type}`);
-      switch (type) {
-        case "subscribed":
-          console.log(`Subscribed to Vuu`);
-          break;
-        case "VIEW_PORT_MENUS_RESP":
-          console.log(`Received viewport menus`);
-          break;
-        case "viewport-update":
-          console.log(`Received viewport update`);
-          viewportUpdateHandler(msg.size, msg.rows);
-          break;
-      }
-    },
-    [dataSource]
-  );
-
-  const onVisibleRowRangeChanged = (range: [number, number]) => {
-    const [start, end] = range;
-    console.log(`visible range changed [${start}, ${end}]`);
-    setSubscribedRange([start, end]);
+  private dataSourceMessageHandler = (message: any) => {
+    const { type, ...msg } = message;
+    console.log(`message from viewport ${type}`);
+    switch (type) {
+      case "subscribed":
+        console.log(`Subscribed to Vuu`);
+        break;
+      case "VIEW_PORT_MENUS_RESP":
+        console.log(`Received viewport menus`);
+        break;
+      case "viewport-update":
+        console.log(`Received viewport update`);
+        this.viewportUpdateHandler(msg.size, msg.rows);
+        break;
+    }
   };
 
-  useEffect(() => {
-    console.log(`subscribing to range ${subscribedRange}`);
-    dataSource.subscribe(
+  public subscribe() {
+    const subscribedRange = this.subscribedRange$.getValue();
+    this.dataSource.subscribe(
       {
         range: { lo: subscribedRange[0], hi: subscribedRange[1] },
       },
-      datasourceMessageHandler
+      this.dataSourceMessageHandler
     );
-  }, [dataSource, datasourceMessageHandler, subscribedRange]);
+  }
+}
+
+const model = new VuuGridModel();
+model.subscribe();
+
+export const DefaultGridWithVuuData = () => {
+  const data = model.useData();
+
+  const onVisibleRowRangeChanged = (range: [number, number]) => {
+    model.setRange(range);
+  };
 
   return (
     <Grid
