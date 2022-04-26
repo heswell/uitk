@@ -61,8 +61,8 @@ export function createRows<T>(
     .subscribe(rows$);
 
   combineLatest([rows$, isZebra$]).subscribe(([rows, isZebra]) => {
-    rows.forEach((row, index) => {
-      row.isZebra$.next(!!isZebra && index % 2 === 0);
+    rows.forEach((row) => {
+      row.isZebra$.next(!!isZebra && row.index$.getValue() % 2 === 0);
     });
   });
 

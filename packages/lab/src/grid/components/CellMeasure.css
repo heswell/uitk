@@ -1,6 +1,6 @@
 .uitkGridCellMeasure {
-  position: absolute;
-  top: -1000px;
+  position: fixed;
+  top: 0;
   left: 0;
 }
 
@@ -12,5 +12,22 @@
 }
 
 .uitkGridCellMeasure th {
+  border-collapse: collapse;
+  box-sizing: border-box;
   height: var(--row-height);
+  overflow: hidden;
+
+  margin: 0;
+  padding: var(--cell-padding);
+
+  border-style: solid;
+  border-color: #D9DDE3;
+  border-width: 0 0 1px 0;
+
+  font-size: var(--font-size);
+  font-weight: normal;
+
+  background-color: white;
+  white-space: nowrap;
+  position: relative;
 }

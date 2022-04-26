@@ -16,7 +16,7 @@ export function CellMeasure<T>(props: CellMeasureProps<T>) {
   useEffect(() => {
     if (cellRef.current) {
       const height = cellRef.current.getBoundingClientRect().height;
-      // console.log(`CellMeasure sets rowHeight to ${height}`);
+      console.log(`CellMeasure sets rowHeight to ${height}`);
       model.setRowHeight(height);
     }
   }, [cellRef.current]);
