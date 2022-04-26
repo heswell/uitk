@@ -15,7 +15,13 @@ import {
   DataSetColumnDefinition,
   Grid,
 } from "@brandname/lab";
-import { BehaviorSubject, Subject } from "rxjs";
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  Subject,
+} from "rxjs";
 
 export default {
   title: "Lab/Grid/Vuu Data",
@@ -48,6 +54,7 @@ const vuuTableMeta = {
 
 type RowData = {
   key: string;
+  test: string;
   bbg: string;
   currency: string;
   description: string;
@@ -61,6 +68,7 @@ const getKey = (record: RowData | undefined, index: number) =>
   record ? record.key : String(index);
 
 const columnDefinitions: ColumnDefinition<RowData>[] = [
+  createTextColumn("test", "Test", "test", 80, "left"),
   createTextColumn("bbg", "BBG", "bbg", 100),
   createTextColumn("currency", "Currency", "currency", 100),
   createTextColumn("description", "Description", "description", 200),
@@ -72,8 +80,12 @@ const columnDefinitions: ColumnDefinition<RowData>[] = [
 
 class VuuGridModel {
   public readonly data$ = new BehaviorSubject<RowData[]>([]);
-  public readonly subscribedRange$ = new BehaviorSubject<[number, number]>([
+  public readonly dataLength$ = new BehaviorSubject<number>(0);
+  public readonly visibleRange$ = new BehaviorSubject<[number, number]>([
     0, 30,
+  ]);
+  public readonly subscribedRange$ = new BehaviorSubject<[number, number]>([
+    0, 0,
   ]);
 
   public dataSource: RemoteDataSource;
@@ -90,11 +102,29 @@ class VuuGridModel {
       serverUrl: "127.0.0.1:8090/websocket",
     };
     this.dataSource = new RemoteDataSource(dataConfig);
-    this.setRange = createHandler(this.subscribedRange$);
+    this.setRange = createHandler(this.visibleRange$);
     this.useData = createHook(this.data$);
+
+    this.data$
+      .pipe(
+        map((data) => data.length),
+        distinctUntilChanged()
+      )
+      .subscribe(this.dataLength$);
+
+    combineLatest([this.visibleRange$, this.dataLength$]).subscribe(
+      ([visibleRange, dataLength]) => {
+        this.subscribedRange$.next([
+          visibleRange[0],
+          Math.min(visibleRange[1], dataLength),
+        ]);
+      }
+    );
+
     this.subscribedRange$.subscribe((range) => {
-      console.log(`setRange(${range[0]}, ${range[1]}`);
-      this.dataSource.setRange(range[0], range[1]);
+      const [start, end] = range;
+      console.log(`subscribedRange$: [${start}, ${end}]`);
+      this.dataSource.setRange(start, end);
     });
   }
 
@@ -110,7 +140,7 @@ class VuuGridModel {
       newData.length = oldData.length;
     }
 
-    for (let i = range[0]; i <= range[1]; ++i) {
+    for (let i = range[0]; i < range[1]; ++i) {
       newData[i] = oldData[i];
     }
 
@@ -129,6 +159,7 @@ class VuuGridModel {
         const ric = row[14];
         newData[index] = {
           key,
+          test: `R${index}`,
           bbg,
           currency,
           description,
