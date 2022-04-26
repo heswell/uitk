@@ -1,26 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Story } from "@storybook/react";
 // @ts-ignore
 import { RemoteDataSource, Servers, useViewserver } from "@vuu-ui/data-remote";
-
-import { Blotter, BlotterRecord, makeFakeBlotterRecord } from "./grid/blotter";
 import {
   ColumnDefinition,
-  ColumnGroupDefinition,
   createHandler,
   createHook,
   createNumericColumn,
   createTextColumn,
-  DataGrid,
-  DataSetColumnDefinition,
   Grid,
 } from "@brandname/lab";
 import {
   BehaviorSubject,
   combineLatest,
+  debounceTime,
   distinctUntilChanged,
   map,
-  Subject,
+  throttleTime,
 } from "rxjs";
 
 export default {
@@ -121,7 +115,7 @@ class VuuGridModel {
       }
     );
 
-    this.subscribedRange$.subscribe((range) => {
+    this.subscribedRange$.pipe(debounceTime(20)).subscribe((range) => {
       const [start, end] = range;
       console.log(`subscribedRange$: [${start}, ${end}]`);
       this.dataSource.setRange(start, end);
