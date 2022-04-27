@@ -1,4 +1,4 @@
-import { BehaviorSubject, filter, map, Subject } from "rxjs";
+import { BehaviorSubject, filter, map, Subject, tap } from "rxjs";
 import { Column } from "../Column";
 import { CellPosition } from "../GridModel";
 
@@ -59,10 +59,34 @@ export function keyboardNavigation(
   });
 
   addKeyHandler("ArrowDown", (event, { rowIndex, columnIndex }) => {
-    if (rowIndex === data$.getValue().length) {
+    const length = data$.getValue().length;
+    if (rowIndex === length - 1) {
       return;
     }
     const nextRowIndex = rowIndex + 1;
     moveCursorEvents$.next({ rowIndex: nextRowIndex, columnIndex });
+  });
+
+  addKeyHandler("PageDown", (event, { rowIndex, columnIndex }) => {
+    const length = data$.getValue().length;
+    const pageSize = 10; // TODO
+    const nextRowIndex = Math.min(length - 1, rowIndex + pageSize);
+    moveCursorEvents$.next({ rowIndex: nextRowIndex, columnIndex });
+  });
+
+  addKeyHandler("PageUp", (event, { rowIndex, columnIndex }) => {
+    const pageSize = 10;
+    const nextRowIndex = Math.max(0, rowIndex - pageSize);
+    moveCursorEvents$.next({ rowIndex: nextRowIndex, columnIndex });
+  });
+
+  addKeyHandler("Home", (event, { columnIndex }) => {
+    moveCursorEvents$.next({ rowIndex: 0, columnIndex });
+  });
+
+  addKeyHandler("End", (event, { columnIndex }) => {
+    const length = data$.getValue().length;
+    const rowIndex = length - 1;
+    moveCursorEvents$.next({ rowIndex, columnIndex });
   });
 }
