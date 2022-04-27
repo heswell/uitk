@@ -14,7 +14,7 @@ export const RowSelectionCheckboxHeaderValue = memo(
 
     const onMouseDown: MouseEventHandler = useCallback(
       (event) => {
-        console.log(`Sending selectAll ${!isAllSelected}`);
+        // console.log(`Sending selectAll ${!isAllSelected}`);
         model.rowSelection.selectAll(!isAllSelected);
         event.preventDefault();
         event.stopPropagation();

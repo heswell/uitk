@@ -8,7 +8,6 @@
   overflow: hidden;
 
   margin: 0;
-  padding: var(--cell-padding);
 
   border-style: solid;
   border-color: #D9DDE3;
@@ -48,7 +47,13 @@
 }
 
 .uitkGridBaseCell-valueContainer {
-  height: var(--row-height);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: var(--cell-padding);
+  /*height: var(--row-height);*/
   overflow: hidden;
   line-height: var(--row-height);
 }

@@ -17,6 +17,9 @@ export function createVisibleRowRange<T>(
   combineLatest([scrollTop$, clientMiddleHeight$, rowHeight$, data$])
     .pipe(
       map(([scrollTop, clientMiddleHeight, rowHeight, data]) => {
+        // console.log(
+        //   `Calculating visibleRowRange. scrollTop: ${scrollTop}, clientMiddleHeight: ${clientMiddleHeight}, rowHeight: ${rowHeight}, data.length: ${data.length}`
+        // );
         if (rowHeight < 1) {
           return Rng.empty;
         }
@@ -28,6 +31,7 @@ export function createVisibleRowRange<T>(
         if (end > data.length) {
           end = data.length;
         }
+        // console.log(`visibleRowRange: ${start} - ${end}`);
         return new Rng(start, end);
       }),
       distinctUntilChanged((a, b) => Rng.equals(a, b))

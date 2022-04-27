@@ -11,12 +11,15 @@ export interface CellMeasureProps<T> {}
 // Invisible for the user
 export function CellMeasure<T>(props: CellMeasureProps<T>) {
   const cellRef = useRef<HTMLTableCellElement>(null);
+  const rowRef = useRef<HTMLTableRowElement>(null);
+
   const { model } = useGridContext();
 
   useEffect(() => {
-    if (cellRef.current) {
-      const height = cellRef.current.getBoundingClientRect().height;
-      console.log(`CellMeasure sets rowHeight to ${height}`);
+    if (rowRef.current) {
+      // const height = cellRef.current.getBoundingClientRect().height;
+      const height = rowRef.current.getBoundingClientRect().height;
+      // console.log(`CellMeasure sets rowHeight to ${height}`);
       model.setRowHeight(height);
     }
   }, [cellRef.current]);
@@ -25,7 +28,7 @@ export function CellMeasure<T>(props: CellMeasureProps<T>) {
     <div className={withBaseName()}>
       <table>
         <thead>
-          <tr>
+          <tr ref={rowRef}>
             <th ref={cellRef}>Invisible Cell</th>
           </tr>
         </thead>

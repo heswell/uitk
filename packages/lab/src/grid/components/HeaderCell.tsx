@@ -68,7 +68,7 @@ export function AutoSizingHeaderCell<T>(props: HeaderCellProps<T>) {
       ? valueContainerRef.current.offsetWidth
       : undefined;
     if (width != undefined) {
-      console.log(`AutoSizingHeaderCell measured width: ${width}px`);
+      // console.log(`AutoSizingHeaderCell measured width: ${width}px`);
       model.resizeColumn({
         columnIndex: column.index,
         width,

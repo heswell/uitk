@@ -10,7 +10,7 @@ export function useTraceUpdate(props: any) {
       return ps;
     }, {} as any);
     if (Object.keys(changedProps).length > 0) {
-      console.log("Changed props:", changedProps);
+      // console.log("Changed props:", changedProps);
     }
     prev.current = props;
   });

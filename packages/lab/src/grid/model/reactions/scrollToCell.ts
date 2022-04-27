@@ -17,6 +17,7 @@ export function scrollToCell(
   scrollPosition$: BehaviorSubject<GridScrollPosition>
 ) {
   scrollToCell$.subscribe(({ rowIndex, columnIndex }) => {
+    // console.log(`scrollToCell$. row: ${rowIndex}, column: ${columnIndex}`);
     const oldScrollPosition = scrollPosition$.getValue();
     let scrollPosition = oldScrollPosition.setSource("model");
 
@@ -26,6 +27,8 @@ export function scrollToCell(
     const clientMiddleHeight = clientMiddleHeight$.getValue();
     const middleColumns = middleColumns$.getValue();
     const bodyVisibleColumnRange = bodyVisibleColumnRange$.getValue();
+
+    // console.log(`visibleRowRange: ${visibleRowRange}`);
 
     if (rowIndex <= visibleRowRange.start) {
       scrollPosition = scrollPosition.setScrollTop(rowHeight * rowIndex);

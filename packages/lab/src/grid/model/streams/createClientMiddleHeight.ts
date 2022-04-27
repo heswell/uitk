@@ -1,4 +1,5 @@
 import { BehaviorSubject, combineLatest, map, tap } from "rxjs";
+import { scrollBarSize } from "../utils";
 
 // Height available for scrollable rows
 export function createClientMiddleHeight<T>(
@@ -10,10 +11,12 @@ export function createClientMiddleHeight<T>(
 
   combineLatest([clientHeight$, topHeight$, bottomHeight$])
     .pipe(
-      map(
-        ([clientHeight, topHeight, bottomHeight]) =>
-          clientHeight - topHeight - bottomHeight
-      )
+      map(([clientHeight, topHeight, bottomHeight]) => {
+        // console.log(
+        //   `Calculating clientMiddleHeight. clientHeight: ${clientHeight}, topHeight: ${topHeight}, bottomHeight: ${bottomHeight}`
+        // );
+        return clientHeight - topHeight - bottomHeight - scrollBarSize;
+      })
     )
     .subscribe(clientMiddleHeight$);
 
