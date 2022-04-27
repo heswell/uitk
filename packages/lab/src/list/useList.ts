@@ -235,7 +235,8 @@ export function useList<Item, Variant extends ListSelectionVariant>(
 
   const handleRangeSelect = useCallback(
     (event: KeyboardEvent<HTMLElement>, index) => {
-      const currentSelection = event.ctrlKey ? selectedItem : ([] as Item[]);
+      const currentSelection =
+        event.ctrlKey || event.metaKey ? selectedItem : ([] as Item[]);
 
       const lastSelectedItemIndex =
         (selectedItem as Item[]).length > 0
@@ -269,10 +270,18 @@ export function useList<Item, Variant extends ListSelectionVariant>(
 
   const handleExtendedSelect = useCallback(
     (event, index, item) => {
+      console.log("handleExtendedSelect ", {
+        ctrl: event.ctrlKey,
+      });
       let nextItems = selectedItem as Item[];
       if (event.shiftKey) {
         handleRangeSelect(event, index);
-      } else if ((selectedItem as Item[]).length === 0 || event.ctrlKey) {
+      } else if (
+        (selectedItem as Item[]).length === 0 ||
+        event.ctrlKey ||
+        event.metaKey
+      ) {
+        console.log("handleMulti");
         handleMultiSelect(event, index, item);
       } else {
         nextItems = [item];
@@ -306,6 +315,7 @@ export function useList<Item, Variant extends ListSelectionVariant>(
       }
 
       if (onSelect) {
+        console.log("onSelect");
         onSelect(event, item);
       }
 

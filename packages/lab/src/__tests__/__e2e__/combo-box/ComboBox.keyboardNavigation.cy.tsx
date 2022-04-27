@@ -240,17 +240,17 @@ describe("A combo box that allows free text", () => {
       cy.realPress("Tab");
 
       // filter only
-      cy.realType("Alaska");
+      cy.realType("Baby blue");
       cy.realPress("ArrowDown");
 
-      cy.findByRole("combobox").should("have.value", "Alaska");
+      cy.findByRole("combobox").should("have.value", "Baby blue");
 
       // filter again and blur
       cy.realPress("Backspace");
 
       cy.realPress("Tab");
 
-      cy.findByRole("combobox").should("have.value", "Alask");
+      cy.findByRole("combobox").should("have.value", "Baby blu");
     });
 
     it("should select the input value when blurred if that value is in the list", () => {

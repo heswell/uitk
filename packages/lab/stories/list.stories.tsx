@@ -37,7 +37,7 @@ import { IndexedListItemProps } from "@jpmorganchase/uitk-lab/src/list";
 const containerStyle = {
   display: "flex",
   justifyContent: "center",
-  width: "100vw",
+  width: "calc(100vw - 2em)",
 };
 
 const withFullViewWidth: DecoratorFn = (Story) => (
@@ -82,7 +82,12 @@ FeatureList.argTypes = {
 };
 
 export const DefaultList: Story<ListProps> = (props) => (
-  <List maxWidth={292} source={listExampleData} {...props} />
+  <List
+    maxWidth={292}
+    selectionVariant="extended"
+    source={["list item 1", "list item 2", "list item 3", "list item 4"]}
+    {...props}
+  />
 );
 
 export const BorderlessList: Story<ListProps> = (props) => (

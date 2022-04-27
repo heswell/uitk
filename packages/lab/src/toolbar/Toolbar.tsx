@@ -4,32 +4,27 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  ReactElement,
 } from "react";
 import cx from "classnames";
-import { useForkRef, useId } from "../utils";
-import { FormField } from "../form-field";
 
-import useKeyboardNavigation from "./internal/useKeyboardNavigation";
-import { renderTools } from "./internal/renderTools";
+import { useForkRef, useIdMemo } from "../utils";
+import { DropdownPanel } from "../dropdown-next";
+
+import useKeyboardNavigation from "./internal/useKeyboardNavigationDEPRECATED";
+import { renderToolbarItems } from "./internal/renderToolbarItems";
 import { ToolbarProps } from "./ToolbarProps";
 import Tooltray from "./Tooltray";
-// import useToolbarButtonDescriptors from "./internal/useToolbarButtonDescriptors";
-import ToolbarMetaContext, { ToolbarMeta } from "./internal/ToolbarMetaContext";
+import { ToolbarContext, ToolbarContextProps } from "./ToolbarContext";
 import {
   isCollapsedOrCollapsing,
   isOverflowed,
-  OverflowMenu,
+  useOverflowCollectionItems,
   useOverflowLayout,
 } from "../responsive";
 
 import "./Toolbar.css";
 
 const classBase = "uitkToolbar";
-
-type actionCallbacks = {
-  [key: string]: (() => void) | null;
-};
 
 /**
  * The core Toolbar implementation, without the external wrapper provided by Toolbar.js
@@ -46,6 +41,7 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
     "aria-labelledby": ariaLabelledBy,
     children,
     className,
+    emphasis = "high",
     id: idProp,
     overflowButtonIcon,
     overflowButtonLabel,
@@ -58,85 +54,58 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
     ...restProp
   } = props;
 
-  const toolbarId = useId(idProp);
+  const toolbarId = useIdMemo(idProp);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { current: actionCallbacksById } = useRef<actionCallbacks>({});
   const setContainerRef = useForkRef(ref, containerRef);
-  const overflowButtonRef = useRef<HTMLDivElement>(null);
-  const setOverflowButtonRef = useForkRef(
-    overflowButtonRefProp,
-    overflowButtonRef
-  );
 
-  const tools = React.Children.toArray(children) as ReactElement[];
-  // const childrenWithIds = ensureChildrenHaveIds(children, "toolbar");
+  const collectionHook = useOverflowCollectionItems({
+    children,
+    id: toolbarId,
+    orientation,
+    label: "Toolbar",
+  });
 
-  // const buttonDescriptors = useToolbarButtonDescriptors(
-  //   childrenWithIds,
-  //   disabled /* isToolbarDisabled */
-  // );
+  console.log({ Toolbar: collectionHook.data });
 
-  const [innerContainerRef, managedItems] = useOverflowLayout(
-    orientation /*, buttonDescriptors */,
+  const [innerContainerRef] = useOverflowLayout(
+    collectionHook,
+    orientation,
     "Toolbar"
   );
 
-  const overflowedItems = managedItems.filter(isOverflowed);
-  const collapseItems = managedItems.filter(isCollapsedOrCollapsing);
+  const overflowedItems = collectionHook.data.filter(isOverflowed);
+  const collapseItems = collectionHook.data.filter(isCollapsedOrCollapsing);
 
   useEffect(() => {
     onHiddenItemsChange && onHiddenItemsChange(overflowedItems);
   }, [overflowedItems, onHiddenItemsChange]);
 
-  const setClickCallback = useCallback(
-    (callbackId, callback) => {
-      actionCallbacksById[callbackId] = callback;
-    },
-    [actionCallbacksById]
-  );
+  const isCollapsed = useCallback((id: string) => {
+    return false;
+  }, []);
 
-  const unsetClickCallback = useCallback(
-    (callbackId) => {
-      actionCallbacksById[callbackId] = null;
-    },
-    [actionCallbacksById]
-  );
+  const isInOverflowPanel = useCallback((id: string) => {
+    return false;
+  }, []);
 
-  const toolbarMeta: ToolbarMeta = useMemo(
+  const toolbarContext: ToolbarContextProps = useMemo(
     () => ({
       orientation,
       disabled,
-      TooltipComponent,
-      setClickCallback,
-      unsetClickCallback,
+      isCollapsed,
+      isInOverflowPanel,
     }),
-    [
-      orientation,
-      disabled,
-      TooltipComponent,
-      setClickCallback,
-      unsetClickCallback,
-    ]
+    [orientation, disabled]
   );
 
-  const handleOverflowItemClick = useCallback(
-    (itemId) => {
-      const actionCallback = actionCallbacksById[itemId];
-      if (typeof actionCallback === "function") {
-        actionCallback();
-      }
-    },
-    [actionCallbacksById]
-  );
-  const alignedItems = tools.filter(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (item: any) => item.props["data-pad-end"] || item.props["data-pad-start"]
-  );
+  // const alignedItems = tools.filter(
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   (item: any) => item.props["data-pad-end"] || item.props["data-pad-start"]
+  // );
 
-  const overflowMenuItems = overflowedItems.map((i) => tools[i.index]);
-  const alignedItemsInBar = alignedItems.every((i) =>
-    overflowMenuItems.includes(i)
+  const overflowMenuItems = overflowedItems.map(
+    (i) => collectionHook.data[i.index].element
   );
 
   const insidePanelItems = useMemo(
@@ -197,11 +166,14 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
 
   const handleKeyDown = useKeyboardNavigation(visibleItems);
 
-  console.log({ collapseItems });
+  const overflowIndicator = collectionHook.data.find(
+    (i) => i.isOverflowIndicator
+  );
 
-  // const densityClass: DensityClassKey = classes?.[`${density}Density`];
+  //TODO when we drive this from the overflowItems, the overflowIndicator will
+  // be an overflowItem
   return (
-    <ToolbarMetaContext.Provider value={toolbarMeta}>
+    <ToolbarContext.Provider value={toolbarContext}>
       <div
         aria-label={ariaLabel}
         // Using `classnames` to join string together. User may want to provide
@@ -212,9 +184,10 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
         className={cx(classBase, className, {
           [`${classBase}-disabled`]: disabled,
           [`${classBase}-nonResponsive`]: !responsive,
+          uitkEmphasisLow: emphasis === "low",
+          uitkEmphasisHigh: emphasis === "high",
         })}
         id={toolbarId}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ref={setContainerRef}
         role="toolbar"
         {...restProp}
@@ -226,54 +199,31 @@ const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
             collapseItems.findIndex((item) => item.collapsing) !== -1
           }
         >
-          {renderTools(
+          {renderToolbarItems(
+            collectionHook,
             handleKeyDown,
-            tools,
             overflowedItems,
             collapseItems,
             orientation,
-            toolbarId,
             wrapChildrenWithFormFields
           )}
-          {overflowedItems.length > 0 ? (
-            <FormField
-              ActivationIndicatorComponent={() => null}
-              className={cx(
-                "uitkToolbarField",
-                "toolbar-item",
-                "uitkEmphasisLow",
-                {
-                  "uitkToolbarField-start":
-                    OverflowButtonProps?.align === "start",
-                }
-              )}
-              data-index={tools.length}
+          {overflowIndicator ? (
+            <DropdownPanel
+              className={cx("uitkToolbarField", "toolbar-item")}
+              data-index={collectionHook.data.length}
               data-overflow-indicator
-              data-pad-start={alignedItemsInBar}
-              data-orientation={orientation}
               data-priority={1}
-              fullWidth={false}
+              id={overflowIndicator.id}
+              triggerButtonIcon={overflowButtonIcon}
+              triggerButtonLabel={overflowButtonLabel}
+              // onChange={handleChange}
             >
-              <OverflowMenu
-                OverflowPanelProps={OverflowPanelProps}
-                OverflowButtonProps={OverflowButtonProps}
-                aria-haspopup
-                aria-label="toolbar overflow"
-                // className="Toolbar-overflowMenu"
-                key="overflow"
-                onItemClick={handleOverflowItemClick}
-                onKeyDown={handleKeyDown}
-                orientation={orientation}
-                overflowButtonIcon={overflowButtonIcon}
-                overflowButtonLabel={overflowButtonLabel}
-                ref={setOverflowButtonRef}
-                menuItems={overflowMenuItems}
-              />
-            </FormField>
+              {overflowMenuItems}
+            </DropdownPanel>
           ) : null}
         </div>
       </div>
-    </ToolbarMetaContext.Provider>
+    </ToolbarContext.Provider>
   );
 });
 

@@ -1,0 +1,41 @@
+.uitkDropdownButtonNext {
+  --uitkButton-font-weight: normal;
+  --uitkButton-text-transform: none;
+  --uitkButton-secondary-background-hover: var(--uitk-actionable-secondary-background);
+  --uitkButton-secondary-background-active: var(--uitk-actionable-secondary-background);
+  --uitkButton-secondary-background-hover: var(--uitk-actionable-secondary-background);
+  --uitkButton-secondary-text-color-active: var(--uitk-actionable-secondary-text-color);
+
+  /* Fonts, Text */
+  --uitkButton-font-weight: var(--uitk-typography-weight-regular);
+  --button-text-align: left;
+}
+
+.uitkDropdownButtonNext:active {
+  --uitkIcon-color: var(--uitk-actionable-secondary-text-color);
+}
+
+.uitkDropdownButtonNext-fullwidth {
+  width: 100%;
+}
+
+.uitkDropdownButtonNext-content {
+  align-items: var(--button-align-items);
+  flex: 1;
+  width: 100%;
+  display: flex;
+  white-space: nowrap;
+}
+
+.uitkDropdownButtonNext-buttonLabel {
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* refactor to use FormField context to detect and apply focus like input? */
+/* .uitkDropdownButtonNext-formField.uitkButton:focus,
+.uitkDropdownButtonNext-formField.uitkButton:focus-visible {
+  outline: none;
+} */

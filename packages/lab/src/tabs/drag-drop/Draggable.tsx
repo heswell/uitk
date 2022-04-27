@@ -1,4 +1,4 @@
-import { forwardRef, useCallback } from "react";
+import { forwardRef, MutableRefObject, useCallback } from "react";
 import cx from "classnames";
 import { Portal } from "../../portal";
 import { Rect } from "./dragDropTypes";
@@ -10,8 +10,11 @@ const makeClassNames = (classNames: string) =>
   classNames.split(" ").map((className) => `uitkDraggable-${className}`);
 export const Draggable = forwardRef<
   HTMLDivElement,
-  { className: string; element: HTMLElement; rect: Rect; scale?: number }
->(function Draggable({ className, element, rect, scale = 1 }, forwardedRef) {
+  { wrapperClassName: string; element: HTMLElement; rect: Rect; scale?: number }
+>(function Draggable(
+  { wrapperClassName, element, rect, scale = 1 },
+  forwardedRef
+) {
   const callbackRef = useCallback((el: HTMLDivElement) => {
     if (el) {
       el.innerHTML = "";
@@ -28,10 +31,23 @@ export const Draggable = forwardRef<
   return (
     <Portal>
       <div
-        className={cx("uitkDraggable", ...makeClassNames(className))}
+        className={cx("uitkDraggable", ...makeClassNames(wrapperClassName))}
         ref={forkedRef}
         style={{ left, top, width, height }}
       />
     </Portal>
   );
 });
+
+export const createDragSpacer = (
+  transitioning?: MutableRefObject<boolean>
+): HTMLElement => {
+  const spacer = document.createElement("div");
+  spacer.className = "uitkDraggable-spacer";
+  if (transitioning) {
+    spacer.addEventListener("transitionend", () => {
+      transitioning.current = false;
+    });
+  }
+  return spacer;
+};

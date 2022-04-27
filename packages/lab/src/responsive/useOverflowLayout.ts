@@ -1,20 +1,19 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   ElementRef,
   getIsOverflowed,
-  ManagedItem,
+  OverflowItem,
   ManagedListRef,
   measureContainerOverflow,
   orientationType,
-  overflowDispatch,
   useDynamicCollapse,
   useInstantCollapse,
-  useManagedItems,
   useOverflow,
   useReclaimSpace,
   useResizeObserver,
 } from ".";
-import { useLayoutEffectOnce, useLayoutEffectSkipFirst } from "../utils";
+
+import { OverflowCollectionHookResult } from "./overflowTypes";
 
 const MONITORED_DIMENSIONS: { [key: string]: string[] } = {
   horizontal: ["width", "scrollHeight"],
@@ -22,63 +21,56 @@ const MONITORED_DIMENSIONS: { [key: string]: string[] } = {
   none: [],
 };
 
-type overflowUpdate = (updates: ManagedItem[]) => void;
+type overflowUpdate = (item1: OverflowItem, item2: OverflowItem) => void;
 
+// we need id, just tp be abe to assign id to overflowIndicator in useOverflow
 export const useOverflowLayout = (
+  collectionHook: OverflowCollectionHookResult,
   orientation: orientationType,
-  label = "Toolbar"
-): [ElementRef, ManagedItem[], overflowUpdate, overflowDispatch] => {
+  label = "Toolbar",
+  disableOverflow = false
+): [ElementRef, overflowUpdate] => {
   const ref: ElementRef = useRef(null);
-  const managedItemsRef: ManagedListRef = useRef([]);
+  const overflowItemsRef: ManagedListRef = useRef([]);
   const measurement = useRef({ innerContainerSize: 0, rootContainerDepth: 0 });
   const { innerContainerSize } = measurement.current;
 
-  const { dispatchOverflowAction, managedItems } = useManagedItems(
-    ref,
-    orientation
-  );
-  const managedItemCountRef = useRef(managedItems.length);
-  managedItemsRef.current = managedItems;
-
-  // console.groupCollapsed(
-  //   `overflowLayout<${label}> ${managedItems.length} managed items`
-  // );
-  // console.log(JSON.stringify(managedItems, null, 2));
-  // console.groupEnd();
+  overflowItemsRef.current = collectionHook.data;
 
   const overflowHook = useOverflow({
-    dispatchOverflowAction,
+    collectionHook,
     label,
-    managedItemsRef,
+    overflowItemsRef,
     orientation,
     ref,
   });
 
-  const hasOverflowedItems = getIsOverflowed(managedItems);
+  const hasOverflowedItems = getIsOverflowed(collectionHook.data);
+  // const hasOverflowedItems = getIsOverflowed(managedItems);
 
   const dynamicCollapseHook = useDynamicCollapse({
-    dispatchOverflowAction,
+    collectionHook,
     innerContainerSize,
     label,
-    managedItemsRef,
+    overflowItemsRef,
     orientation,
     ref,
   });
 
   const instantCollapseHook = useInstantCollapse({
-    dispatchOverflowAction,
+    collectionHook,
     hasOverflowedItems,
     innerContainerSize,
     label,
-    managedItemsRef,
+    overflowItemsRef,
     orientation,
     ref,
   });
 
   const reclaimSpaceHook = useReclaimSpace({
-    dispatchOverflowAction,
+    collectionHook,
     label,
-    managedItemsRef,
+    overflowItemsRef,
     orientation,
     ref,
   });
@@ -112,6 +104,7 @@ export const useOverflowLayout = (
       // Note: any one of these hooks may trigger a render which
       // may affect the overflow state that the next hook sees.
       // Hence, they all test for overflow independently.
+
       dynamicCollapseHook.onResize(size, containerHasGrown);
       instantCollapseHook.onResize(size, containerHasGrown);
       overflowHook.onResize(size, containerHasGrown);
@@ -126,33 +119,41 @@ export const useOverflowLayout = (
   );
 
   const measureAndInitialize = useCallback(() => {
-    // console.log(
-    //   `%cmeasureAndInitialize<${label}>`,
-    //   "color:purple;font-weight:bold;"
-    // );
     const { isOverflowing, ...contentWidthAndDepth } = measureContainerOverflow(
       ref,
       orientation
     );
     measurement.current = contentWidthAndDepth;
-
     const { innerContainerSize } = contentWidthAndDepth;
-    // be careful, check this. can these trigger render which may change state of isOverflowing ?
-    overflowHook.resetMeasurements(isOverflowing, innerContainerSize);
-    instantCollapseHook.resetMeasurements(isOverflowing);
-    dynamicCollapseHook.resetMeasurements(isOverflowing);
+    // TODO check this with complex combinations
+    let handled = instantCollapseHook.resetMeasurements(isOverflowing);
+    if (!handled) {
+      handled = dynamicCollapseHook.resetMeasurements();
+      if (!handled) {
+        overflowHook.resetMeasurements(isOverflowing, innerContainerSize);
+      }
+    }
   }, [
     overflowHook.resetMeasurements,
     dynamicCollapseHook.resetMeasurements,
     instantCollapseHook.resetMeasurements,
   ]);
 
-  const updatePriorities = useCallback(
-    (updates) => {
-      // console.log(`update priorities`, updates);
-      dispatchOverflowAction({ type: "set-priority", managedItems: updates });
-      // Why do we need a timeout here when we don't inside resizeHandler ?
-      setTimeout(measureAndInitialize, 0);
+  const switchPriorities = useCallback(
+    (item1: OverflowItem, item2: OverflowItem) => {
+      const { priority: priority1 } = item1;
+      const { priority: priority2 } = item2;
+      if (priority1 !== priority2) {
+        collectionHook.dispatch({
+          type: "update-items",
+          overflowItems: [
+            { id: item1.id, priority: priority2 },
+            { id: item2.id, priority: priority1 },
+          ],
+        });
+        // Why do we need a timeout here when we don't inside resizeHandler ?
+        setTimeout(measureAndInitialize, 0);
+      }
     },
     [measureAndInitialize]
   );
@@ -160,22 +161,27 @@ export const useOverflowLayout = (
   // Important that we register our resize handler before we measure and
   // initialize. The initialization may trigger changes which we want the
   // resize observer to detect (when we have nested overflowables).
-  useResizeObserver(ref, MONITORED_DIMENSIONS[orientation], resizeHandler);
+  useResizeObserver(
+    ref,
+    MONITORED_DIMENSIONS[disableOverflow ? "none" : orientation],
+    resizeHandler
+  );
 
-  useLayoutEffectOnce(managedItems.length > 0, measureAndInitialize, [
-    managedItems,
-    measureAndInitialize,
-  ]);
-
-  useLayoutEffectSkipFirst(() => {
-    if (managedItemCountRef.current !== managedItems.length) {
-      // console.log(
-      //   `[useOverflowLayout<${label}>] useLayoutEffect we now have ${managedItems.length} managed items`
-      // );
-      managedItemCountRef.current = managedItems.length;
+  // This hook runs after a measurememnt cycle, not after every single change to
+  // collection data. The version attribute has been introduced specifically for this.
+  useEffect(() => {
+    // console.log(
+    //   `[useOverflowLayout] version change detected ${collectionHook.version}
+    //   ${overflowItemsRef.current.map(
+    //     (i) => `\n${i.size}px Priority: ${i.priority}\t${i.label}`
+    //   )}
+    //   \n(${overflowItemsRef.current.length} items)`
+    // );
+    if (!disableOverflow) {
       measureAndInitialize();
     }
-  }, [managedItems.length, measureAndInitialize]);
+    //
+  }, [collectionHook.version, measureAndInitialize]);
 
-  return [ref, managedItems, updatePriorities, dispatchOverflowAction];
+  return [ref, switchPriorities];
 };

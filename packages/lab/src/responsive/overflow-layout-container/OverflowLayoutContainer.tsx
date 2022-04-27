@@ -5,10 +5,12 @@ import { FormField } from "../../form-field";
 import {
   isCollapsedOrCollapsing,
   isOverflowed,
-  ManagedItem,
+  OverflowItem,
+  OverflowCollectionHookResult,
   orientationType,
   useOverflowLayout,
 } from "..";
+
 import {
   OverflowButtonProps,
   // OverflowMenu,
@@ -23,6 +25,7 @@ const withBaseName = makePrefixer("uitkOverflowLayoutContainer");
 
 interface OverflowLayoutContainerProps {
   className?: string;
+  collectionHook: OverflowCollectionHookResult;
   label?: string;
   orientation?: orientationType;
   overflowButtonIcon?: JSX.Element;
@@ -34,7 +37,7 @@ interface OverflowLayoutContainerProps {
 
 const defaultRenderLayoutItems = (
   childItems: ReactElement[],
-  managedItems: ManagedItem[]
+  managedItems: OverflowItem[]
 ) => {
   console.log(`defaultRenderLayoutItems`, { childItems, managedItems });
   return childItems.map((childItem, index) => {
@@ -56,6 +59,7 @@ export const OverflowLayoutContainer: React.FC<
 > = ({
   children,
   className,
+  collectionHook,
   label = "",
   orientation = "horizontal",
   overflowButtonIcon,
@@ -64,7 +68,8 @@ export const OverflowLayoutContainer: React.FC<
   overflowButtonRef,
   renderLayoutItems = defaultRenderLayoutItems,
 }) => {
-  const [containerRef, managedItems] = useOverflowLayout(orientation, label);
+  const [containerRef] = useOverflowLayout(collectionHook, orientation, label);
+  const managedItems = collectionHook.data;
   console.log({ ref: containerRef.current, managedItems });
 
   const childItems = React.Children.toArray(children) as ReactElement[];

@@ -1,5 +1,6 @@
 import cx from "classnames";
 import {
+  AriaAttributes,
   ChangeEvent,
   ElementType,
   FocusEvent,
@@ -103,7 +104,8 @@ export interface InputProps
 
 function mergeA11yProps(
   a11yProps: Partial<ReturnType<typeof useFormFieldProps>["a11yProps"]> = {},
-  inputProps: InputProps["inputProps"] = {}
+  inputProps: InputProps["inputProps"] = {},
+  misplacedAriaProps: AriaAttributes
 ) {
   const ariaLabelledBy = cx(
     a11yProps["aria-labelledby"],
@@ -111,9 +113,10 @@ function mergeA11yProps(
   );
 
   return {
+    ...misplacedAriaProps,
     ...a11yProps,
     ...inputProps,
-    // THe weird filtering is due to TokenizedInputBase
+    // The weird filtering is due to TokenizedInputBase
     "aria-labelledby": ariaLabelledBy
       ? Array.from(new Set(ariaLabelledBy.split(" "))).join(" ")
       : null,
@@ -122,6 +125,9 @@ function mergeA11yProps(
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   {
+    "aria-activedescendant": ariaActiveDescendant,
+    "aria-expanded": ariaExpanded,
+    "aria-owns": ariaOwns,
     className: classNameProp,
     cursorPositionOnFocus,
     disabled,
@@ -131,6 +137,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     id,
     inputComponent: InputComponent = "input",
     inputProps: inputPropsProp,
+    role,
     style,
     value: valueProp,
     // If we leave both value and defaultValue undefined, we will get a React warning on first edit
@@ -173,7 +180,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 
   const isDisabled = disabled || a11yDisabled;
   const isReadOnly = readOnlyProp || a11yReadOnly;
-  const inputProps = mergeA11yProps(restA11y, inputPropsProp);
+  const misplacedAriaProps = {
+    "aria-activedescendant": ariaActiveDescendant,
+    "aria-expanded": ariaExpanded,
+    "aria-owns": ariaOwns,
+    role,
+  };
+  const inputProps = mergeA11yProps(
+    restA11y,
+    inputPropsProp,
+    misplacedAriaProps
+  );
   const isEmptyReadOnly = isReadOnly && !defaultValueProp && !valueProp;
   const defaultValue = isEmptyReadOnly ? emptyReadOnlyMarker : defaultValueProp;
 
@@ -197,6 +214,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   };
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
+    console.log("Input handleBlue");
     onBlur?.(event);
     setFormFieldFocused?.(false);
     setFocused(false);

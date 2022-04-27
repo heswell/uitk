@@ -207,7 +207,11 @@ export const LabelAlignments: ComponentStory<typeof FormField> = () => (
       padding: "20px 20px",
     }}
   >
-    <FormField label="Input in form field" helperText="Helper text value">
+    <FormField
+      label="Input in form field"
+      helperText="Helper text value"
+      labelPlacement="left"
+    >
       <Input defaultValue="Value" />
     </FormField>
     <FormField label="Dropdown in form field" helperText="Helper text value">

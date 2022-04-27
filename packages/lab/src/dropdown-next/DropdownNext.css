@@ -1,0 +1,15 @@
+.uitkDropdownNext {
+  --uitkButton-width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+  line-height: 0;
+  position: relative;
+}
+
+.uitkDropdownNext-fullWidth {
+  width: 100%;
+}
+
+.uitkDropdownNext-popup-component {
+  max-height: 300px;
+}

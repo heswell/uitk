@@ -32,6 +32,7 @@ import { Dropdown, MultiSelectDropdown } from "@jpmorganchase/uitk-lab";
           cy.mount(<Component source={testSource} />);
           cy.findByTestId("dropdown-button").focus();
           cy.realPress(key);
+          // This isn't testing anything
           cy.findByTestId("dropdown-button").should("exist");
         });
       });

@@ -58,6 +58,7 @@ export const AdjustableFlexbox: FC<FlexboxProps> = ({
           10px)
         </span>
       </div>
+      <br />
       <div
         className="Flexbox"
         style={{

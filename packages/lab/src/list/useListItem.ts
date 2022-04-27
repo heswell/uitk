@@ -51,7 +51,6 @@ export function useListItem<Item>(
     isDisabled,
     isMultiSelect,
   } = state;
-
   const {
     index,
     item,
@@ -89,6 +88,7 @@ export function useListItem<Item>(
 
   const handleClick = useCallback(
     (event) => {
+      console.log("handleClick");
       handleSelect(event, index, item);
 
       if (onClick) {

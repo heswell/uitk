@@ -92,6 +92,14 @@ export const WithFormField: ComponentStory<typeof Input> = () => {
   );
 };
 
+export const WithFormFieldNoInitialValue: ComponentStory<typeof Input> = () => {
+  return (
+    <FormField label="ADA compliant label" style={{ width: 292 }}>
+      <Input />
+    </FormField>
+  );
+};
+
 export const Spellcheck: ComponentStory<typeof Input> = () => {
   return (
     <Input

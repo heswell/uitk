@@ -36,9 +36,11 @@ export const DefaultDropdown: ComponentStory<typeof Dropdown> = () => {
   };
   return (
     <Dropdown
-      initialSelectedItem={usStateExampleData[0]}
+      // initialSelectedItem={usStateExampleData[2]}
       source={usStateExampleData}
       onChange={handleChange}
+      width={240}
+      listWidth={180}
     />
   );
 };

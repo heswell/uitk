@@ -1,9 +1,10 @@
-import { QueryInputCategory, QueryInputItem } from "../QueryInput";
 import { Dispatch, FC, Ref, SetStateAction, useMemo } from "react";
 import {
   makePrefixer,
   useIsomorphicLayoutEffect,
 } from "@jpmorganchase/uitk-core";
+import { QueryInputCategory, QueryInputItem } from "../queryInputTypes";
+
 import { ValueList } from "./ValueList";
 import { CategoryList } from "./CategoryList";
 import { SearchList } from "./SearchList";
@@ -34,7 +35,6 @@ export interface ValueSelectorProps {
 
   highlightedCategoryIndex?: number;
   highlightedValueIndex?: number;
-
   setHighlightedIndex: Dispatch<SetStateAction<number>>;
   setHighlightedCategoryIndex: Dispatch<SetStateAction<number>>;
   setHighlightedValueIndex: Dispatch<SetStateAction<number>>;

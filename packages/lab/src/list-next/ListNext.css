@@ -1,0 +1,118 @@
+.uitkListNext {
+  /* Color */
+  /* TODO: Which emphasis should this be? */
+  --list-background: var(--uitk-container-background-medium);
+  /* Border */
+  --list-border-color: var(--uitk-container-border-color-medium);
+  --list-border-style: var(--uitk-container-border-style);
+  --list-border-width: var(--uitk-container-border-width);
+  --list-border-radius: var(--uitk-container-border-radius);
+  --list-height: auto;
+  --list-max-height: 100%;
+
+  --uitkListItem-height: var(--uitkList-item-height, var(--uitk-size-stackable));
+
+  background: var(--list-background);
+  border-color: var(--list-border-color);
+  border-style: var(--list-border-style);
+  border-width: var(--list-border-width);
+  border-radius: var(--list-border-radius);
+  box-sizing: border-box;
+  height: var(--uitkList-height, var(--list-height));
+  max-height: var(--list-max-height);
+  outline: none;
+  overflow-y: auto;
+  position: relative;
+  user-select: none;
+  width: var(--uitkList-width, auto);
+}
+
+.uitkListNext-borderless {
+  --list-border-style: none;
+}
+
+/* virtualised list */
+.uitkListNext-viewport {
+  --list-item-height: 30px;
+  box-sizing: border-box;
+  max-height: calc(var(--list-max-height) - 2 * var(--list-border-width));
+  overflow: auto;
+}
+
+.uitkListItemNextHeader {
+  background-color: var(--list-item-header-bg);
+  color: var(--list-item-header-color);
+  font-weight: var(--list-item-header-font-weight);
+}
+
+.uitkListItemNextHeader[data-sticky="true"] {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.uitkList-collapsible .uitkListItemNextHeader:after {
+  border-width: var(--checkbox-border-width);
+  border-color: var(--checkbox-border-color);
+  content: var(--list-item-header-twisty-content);
+  -webkit-mask: var(--svg-chevron-down) center center/12px 12px no-repeat;
+  mask: var(--svg-chevron-down) center center/12px 12px no-repeat;
+  background-color: var(--list-item-header-twisty-color);
+  height: 12px;
+  left: var(--list-item-header-twisty-left);
+  right: var(--list-item-header-twisty-right);
+  margin-top: -8px;
+  position: absolute;
+  top: var(--list-item-header-twisty-top);
+  transition: transform 0.3s;
+  width: 12px;
+}
+.uitkListItemNextHeader[aria-expanded="false"]:after {
+  transform: rotate(-90deg);
+}
+
+/* Selection */
+
+.uitkList:not(.checkbox-only) .uitkListItemNext[aria-selected="true"] {
+  --checkbox-border-color: white;
+  --checkbox-tick: white;
+  --focus-visible-border-color: white;
+  background-color: var(--list-item-selected-bg);
+  color: white;
+}
+
+.with-checkbox .uitkListItemNext {
+  padding-left: 28px;
+}
+
+.with-checkbox .uitkListItemNext:after {
+  background-color: var(--checkbox-tick);
+  content: var(--uitkListItem-checkbox-content, "");
+  height: 12px;
+  left: 3px;
+  margin-top: -7px;
+  -webkit-mask: var(--svg-checkbox) center center/ 15px 15px no-repeat;
+  mask: var(--svg-checkbox) center center/ 15px 15px no-repeat;
+  position: absolute;
+  top: 50%;
+  width: 12px;
+}
+
+.with-checkbox .uitkListItemNext[aria-selected="true"]:after {
+  -webkit-mask: var(--svg-checkbox-checked) center center/ 15px 15px no-repeat;
+  mask: var(--svg-checkbox-checked) center center/ 15px 15px no-repeat;
+}
+
+.uitkListNext-scrollingContentContainer {
+  box-sizing: inherit;
+  position: relative;
+}
+
+.uitkListNext-virtualized .uitkListItemNext {
+  line-height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  will-change: transform;
+}

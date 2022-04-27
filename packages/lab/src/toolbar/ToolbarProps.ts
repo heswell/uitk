@@ -21,6 +21,10 @@ export interface ToolbarProps extends HTMLAttributes<HTMLDivElement> {
    */
   disabled?: boolean;
   /**
+   * Emphasis determines the background of Toolbar 'low', 'medium' or 'high' (default)
+   */
+  emphasis?: "low" | "high";
+  /**
    * TODO
    * Callback for when the number of visible items changes
    */

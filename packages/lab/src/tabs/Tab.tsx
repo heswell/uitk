@@ -1,6 +1,7 @@
 // TODO close button needs to be a button. Hence tab needs to include 2 buttons
 import React, {
   forwardRef,
+  FocusEvent,
   ForwardedRef,
   useCallback,
   useRef,
@@ -8,12 +9,11 @@ import React, {
   MouseEvent,
   KeyboardEvent,
   ReactElement,
-  SyntheticEvent,
 } from "react";
 import cx from "classnames";
 import { makePrefixer, Button, ButtonProps } from "@jpmorganchase/uitk-core";
 import { CloseIcon, CloseSmallIcon } from "@jpmorganchase/uitk-icons";
-import { TabProps } from "./TabstripProps";
+import { TabProps } from "./TabsTypes";
 import { useForkRef } from "../utils";
 import { EditableLabel, EditableLabelProps } from "../editable-label";
 
@@ -24,12 +24,13 @@ const noop = () => undefined;
 const withBaseName = makePrefixer("uitkTab");
 
 //TODO not ideal - duplicating the Icon then hiding one in css based on density - is there a nicer way ?
-const CloseTabButton: React.FC<ButtonProps> = (props) => (
+const CloseTabButton: React.FC<ButtonProps<"div">> = (props) => (
   <Button
     {...props}
     aria-label="Close Tab (Delete or Backspace)"
     className={withBaseName("closeButton")}
-    tabIndex={-1}
+    elementType="div"
+    tabIndex={undefined}
     title="Close Tab (Delete or Backspace)"
     variant="secondary"
   >
@@ -60,6 +61,7 @@ export const Tab = forwardRef(function Tab(
     onClose,
     onEnterEditMode = noop,
     onExitEditMode = noop,
+    onFocus: onFocusProp,
     onKeyDown,
     onKeyUp,
     onMouseDown,
@@ -76,8 +78,8 @@ export const Tab = forwardRef(function Tab(
       "index, onClick, onKeyUp, onKeyDown are required props, they would nornally be injected by Tabstrip, are you creating a Tab outside of a Tabstrip"
     );
   }
-
   const root = useRef<HTMLDivElement>(null);
+  const editableRef = useRef<HTMLDivElement>(null);
   const setForkRef = useForkRef(ref, root);
   const [closeHover, setCloseHover] = useState(false);
   const handleClick = useCallback(
@@ -89,8 +91,8 @@ export const Tab = forwardRef(function Tab(
     },
     [editing, index, onClick]
   );
-  const handleKeyDownMain = (e: KeyboardEvent) => {
-    onKeyDown(e, index);
+  const handleKeyDownMain = (e: KeyboardEvent<HTMLElement>) => {
+    onKeyDown(e);
   };
 
   const handleOnExitEditMode: EditableLabelProps["onExitEditMode"] = (
@@ -113,7 +115,7 @@ export const Tab = forwardRef(function Tab(
     }
   };
 
-  const handleCloseButtonClick = (e: SyntheticEvent<HTMLButtonElement>) => {
+  const handleCloseButtonClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     onClose && onClose(index);
   };
@@ -140,11 +142,27 @@ export const Tab = forwardRef(function Tab(
           key={label}
           onEnterEditMode={onEnterEditMode}
           onExitEditMode={handleOnExitEditMode}
+          ref={editableRef}
         />
       );
     } else {
       return label;
     }
+  };
+
+  const handleFocus = (evt: FocusEvent<HTMLElement>) => {
+    console.log(
+      `tab focussed, editing ${String(editing)}`,
+      editableRef.current
+    );
+    if (editableRef.current) {
+      const editable = editableRef.current as HTMLElement;
+      const input = editable.querySelector(
+        ".uitkEditableLabel-input"
+      ) as HTMLInputElement;
+      input?.focus();
+    }
+    onFocusProp?.(evt);
   };
 
   return (
@@ -162,6 +180,7 @@ export const Tab = forwardRef(function Tab(
       })}
       data-editable={editable || undefined}
       onClick={handleClick}
+      onFocus={handleFocus}
       onKeyDown={handleKeyDownMain}
       onKeyUp={handleKeyUp}
       onMouseDown={handleMouseDown}
@@ -169,17 +188,25 @@ export const Tab = forwardRef(function Tab(
       role="tab"
       tabIndex={tabIndex}
     >
-      <button className={withBaseName("main")} tabIndex={-1}>
-        <span className={withBaseName("text")} data-text={label}>
+      <div className={withBaseName("main")}>
+        <span
+          className={withBaseName("text")}
+          // data-text is important, it determines the width of the tab. A pseudo
+          // element assigns data-text as content. This is styled as selected tab
+          // text. That means width of tab always corresponds to its selected state,
+          // so tabs do not change size when selected (ie when the text is bolded).
+          // Do not include if we have editable content, EditableLabel will determine
+          // the width
+          data-text={editable ? undefined : label}
+        >
           {children ?? getLabel()}
         </span>
-      </button>
+      </div>
       {closeable ? (
         <CloseTabButton
           onClick={handleCloseButtonClick}
           onMouseEnter={handleCloseButtonEnter}
           onMouseLeave={handleCloseButtonLeave}
-          tabIndex={-1}
         />
       ) : null}
     </div>
