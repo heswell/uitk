@@ -59,6 +59,7 @@ import { EditMode, IEditMode } from "./EditMode";
 import { createHandler, createHook, prevNextPairs } from "./utils";
 import { RowKeyGetter } from "../Grid";
 import { CellSelection, ICellSelection } from "./CellSelection";
+import { Rng } from "./Rng";
 
 export type KeyOfType<T, U> = {
   [P in keyof T]: T[P] extends U ? P : never;
@@ -269,6 +270,8 @@ export class GridModel<T = any> implements IGridModel<T> {
   public readonly useRightColumnGroups: () => ColumnGroup<T>[] | undefined;
   public readonly useVisibleColumnGroups: () => ColumnGroup<T>[] | undefined;
   public readonly useIsAllEditable: () => boolean;
+
+  public readonly visibleRowRange$: BehaviorSubject<Rng>;
 
   public constructor(getKey: RowKeyGetter<T>) {
     const clientSize$ = new BehaviorSubject<GridSize>({
@@ -525,6 +528,8 @@ export class GridModel<T = any> implements IGridModel<T> {
     this.useCellSelectionMode = createHook(cellSelectionMode$);
     this.setOnVisibleRowRangeChange = createHandler(onVisibleRowRangeChange$);
     this.setIsZebra = createHandler(isZebra$);
+
+    this.visibleRowRange$ = visibleRowRange$;
 
     scrollPosition$
       .pipe(

@@ -1,5 +1,5 @@
 import { Column, Row } from "../model";
-import { CSSProperties, FC, HTMLAttributes, memo } from "react";
+import { CSSProperties, FC, HTMLAttributes } from "react";
 import cn from "classnames";
 import "./BaseCell.css";
 import { Cursor } from "./Cursor";
@@ -24,29 +24,6 @@ export interface BaseCellProps<T = any>
 export function getCellId(row: Row, column: Column) {
   return `R${row.key}C${column.key}`;
 }
-
-// // TODO this is a temporary thing for debugging
-// function shouldNotUpdate<T>(
-//   prev: BaseCellProps<T>,
-//   next: BaseCellProps<T>
-// ): boolean {
-//   const props: (keyof BaseCellProps<T>)[] = [
-//     "row",
-//     "column",
-//     "isHoverOverRow",
-//     "isSelectedRow",
-//     "isFocused",
-//     "isAlternate",
-//     "className",
-//     "style",
-//   ];
-//   const idx = props.findIndex((p) => prev[p] !== next[p]);
-//   if (idx !== -1) {
-//     // console.log(`Prop ${props[idx]} changed`);
-//     return false;
-//   }
-//   return true;
-// }
 
 // The standard wrapper for cell values.
 // Takes care of the basic features such as zebra, hover over and selected row highlighting.
@@ -99,4 +76,3 @@ export const BaseCell: FC<BaseCellProps> = function BaseCell(props) {
     </td>
   );
 };
-//}, shouldNotUpdate);

@@ -107,6 +107,7 @@ export class DataSetColumn<T = any> {
   public readonly key: string;
   public readonly type: ColumnType;
   public readonly title: string;
+
   public readonly definition: DataSetColumnDefinition<T>;
   public readonly sort: SortFn<T>;
 

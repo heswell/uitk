@@ -1,6 +1,6 @@
 .uitkGridCellMeasure {
   position: fixed;
-  top: 0;
+  top: -1000px;
   left: 0;
 }
 
