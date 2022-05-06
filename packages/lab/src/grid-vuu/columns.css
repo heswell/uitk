@@ -1,0 +1,28 @@
+.uitkGridVuuNumericCell {
+  position: relative;
+}
+
+.uitkGridVuuNumericCell-value {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.uitkGridVuuNumericCell-changeUp {
+  color: green;
+}
+
+.uitkGridVuuNumericCell-changeDown {
+  color: red;
+}
+
+@keyframes ChangeAnimation {
+  from { opacity: 1 }
+  to { opacity: 0 }
+}
+
+.uitkGridVuuNumericCell-runAnimation {
+  animation-name: ChangeAnimation;
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+}

@@ -28,12 +28,43 @@ interface VuuMessage {
 
 export type VuuColumnType = "string" | "number";
 
+export interface IVuuCellFactory {
+  createCell: (record: RawVuuRecord, column: VuuColumnDefinition) => IVuuCell;
+}
+
 export interface VuuColumnDefinition {
   key: string;
   type: VuuColumnType;
   rawIndex: number;
   header: string;
+  cellFactory?: IVuuCellFactory;
 }
+
+const defaultTextCellFactory: IVuuCellFactory = {
+  createCell: (record, column) => new VuuCell(record[column.rawIndex]),
+};
+const defaultNumericCellFactory: IVuuCellFactory = {
+  createCell: (record, column) => new VuuNumericCell(record[column.rawIndex]),
+};
+
+const defaultCellFactoriesByColumnType = new Map<
+  VuuColumnType,
+  IVuuCellFactory
+>([
+  ["string", defaultTextCellFactory],
+  ["number", defaultNumericCellFactory],
+]);
+
+const getCellFactoryForColumn = (column: VuuColumnDefinition) => {
+  if (column.cellFactory) {
+    return column.cellFactory;
+  }
+  const defaultFactory = defaultCellFactoriesByColumnType.get(column.type);
+  if (!defaultFactory) {
+    throw new Error(`Failed to get cell factory for column ${column.key}`);
+  }
+  return defaultFactory;
+};
 
 export class VuuColumn {
   public readonly definition: VuuColumnDefinition;
@@ -42,7 +73,11 @@ export class VuuColumn {
   }
 }
 
-export class VuuCell<T = any> {
+export interface IVuuCell {
+  update: (record: RawVuuRecord, column: VuuColumnDefinition) => void;
+}
+
+export class VuuCell<T = any> implements IVuuCell {
   private readonly _value$: BehaviorSubject<T>;
   public useValue: () => T;
   public setValue: (value: T) => void;
@@ -52,27 +87,60 @@ export class VuuCell<T = any> {
     this.useValue = createHook(this._value$);
     this.setValue = createHandler(this._value$);
   }
+
+  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
+    const cellValue = record[column.rawIndex];
+    this.setValue(cellValue);
+  }
+}
+
+export class VuuNumericCell implements IVuuCell {
+  private readonly _value$: BehaviorSubject<number>;
+  private readonly _lastChange$: BehaviorSubject<number>;
+
+  public useValue: () => number;
+  public useLastChange: () => number;
+
+  public setValue: (value: number) => void;
+
+  public constructor(value: number) {
+    this._value$ = new BehaviorSubject<number>(value);
+    this._lastChange$ = new BehaviorSubject<number>(0);
+
+    this.useValue = createHook(this._value$);
+    this.setValue = createHandler(this._value$);
+    this.useLastChange = createHook(this._lastChange$);
+  }
+
+  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
+    const newValue = record[column.rawIndex];
+    const oldValue = this._value$.getValue();
+    if (oldValue === newValue) {
+      return;
+    }
+    const change = newValue - oldValue;
+    this._value$.next(newValue);
+    this._lastChange$.next(change);
+  }
 }
 
 export class VuuRow {
-  public readonly cells: Map<string, VuuCell>;
+  public readonly cells: Map<string, IVuuCell>;
   public readonly key: string;
 
   public constructor(record: RawVuuRecord, columns: VuuColumnDefinition[]) {
     this.cells = new Map();
     this.key = record[6]; // TODO
     for (let column of columns) {
-      const cellValue = record[column.rawIndex];
-      const cell = new VuuCell(cellValue);
+      const cell = getCellFactoryForColumn(column).createCell(record, column);
       this.cells.set(column.key, cell);
     }
   }
 
   public update(record: RawVuuRecord, columns: VuuColumnDefinition[]) {
     for (let column of columns) {
-      const cellValue = record[column.rawIndex];
       const cell = this.cells.get(column.key)!;
-      cell.setValue(cellValue);
+      cell.update(record, column);
     }
   }
 }
