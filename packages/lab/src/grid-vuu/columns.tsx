@@ -1,5 +1,5 @@
 import { CellValueProps } from "../grid";
-import { VuuCell, VuuNumericCell, VuuRow } from "./model";
+import { VuuBidAskCell, VuuCell, VuuNumericCell, VuuRow } from "./model";
 import "./columns.css";
 import { ReactNode, useEffect, useRef } from "react";
 import { ArrowDownIcon, ArrowUpIcon } from "../../../icons";
@@ -12,6 +12,23 @@ export const TextCellValueVuu = function TextCellValueVuu(
     return <>Loading...</>;
   }
   const text = cell.useValue() as string;
+  return <>{text}</>;
+};
+
+export const BidAskCellValueVuu = function BidAskCellValueVuu(
+  props: CellValueProps<VuuRow>
+) {
+  const cell = props.value as VuuBidAskCell;
+  if (!cell) {
+    return <>Loading...</>;
+  }
+  const value = cell.useValue() as [number, number];
+  const [bid, ask] = value;
+
+  const text = [
+    bid != null ? bid.toFixed(2) : "-",
+    ask != null ? ask.toFixed(2) : "-",
+  ].join(" / ");
   return <>{text}</>;
 };
 

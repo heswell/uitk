@@ -11,6 +11,7 @@ import {
 
 // @ts-ignore
 import { RemoteDataSource, Servers, useViewserver } from "@vuu-ui/data-remote";
+import { ComponentType } from "react";
 
 export type RawVuuRecord = any[]; // TODO add meta fields
 
@@ -26,25 +27,28 @@ interface VuuMessage {
   rows?: RawVuuRecord[];
 }
 
-export type VuuColumnType = "string" | "number";
+export type VuuColumnType = "string" | "number" | "bidAsk";
 
 export interface IVuuCellFactory {
   createCell: (record: RawVuuRecord, column: VuuColumnDefinition) => IVuuCell;
 }
 
+export type VuuValueGetter = (record: RawVuuRecord) => any;
+
 export interface VuuColumnDefinition {
   key: string;
   type: VuuColumnType;
-  rawIndex: number;
+  // rawIndex: number;
+  getValue: VuuValueGetter;
   header: string;
   cellFactory?: IVuuCellFactory;
 }
 
 const defaultTextCellFactory: IVuuCellFactory = {
-  createCell: (record, column) => new VuuCell(record[column.rawIndex]),
+  createCell: (record, column) => new VuuCell(column.getValue(record)),
 };
 const defaultNumericCellFactory: IVuuCellFactory = {
-  createCell: (record, column) => new VuuNumericCell(record[column.rawIndex]),
+  createCell: (record, column) => new VuuNumericCell(column.getValue(record)),
 };
 
 const defaultCellFactoriesByColumnType = new Map<
@@ -89,7 +93,7 @@ export class VuuCell<T = any> implements IVuuCell {
   }
 
   public update(record: RawVuuRecord, column: VuuColumnDefinition) {
-    const cellValue = record[column.rawIndex];
+    const cellValue = column.getValue(record);
     this.setValue(cellValue);
   }
 }
@@ -113,7 +117,7 @@ export class VuuNumericCell implements IVuuCell {
   }
 
   public update(record: RawVuuRecord, column: VuuColumnDefinition) {
-    const newValue = record[column.rawIndex];
+    const newValue = column.getValue(record);
     const oldValue = this._value$.getValue();
     if (oldValue === newValue) {
       return;
@@ -121,6 +125,23 @@ export class VuuNumericCell implements IVuuCell {
     const change = newValue - oldValue;
     this._value$.next(newValue);
     this._lastChange$.next(change);
+  }
+}
+
+export class VuuBidAskCell implements IVuuCell {
+  private readonly _value$: BehaviorSubject<[number, number]>;
+
+  public useValue: () => [number, number];
+
+  public constructor(bid: number, ask: number) {
+    this._value$ = new BehaviorSubject<[number, number]>([bid, ask]);
+
+    this.useValue = createHook(this._value$);
+  }
+
+  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
+    const newValue = column.getValue(record) as [number, number];
+    this._value$.next(newValue);
   }
 }
 
@@ -195,14 +216,14 @@ export class VuuDataSet {
         distinctUntilChanged()
       )
       .subscribe((range) => {
-        console.log(`Updating range to subscribe: ${range.toString()}`);
+        // console.log(`Updating range to subscribe: ${range.toString()}`);
         this._rangeToSubscribe$.next(range);
       });
 
     // Updating subscribed range
     this._rangeToSubscribe$.subscribe((range) => {
       if (this._dataSource) {
-        console.log(`Updating subscribed range: ${range.toString()}`);
+        // console.log(`Updating subscribed range: ${range.toString()}`);
         this._dataSource.setRange(range.start, range.end);
         this._subscribedRange$.next(range);
       }
@@ -212,18 +233,18 @@ export class VuuDataSet {
     this._messages$
       .pipe(
         tap((message) => {
-          console.log(`Message ${message.type}`);
+          // console.log(`Message ${message.type}`);
         }),
         filter((message) => message.type === "viewport-update")
       )
       .subscribe((message) => {
         const { type, ...msg } = message;
         const { size, rows } = msg;
-        console.log(
-          `Processing viewport update. size: ${
-            size !== undefined ? size : "–"
-          }, rows: ${rows ? rows.length : "–"}`
-        );
+        // console.log(
+        //   `Processing viewport update. size: ${
+        //     size !== undefined ? size : "–"
+        //   }, rows: ${rows ? rows.length : "–"}`
+        // );
 
         const range = this._subscribedRange$.getValue();
         const oldRows = this.rows$.getValue();
@@ -259,7 +280,7 @@ export class VuuDataSet {
   };
 
   public subscribe() {
-    console.log(`VuuDataSet: subscribing`);
+    // console.log(`VuuDataSet: subscribing`);
     const remoteDataSourceConfig = {
       bufferSize: 100,
       columns: this._config.columns,
@@ -279,7 +300,7 @@ export class VuuDataSet {
 
   public unsubscribe() {
     if (this._dataSource) {
-      console.log(`VuuDataSet: unsubscribing`);
+      // console.log(`VuuDataSet: unsubscribing`);
       this._dataSource.unsubscribe();
       this._dataSource = undefined;
       this._isSubscribed$.next(false);

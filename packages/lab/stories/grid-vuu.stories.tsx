@@ -1,6 +1,7 @@
 import {
   GridVuu,
   RowKeyGetter,
+  VuuBidAskCell,
   VuuColumnDefinition,
   VuuConfig,
   VuuRow,
@@ -20,52 +21,59 @@ const getKey: RowKeyGetter<VuuRow> = (row, index) => {
 
 const columnDefinitions: VuuColumnDefinition[] = [
   {
+    key: "bidAsk",
+    type: "bidAsk",
+    header: "Bid/Ask",
+    getValue: (r) => [r[11], r[8]],
+    cellFactory: { createCell: (r) => new VuuBidAskCell(r[11], r[8]) },
+  },
+  {
     key: "ask",
     type: "number",
     header: "Ask",
-    rawIndex: 8,
+    getValue: (r) => r[8],
   },
   {
     key: "askSize",
     type: "number",
     header: "Ask Size",
-    rawIndex: 9,
+    getValue: (r) => r[9],
   },
   {
     key: "bbg",
     type: "string",
     header: "BBG",
-    rawIndex: 10,
+    getValue: (r) => r[10],
   },
   {
     key: "bid",
     type: "number",
     header: "Bid",
-    rawIndex: 11,
+    getValue: (r) => r[11],
   },
   {
     key: "bidSize",
     type: "number",
     header: "Bid Size",
-    rawIndex: 12,
+    getValue: (r) => r[12],
   },
   {
     key: "close",
     type: "number",
     header: "Close",
-    rawIndex: 13,
+    getValue: (r) => r[13],
   },
   {
     key: "currency",
     type: "string",
     header: "Currency",
-    rawIndex: 14,
+    getValue: (r) => r[14],
   },
   {
     key: "description",
     type: "string",
     header: "Description",
-    rawIndex: 15,
+    getValue: (r) => r[15],
   },
 ];
 
