@@ -29,6 +29,10 @@
   --form-field-helper-text-margin-top: 3px;
 }
 
+.uitkFormField-fullWidth {
+  --form-field-helper-text-transform: none;
+}
+
 /* Class applied to the helper text container */
 .uitkFormFieldHelperText {
   color: var(--uitkFormFieldHelperText-color, var(--uitk-text-secondary-color));

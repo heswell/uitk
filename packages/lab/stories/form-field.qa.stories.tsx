@@ -19,80 +19,68 @@ export const AllExamplesGrid: ComponentStory<typeof FormField> = (props) => {
         style={{
           background: "inherit",
           display: "inline-grid",
-          gridTemplate: "auto / repeat(4,auto)",
+          gridTemplateColumns: "1fr 1fr 1fr",
           gap: "4px",
         }}
       >
-        <div
-          style={{
-            background: "inherit",
-            display: "inline-grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            gap: "4px",
-          }}
-        >
-          <FormField label="Default Form Field description label">
-            <Input value="Value" />
-          </FormField>
+        <FormField label="Default Form Field description label">
+          <Input value="Value" />
+        </FormField>
 
-          <FormField
-            label="Default Form Field description label"
-            emphasis="high"
-          >
-            <Input value="Value" />
-          </FormField>
-          <FormField label="Label aligned left" labelPlacement="left">
-            <Input value="Value" />
-          </FormField>
-          <FormField
-            helperText="Warning helper text"
-            label="Warning Form Field"
-            validationState="warning"
-          >
-            <Input />
-          </FormField>
-          <FormField
-            helperText="Warning helper text"
-            label="Warning Form Field"
-            validationState="warning"
-            emphasis="high"
-          >
-            <Input />
-          </FormField>
-          <FormField
-            hasStatusIndicator
-            helperText="Warning helper text"
-            label="Warning Form Field"
-            validationState="warning"
-            emphasis="low"
-          >
-            <Input />
-          </FormField>
-          <FormField
-            helperText="Warning helper text"
-            label="Warning Form Field"
-            validationState="error"
-          >
-            <Input />
-          </FormField>
-          <FormField
-            helperText="Warning helper text"
-            label="Warning Form Field"
-            validationState="error"
-            emphasis="high"
-          >
-            <Input />
-          </FormField>
-          <FormField
-            hasStatusIndicator
-            helperText="Warning helper text"
-            label="Warning Form Field"
-            validationState="error"
-            emphasis="low"
-          >
-            <Input />
-          </FormField>
-        </div>
+        <FormField label="Default Form Field description label" emphasis="high">
+          <Input value="Value" />
+        </FormField>
+        <FormField label="Label aligned left" labelPlacement="left">
+          <Input value="Value" />
+        </FormField>
+        <FormField
+          helperText="Warning helper text"
+          label="Warning Form Field"
+          validationState="warning"
+        >
+          <Input />
+        </FormField>
+        <FormField
+          helperText="Warning helper text"
+          label="Warning Form Field"
+          validationState="warning"
+          emphasis="high"
+        >
+          <Input />
+        </FormField>
+        <FormField
+          hasStatusIndicator
+          helperText="Warning helper text"
+          label="Warning Form Field"
+          validationState="warning"
+          emphasis="low"
+        >
+          <Input />
+        </FormField>
+        <FormField
+          helperText="Warning helper text"
+          label="Warning Form Field"
+          validationState="error"
+        >
+          <Input />
+        </FormField>
+        <FormField
+          helperText="Warning helper text"
+          label="Warning Form Field"
+          validationState="error"
+          emphasis="high"
+        >
+          <Input />
+        </FormField>
+        <FormField
+          hasStatusIndicator
+          helperText="Warning helper text"
+          label="Warning Form Field"
+          validationState="error"
+          emphasis="low"
+        >
+          <Input />
+        </FormField>
       </div>
     </AllRenderer>
   );
