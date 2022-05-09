@@ -16,6 +16,7 @@ import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { FormFieldContext } from "../form-field-context";
 import { Tooltip, useTooltip } from "../tooltip";
 import { useForkRef, useId } from "../utils";
+import { classBase } from "./constant";
 import {
   FormActivationIndicator,
   FormActivationIndicatorProps,
@@ -26,7 +27,6 @@ import { NecessityIndicatorOptions } from "./NecessityIndicator";
 import { StatusIndicatorProps } from "./StatusIndicator";
 
 import "./FormField.css";
-import { classBase } from "./constant";
 
 export type FormFieldLabelPlacement = "top" | "left";
 export type FormFieldHelperTextPlacement = "bottom" | "tooltip";
@@ -256,10 +256,7 @@ export const FormField = forwardRef(
         {
           [withBaseName("disabled")]: disabled,
           [withBaseName("readOnly")]: readOnly,
-          [withBaseName("warning")]: isWarning,
-          [withBaseName("error")]: isError,
           [withBaseName("fullWidth")]: fullWidth,
-          [withBaseName(focusClass)]: states.focused,
           [withBaseName("labelTop")]: labelTop,
           [withBaseName("labelLeft")]: labelLeft,
           [withBaseName(`withHelperText`)]: inlineHelperText,
@@ -286,26 +283,40 @@ export const FormField = forwardRef(
               ref: rootRef,
             }}
           >
-            {!!label && (
-              <LabelComponent
-                {...LabelProps}
-                validationState={validationState}
-                hasStatusIndicator={hasStatusIndicator}
-                StatusIndicatorProps={StatusIndicatorProps}
-                className={LabelProps.className}
-                label={label}
-                disabled={disabled}
-                readOnly={readOnly}
-                required={required}
-                tooltipText={helperText}
-                id={labelId}
-              />
-            )}
-            {children}
-            <ActivationIndicatorComponent
-              hasIcon={!hasStatusIndicator}
-              validationState={validationState}
-            />
+            <div
+              className={cx([`${classBase}-controlWrapper`], {
+                [`${classBase}-warning`]: isWarning,
+                [`${classBase}-error`]: isError,
+                [`${classBase}-${focusClass}`]: states.focused && labelTop,
+              })}
+            >
+              {!!label && (
+                <LabelComponent
+                  {...LabelProps}
+                  validationState={validationState}
+                  hasStatusIndicator={hasStatusIndicator}
+                  StatusIndicatorProps={StatusIndicatorProps}
+                  className={LabelProps.className}
+                  label={label}
+                  disabled={disabled}
+                  readOnly={readOnly}
+                  required={required}
+                  tooltipText={helperText}
+                  id={labelId}
+                />
+              )}
+              <div
+                className={cx([`${classBase}-controlContainer`], {
+                  [`${classBase}-${focusClass}`]: states.focused && labelLeft,
+                })}
+              >
+                {children}
+                <ActivationIndicatorComponent
+                  hasIcon={!hasStatusIndicator}
+                  validationState={validationState}
+                />
+              </div>
+            </div>
             {renderHelperText && (
               <HelperTextComponent
                 helperText={helperText}

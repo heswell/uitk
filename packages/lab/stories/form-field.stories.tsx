@@ -503,18 +503,21 @@ export const CustomStyling: ComponentStory<typeof FormField> = () => (
     }}
   >
     <style>{`
-      .carbon{
-        --uitk-focused-outline-style: none;
-        --helper-text-font-style: normal;
+      .carbon {
+        --uitkFormField-focused-outline-style: none;
+        --uitkFormFieldHelperText-font-style: normal;
+        --uitkFormActivationIndicator-border-color: var(--uitk-color-purple-400);
+        --uitkFormLabel-margin-bottom: 6px;
       }
       .carbon .uitkFormField-focused {
         --uitkFormActivationIndicator-size: 0;
+        --uitkFormActivationIndicator-border-color: var(--uitk-color-purple-200);
       }
-      .carbon .uitkFormField-controlContainer {
-        --form-field-label-margin-bottom: 6px;
+      .carbon.uitkFormField:hover {
+        --uitkFormActivationIndicator-border-color: var(--uitk-color-purple-200);
       }
-      .carbon .uitkFormField-focused .uitkFormField-controlAreaWrapper {
-        outline: solid 2px #0f62fe;
+      .carbon.uitkFormField-focused {
+        outline: solid 2px var(--uitk-color-purple-50);
       }
     `}</style>
     <div style={{ width: "200px" }}>
