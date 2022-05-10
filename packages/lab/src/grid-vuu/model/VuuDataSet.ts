@@ -1,4 +1,4 @@
-import { createHandler, createHook, Rng, RowKeyGetter } from "../../grid";
+import { Rng, RowKeyGetter } from "../../grid";
 import {
   BehaviorSubject,
   combineLatest,
@@ -11,7 +11,7 @@ import {
 
 // @ts-ignore
 import { RemoteDataSource, Servers, useViewserver } from "@vuu-ui/data-remote";
-import { ComponentType } from "react";
+import { IVuuCell, VuuCell, VuuNumericCell } from "./cells";
 
 export type RawVuuRecord = any[]; // TODO add meta fields
 
@@ -74,97 +74,6 @@ export class VuuColumn {
   public readonly definition: VuuColumnDefinition;
   public constructor(definition: VuuColumnDefinition) {
     this.definition = definition;
-  }
-}
-
-export interface IVuuCell {
-  update: (record: RawVuuRecord, column: VuuColumnDefinition) => void;
-}
-
-export class VuuCell<T = any> implements IVuuCell {
-  private readonly _value$: BehaviorSubject<T>;
-  public useValue: () => T;
-  public setValue: (value: T) => void;
-
-  public constructor(value: T) {
-    this._value$ = new BehaviorSubject<T>(value);
-    this.useValue = createHook(this._value$);
-    this.setValue = createHandler(this._value$);
-  }
-
-  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
-    const cellValue = column.getValue(record);
-    this.setValue(cellValue);
-  }
-}
-
-export class VuuNumericCell implements IVuuCell {
-  private readonly _value$: BehaviorSubject<number>;
-  private readonly _lastChange$: BehaviorSubject<number>;
-
-  public useValue: () => number;
-  public useLastChange: () => number;
-
-  public setValue: (value: number) => void;
-
-  public constructor(value: number) {
-    this._value$ = new BehaviorSubject<number>(value);
-    this._lastChange$ = new BehaviorSubject<number>(0);
-
-    this.useValue = createHook(this._value$);
-    this.setValue = createHandler(this._value$);
-    this.useLastChange = createHook(this._lastChange$);
-  }
-
-  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
-    const newValue = column.getValue(record);
-    const oldValue = this._value$.getValue();
-    if (oldValue === newValue) {
-      return;
-    }
-    const change = newValue - oldValue;
-    this._value$.next(newValue);
-    this._lastChange$.next(change);
-  }
-}
-
-export class VuuChartCell implements IVuuCell {
-  private readonly _value$: BehaviorSubject<number[]>;
-  public useValue: () => number[];
-  public setValue: (value: number[]) => void;
-
-  public constructor(value: number[]) {
-    this._value$ = new BehaviorSubject<number[]>(value);
-    this.useValue = createHook(this._value$);
-    this.setValue = createHandler(this._value$);
-  }
-
-  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
-    const newValueItem = column.getValue(record);
-    const oldValue = this._value$.getValue();
-    let newValue = [...oldValue, newValueItem];
-    const maxLength = 100;
-    if (newValue.length > maxLength) {
-      newValue = newValue.slice(newValue.length - maxLength);
-    }
-    this._value$.next(newValue);
-  }
-}
-
-export class VuuBidAskCell implements IVuuCell {
-  private readonly _value$: BehaviorSubject<[number, number]>;
-
-  public useValue: () => [number, number];
-
-  public constructor(bid: number, ask: number) {
-    this._value$ = new BehaviorSubject<[number, number]>([bid, ask]);
-
-    this.useValue = createHook(this._value$);
-  }
-
-  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
-    const newValue = column.getValue(record) as [number, number];
-    this._value$.next(newValue);
   }
 }
 

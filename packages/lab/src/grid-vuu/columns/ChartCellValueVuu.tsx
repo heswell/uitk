@@ -10,30 +10,36 @@ export const ChartCellValueVuu = function ChartCellValueVuu(
   if (!cell) {
     return <>Loading...</>;
   }
-  const value = cell.useValue();
+  const normalizedValue = cell.useNormalizedValue();
   const rowHeight = useGridContext().model.useRowHeight();
+  const xStep = 5;
+  const pointsStr: string[] = [`0,${rowHeight}`];
 
-  const maxItem = value.reduce((p, c) => Math.max(p, c));
-  const minItem = value.reduce((p, c) => Math.min(p, c));
-  const range = maxItem - minItem;
-  const points = value.map((item) => {
-    return ((item - minItem) * rowHeight) / range;
+  normalizedValue.forEach((v, i) => {
+    pointsStr.push(`${xStep * i},${(1 - v) * rowHeight}`);
   });
+
+  pointsStr.push(`${xStep * (normalizedValue.length - 1)},${rowHeight}`);
+  pointsStr.push(`0,${rowHeight}`);
+
+  const width = normalizedValue.length * xStep;
 
   return (
     <div className={"uitkGridVuuChartCell"}>
-      {points.map((item, index) => {
-        const style = {
-          height: `${item}px`,
-        };
-        return (
-          <div
-            className={"uitkGridVuuChartCell-bar"}
-            key={index}
-            style={style}
-          />
-        );
-      })}
+      <svg
+        height={rowHeight}
+        width={width}
+        viewBox={`0 0 ${width} ${rowHeight}`}
+      >
+        <polyline
+          points={pointsStr.join(" ")}
+          style={{
+            fill: "lightblue",
+            stroke: "blue",
+            strokeWidth: 1,
+          }}
+        />
+      </svg>
     </div>
   );
 };
