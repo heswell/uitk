@@ -1,36 +1,8 @@
-import { CellValueProps } from "../grid";
-import { VuuBidAskCell, VuuCell, VuuNumericCell, VuuRow } from "./model";
-import "./columns.css";
+import { CellValueProps } from "../../grid";
+import { VuuNumericCell, VuuRow } from "../model";
 import { ReactNode, useEffect, useRef } from "react";
-import { ArrowDownIcon, ArrowUpIcon } from "../../../icons";
-
-export const TextCellValueVuu = function TextCellValueVuu(
-  props: CellValueProps<VuuRow>
-) {
-  const cell = props.value as VuuCell;
-  if (!cell) {
-    return <>Loading...</>;
-  }
-  const text = cell.useValue() as string;
-  return <>{text}</>;
-};
-
-export const BidAskCellValueVuu = function BidAskCellValueVuu(
-  props: CellValueProps<VuuRow>
-) {
-  const cell = props.value as VuuBidAskCell;
-  if (!cell) {
-    return <>Loading...</>;
-  }
-  const value = cell.useValue() as [number, number];
-  const [bid, ask] = value;
-
-  const text = [
-    bid != null ? bid.toFixed(2) : "-",
-    ask != null ? ask.toFixed(2) : "-",
-  ].join(" / ");
-  return <>{text}</>;
-};
+import { ArrowDownIcon, ArrowUpIcon } from "@brandname/icons";
+import "./NumericCellValueVuu.css";
 
 export const NumericCellValueVuu = function NumericCellValueVuu(
   props: CellValueProps<VuuRow>

@@ -10,16 +10,22 @@ import {
   NumericCellValueVuu,
   TextCellValueVuu,
   BidAskCellValueVuu,
+  ChartCellValueVuu,
 } from "../columns";
 
 const getValueComponent = (columnType: VuuColumnType) => {
-  if (columnType === "number") {
-    return NumericCellValueVuu;
+  switch (columnType) {
+    case "number":
+      return NumericCellValueVuu;
+    case "string":
+      return TextCellValueVuu;
+    case "bidAsk":
+      return BidAskCellValueVuu;
+    case "chart":
+      return ChartCellValueVuu;
+    default:
+      throw new Error(`Unexpected column type ${columnType}`);
   }
-  if (columnType === "string") {
-    return TextCellValueVuu;
-  }
-  return BidAskCellValueVuu;
 };
 
 export class VuuGridModel {

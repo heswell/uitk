@@ -27,7 +27,7 @@ interface VuuMessage {
   rows?: RawVuuRecord[];
 }
 
-export type VuuColumnType = "string" | "number" | "bidAsk";
+export type VuuColumnType = "string" | "number" | "bidAsk" | "chart";
 
 export interface IVuuCellFactory {
   createCell: (record: RawVuuRecord, column: VuuColumnDefinition) => IVuuCell;
@@ -125,6 +125,29 @@ export class VuuNumericCell implements IVuuCell {
     const change = newValue - oldValue;
     this._value$.next(newValue);
     this._lastChange$.next(change);
+  }
+}
+
+export class VuuChartCell implements IVuuCell {
+  private readonly _value$: BehaviorSubject<number[]>;
+  public useValue: () => number[];
+  public setValue: (value: number[]) => void;
+
+  public constructor(value: number[]) {
+    this._value$ = new BehaviorSubject<number[]>(value);
+    this.useValue = createHook(this._value$);
+    this.setValue = createHandler(this._value$);
+  }
+
+  public update(record: RawVuuRecord, column: VuuColumnDefinition) {
+    const newValueItem = column.getValue(record);
+    const oldValue = this._value$.getValue();
+    let newValue = [...oldValue, newValueItem];
+    const maxLength = 100;
+    if (newValue.length > maxLength) {
+      newValue = newValue.slice(newValue.length - maxLength);
+    }
+    this._value$.next(newValue);
   }
 }
 

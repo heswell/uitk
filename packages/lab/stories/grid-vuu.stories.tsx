@@ -2,6 +2,7 @@ import {
   GridVuu,
   RowKeyGetter,
   VuuBidAskCell,
+  VuuChartCell,
   VuuColumnDefinition,
   VuuConfig,
   VuuRow,
@@ -32,6 +33,13 @@ const columnDefinitions: VuuColumnDefinition[] = [
     type: "number",
     header: "Ask",
     getValue: (r) => r[8],
+  },
+  {
+    key: "askChart",
+    type: "chart",
+    header: "Ask Chart",
+    getValue: (r) => r[8],
+    cellFactory: { createCell: (r) => new VuuChartCell([r[8]]) },
   },
   {
     key: "askSize",
