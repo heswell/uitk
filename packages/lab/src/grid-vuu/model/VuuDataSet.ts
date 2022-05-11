@@ -38,7 +38,6 @@ export type VuuValueGetter = (record: RawVuuRecord) => any;
 export interface VuuColumnDefinition {
   key: string;
   type: VuuColumnType;
-  // rawIndex: number;
   getValue: VuuValueGetter;
   header: string;
   cellFactory?: IVuuCellFactory;

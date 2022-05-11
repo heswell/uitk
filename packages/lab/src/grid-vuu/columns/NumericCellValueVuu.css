@@ -9,11 +9,19 @@
 }
 
 .uitkGridVuuNumericCell-changeUp {
-  color: green;
+  color: var(--uitk-text-growth-indicator-up-color);
+}
+
+.uitkGridVuuNumericCell-changeUp svg {
+  fill: var(--uitk-text-growth-indicator-up-color);
 }
 
 .uitkGridVuuNumericCell-changeDown {
-  color: red;
+  color: var(--uitk-text-growth-indicator-down-color);
+}
+
+.uitkGridVuuNumericCell-changeDown svg {
+  fill: var(--uitk-text-growth-indicator-down-color);
 }
 
 @keyframes ChangeAnimation {

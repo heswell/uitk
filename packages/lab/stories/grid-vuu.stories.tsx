@@ -48,6 +48,13 @@ const columnDefinitions: VuuColumnDefinition[] = [
     getValue: (r) => r[9],
   },
   {
+    key: "askSizeChart",
+    type: "chart",
+    header: "Ask Size Chart",
+    getValue: (r) => r[9],
+    cellFactory: { createCell: (r) => new VuuChartCell([r[8]]) },
+  },
+  {
     key: "bbg",
     type: "string",
     header: "BBG",
