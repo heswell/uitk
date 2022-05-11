@@ -49,7 +49,7 @@
 /* Class applied to the root element when helper text is provided */
 .uitkFormField-withHelperText {
   /* Setting Helper Text API */
-  --uitkFormFieldHelperText-height: var(--uitk-text-line-height);
+  --uitkFormFieldHelperText-height: var(--uitk-text-help-font-size);
 }
 
 /* Class applied to the root element if `disabled={true}` */
@@ -110,7 +110,19 @@
   background: var(--uitkFormField-background, var(--form-field-background));
 }
 
-/* Class applied to the root element if `labelPlacement="top"` or `labelPlacement` omitted (default is 'top') */
+.uitk-density-touch .uitkFormField-labelTop {
+  --form-label-margin-bottom: 8px;
+}
+.uitk-density-low .uitkFormField-labelTop {
+  --form-label-margin-bottom: 4px;
+}
+.uitk-density-medium .uitkFormField-labelTop {
+  --form-label-margin-bottom: 2px;
+}
+.uitk-density-high .uitkFormField-labelTop {
+  --form-label-margin-bottom: 2px;
+}
+
 .uitkFormField-labelTop {
   --form-field-label-root-padding-left: var(--uitk-size-unit);
   --form-field-label-root-padding-right: var(--uitk-size-unit);
@@ -133,6 +145,7 @@
 
 .uitkFormField-labelLeft {
   grid-template-columns: auto 1fr;
+  --uitkFormLabel-position: static;
 }
 
 /* Class applied to the root element if `fillWidth={true}` */
