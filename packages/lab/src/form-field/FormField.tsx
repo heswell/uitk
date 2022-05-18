@@ -298,6 +298,7 @@ export const FormField = forwardRef(
                   StatusIndicatorProps={StatusIndicatorProps}
                   className={LabelProps.className}
                   label={label}
+                  labelLeft={labelLeft}
                   disabled={disabled}
                   readOnly={readOnly}
                   required={required}

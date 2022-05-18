@@ -48,4 +48,12 @@
 /* Styles applied if `hasStatusIndicator={true}` */
 .uitkFormLabel-statusIndicator {
   margin-left: 6px;
+  vertical-align: top;
+}
+
+/* Styles applied if `labelLeft={true}` */
+.uitkFormLabel-labelLeft {
+  flex-grow: 1;
+  flex-shrink: 0;
+  transform: translate(0, var(--uitk-spacing-unit)); /* TODO: Change to size token */
 }

@@ -22,6 +22,7 @@
   border: 0;
   display: inline-grid;
   font-size: var(--uitkFormField-font-size, var(--uitk-text-font-size));
+  height: var(--uitkFormField-height, fit-content);
   margin: var(--uitkFormField-margin, 0);
   min-width: var(--uitkFormField-min-width, 0);
   padding: var(--uitkFormField-padding, 0);

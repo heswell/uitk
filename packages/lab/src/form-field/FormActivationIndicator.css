@@ -28,8 +28,8 @@
 .uitkFormActivationIndicator-icon {
   bottom: var(--uitkFormActivationIndicator-icon-bottom, 3px);
   fill: var(--uitkFormActivationIndicator-icon-color);
-  width: var(--uitkFormActivationIndicator-icon-size, var(--uitk-size-unit));
-  height: var(--uitkFormActivationIndicator-icon-size, var(--uitk-size-unit));
+  width: var(--uitkFormActivationIndicator-icon-size, var(--form-activation-indicator-icon-size));
+  height: var(--uitkFormActivationIndicator-icon-size, var(--form-activation-indicator-icon-size));
   /** 
   * It's only a solid icon showing different color for validation states. 
   * Applying opacity instead of re-defining all colors.
