@@ -1,5 +1,5 @@
 import { BehaviorSubject } from "rxjs";
-import { useObservable } from "./useObservable";
+import { createHook } from "./utils";
 
 // Internal representation of a row. Created for each visible row. Row component
 // subscribes to this minimizing unnecessary re-renders.
@@ -7,44 +7,28 @@ export class Row<T = any> {
   public readonly key: string;
 
   public readonly index$: BehaviorSubject<number>;
-  public useIndex() {
-    return useObservable(this.index$);
-  }
+  public useIndex: () => number;
 
   public readonly data$: BehaviorSubject<T>;
-  public useData() {
-    return useObservable(this.data$);
-  }
+  public useData: () => T;
 
   public readonly isSelected$: BehaviorSubject<boolean>;
-  public useIsSelected() {
-    return useObservable(this.isSelected$);
-  }
+  public useIsSelected: () => boolean;
 
   public readonly isHoverOver$: BehaviorSubject<boolean>;
-  public useIsHoverOver() {
-    return useObservable(this.isHoverOver$);
-  }
+  public useIsHoverOver: () => boolean;
 
   public readonly cursorColumnIndex$: BehaviorSubject<number | undefined>;
-  public useCursorColumnIndex() {
-    return useObservable(this.cursorColumnIndex$);
-  }
+  public useCursorColumnIndex: () => number | undefined;
 
   public readonly selectedCells$: BehaviorSubject<Set<string> | undefined>;
-  public useSelectedCells() {
-    return useObservable(this.selectedCells$);
-  }
+  public useSelectedCells: () => Set<string> | undefined;
 
   public readonly isEditMode$: BehaviorSubject<boolean>;
-  public useIsEditMode() {
-    return useObservable(this.isEditMode$);
-  }
+  public useIsEditMode: () => boolean;
 
   public readonly isZebra$: BehaviorSubject<boolean>;
-  public useIsZebra() {
-    return useObservable(this.isZebra$);
-  }
+  public useIsZebra: () => boolean;
 
   public constructor(key: string, index: number, data: T) {
     this.key = key;
@@ -60,5 +44,14 @@ export class Row<T = any> {
     this.selectedCells$ = new BehaviorSubject<Set<string> | undefined>(
       undefined
     );
+
+    this.useIndex = createHook(this.index$);
+    this.useData = createHook(this.data$);
+    this.useIsSelected = createHook(this.isSelected$);
+    this.useIsHoverOver = createHook(this.isHoverOver$);
+    this.useCursorColumnIndex = createHook(this.cursorColumnIndex$);
+    this.useSelectedCells = createHook(this.selectedCells$);
+    this.useIsEditMode = createHook(this.isEditMode$);
+    this.useIsZebra = createHook(this.isZebra$);
   }
 }

@@ -65,19 +65,23 @@ export type KeyOfType<T, U> = {
   [P in keyof T]: T[P] extends U ? P : never;
 }[keyof T];
 
-export interface CellProps<T, U = any> {}
+export interface CellProps<TRowData, TCellValue = any, TColumnData = any> {}
 
-export interface CellValueProps<T, U = any> {
-  column: Column<T, U>;
-  row: Row<T>;
-  value: U;
+export interface CellValueProps<TRowData, TCellValue = any, TColumnData = any> {
+  column: Column<TRowData, TCellValue, TColumnData>;
+  row: Row<TRowData>;
+  value: TCellValue;
 }
 
-export interface HeaderValueProps<T, U = any> {
-  column: Column<T, U>;
+export interface HeaderValueProps<
+  TRowData,
+  TCellValue = any,
+  TColumnData = any
+> {
+  column: Column<TRowData, TCellValue, TColumnData>;
 }
 
-export interface HeaderProps<T> {}
+export interface HeaderProps<TRowData> {}
 
 export interface EditorProps<T, U> {
   // row: Row<T>;
@@ -105,13 +109,13 @@ export interface ColumnMoveEvent {
   newIndex: number; // and where
 }
 
-export interface ColumnsAndGroups<T = any> {
-  leftColumns: Column<T>[];
-  middleColumns: Column<T>[];
-  rightColumns: Column<T>[];
-  leftColumnGroups?: ColumnGroup<T>[];
-  middleColumnGroups?: ColumnGroup<T>[];
-  rightColumnGroups?: ColumnGroup<T>[];
+export interface ColumnsAndGroups<TRowData = any> {
+  leftColumns: Column<TRowData>[];
+  middleColumns: Column<TRowData>[];
+  rightColumns: Column<TRowData>[];
+  leftColumnGroups?: ColumnGroup<TRowData>[];
+  middleColumnGroups?: ColumnGroup<TRowData>[];
+  rightColumnGroups?: ColumnGroup<TRowData>[];
 }
 
 export interface GridScrollEvent {
@@ -142,12 +146,12 @@ export type CellSelectionMode = "single" | "multi" | "none";
 //    streams only.
 // 4. The model is quite big and it is expected to grow in the future. It would
 //    be nice to make it as modular as possible.
-export interface IGridModel<T> {
+export interface IGridModel<TRowData> {
   // Parts
-  readonly columnDragAndDrop: IColumnDragAndDrop<T>;
+  readonly columnDragAndDrop: IColumnDragAndDrop<TRowData>;
   readonly editMode: IEditMode;
-  readonly rowSelection: IRowSelection<T>;
-  readonly cellSelection: ICellSelection<T>;
+  readonly rowSelection: IRowSelection<TRowData>;
+  readonly cellSelection: ICellSelection<TRowData>;
   // Props
   readonly setShowFooter: (showFooter?: boolean) => void;
   readonly setShowTree: (showTree?: boolean) => void;
@@ -155,11 +159,11 @@ export interface IGridModel<T> {
   // TODO checkboxes can be radio buttons in single-row mode. Rename this.
   readonly setShowCheckboxes: (showCheckboxes?: boolean) => void;
   readonly setColumnDefinitions: (
-    columnDefinitions?: ColumnDefinition<T>[]
+    columnDefinitions?: ColumnDefinition<TRowData>[]
   ) => void;
-  readonly setData: (data: T[]) => void;
+  readonly setData: (data: TRowData[]) => void;
   readonly setColumnGroupDefinitions: (
-    groupDefinitions?: ColumnGroupDefinition<T>[]
+    groupDefinitions?: ColumnGroupDefinition<TRowData>[]
   ) => void;
   readonly setOnVisibleRowRangeChange: (
     handler?: VisibleRowRangeChangeHandler
@@ -192,14 +196,14 @@ export interface IGridModel<T> {
   readonly useHeaderVisibleColumnWidth: () => number;
   readonly useScrollPosition: () => GridScrollPosition;
   // Columns and rows
-  readonly useLeftColumns: () => Column<T>[];
-  readonly useRightColumns: () => Column<T>[];
-  readonly useRows: () => Row<T>[];
-  readonly useBodyVisibleColumns: () => Column<T>[];
-  readonly useHeaderVisibleColumns: () => Column<T>[];
-  readonly useLeftColumnGroups: () => ColumnGroup<T>[] | undefined;
-  readonly useRightColumnGroups: () => ColumnGroup<T>[] | undefined;
-  readonly useVisibleColumnGroups: () => ColumnGroup<T>[] | undefined;
+  readonly useLeftColumns: () => Column<TRowData>[];
+  readonly useRightColumns: () => Column<TRowData>[];
+  readonly useRows: () => Row<TRowData>[];
+  readonly useBodyVisibleColumns: () => Column<TRowData>[];
+  readonly useHeaderVisibleColumns: () => Column<TRowData>[];
+  readonly useLeftColumnGroups: () => ColumnGroup<TRowData>[] | undefined;
+  readonly useRightColumnGroups: () => ColumnGroup<TRowData>[] | undefined;
+  readonly useVisibleColumnGroups: () => ColumnGroup<TRowData>[] | undefined;
   readonly useIsAllEditable: () => boolean;
 }
 
@@ -207,26 +211,26 @@ export type VisibleRowRangeChangeHandler = (
   visibleRowRange: [number, number]
 ) => void;
 
-export class GridModel<T = any> implements IGridModel<T> {
+export class GridModel<TRowData = any> implements IGridModel<TRowData> {
   // Callbacks
   public readonly setOnVisibleRowRangeChange: (
     handler?: VisibleRowRangeChangeHandler
   ) => void;
   // Parts
-  public readonly columnDragAndDrop: ColumnDragAndDrop<T>;
+  public readonly columnDragAndDrop: ColumnDragAndDrop<TRowData>;
   public readonly editMode: EditMode;
-  public readonly rowSelection: RowSelection<T>;
-  public readonly cellSelection: CellSelection<T>;
+  public readonly rowSelection: RowSelection<TRowData>;
+  public readonly cellSelection: CellSelection<TRowData>;
   // Props
   public readonly setShowFooter: (showFooter?: boolean) => void;
   public readonly setShowTree: (showTree?: boolean) => void;
   public readonly setShowCheckboxes: (showCheckboxes?: boolean) => void;
   public readonly setColumnDefinitions: (
-    columnDefinitions?: ColumnDefinition<T>[]
+    columnDefinitions?: ColumnDefinition<TRowData>[]
   ) => void;
-  public readonly setData: (data: T[]) => void;
+  public readonly setData: (data: TRowData[]) => void;
   public readonly setColumnGroupDefinitions: (
-    groupDefinitions?: ColumnGroupDefinition<T>[]
+    groupDefinitions?: ColumnGroupDefinition<TRowData>[]
   ) => void;
   public readonly setRowSelectionMode: (m: RowSelectionMode) => void;
   public readonly setCellSelectionMode: (m: CellSelectionMode) => void;
@@ -261,19 +265,25 @@ export class GridModel<T = any> implements IGridModel<T> {
   public readonly useHeaderVisibleColumnWidth: () => number;
   public readonly useScrollPosition: () => GridScrollPosition;
   // Columns and rows
-  public readonly useLeftColumns: () => Column<T>[];
-  public readonly useRightColumns: () => Column<T>[];
-  public readonly useRows: () => Row<T>[];
-  public readonly useBodyVisibleColumns: () => Column<T>[];
-  public readonly useHeaderVisibleColumns: () => Column<T>[];
-  public readonly useLeftColumnGroups: () => ColumnGroup<T>[] | undefined;
-  public readonly useRightColumnGroups: () => ColumnGroup<T>[] | undefined;
-  public readonly useVisibleColumnGroups: () => ColumnGroup<T>[] | undefined;
+  public readonly useLeftColumns: () => Column<TRowData>[];
+  public readonly useRightColumns: () => Column<TRowData>[];
+  public readonly useRows: () => Row<TRowData>[];
+  public readonly useBodyVisibleColumns: () => Column<TRowData>[];
+  public readonly useHeaderVisibleColumns: () => Column<TRowData>[];
+  public readonly useLeftColumnGroups: () =>
+    | ColumnGroup<TRowData>[]
+    | undefined;
+  public readonly useRightColumnGroups: () =>
+    | ColumnGroup<TRowData>[]
+    | undefined;
+  public readonly useVisibleColumnGroups: () =>
+    | ColumnGroup<TRowData>[]
+    | undefined;
   public readonly useIsAllEditable: () => boolean;
 
   public readonly visibleRowRange$: BehaviorSubject<Rng>;
 
-  public constructor(getKey: RowKeyGetter<T>) {
+  public constructor(getKey: RowKeyGetter<TRowData>) {
     const clientSize$ = new BehaviorSubject<GridSize>({
       width: 0,
       height: 0,
@@ -288,9 +298,9 @@ export class GridModel<T = any> implements IGridModel<T> {
     const scrollLeft$ = new BehaviorSubject<number>(0);
     const scrollTop$ = new BehaviorSubject<number>(0);
     const columnDefinitions$ = new BehaviorSubject<
-      ColumnDefinition<T>[] | undefined
+      ColumnDefinition<TRowData>[] | undefined
     >([]);
-    const data$ = new BehaviorSubject<T[]>([]);
+    const data$ = new BehaviorSubject<TRowData[]>([]);
     const isZebra$ = new BehaviorSubject<boolean | undefined>(undefined);
 
     // TODO consider extracting these into a selection model class
@@ -299,7 +309,7 @@ export class GridModel<T = any> implements IGridModel<T> {
     const showCheckboxes$ = new BehaviorSubject<boolean | undefined>(undefined);
 
     const columnGroupDefinitions$ = new BehaviorSubject<
-      ColumnGroupDefinition<T>[] | undefined
+      ColumnGroupDefinition<TRowData>[] | undefined
     >(undefined);
     const showFooter$ = new BehaviorSubject<boolean | undefined>(undefined);
     const showTree$ = new BehaviorSubject<boolean | undefined>(undefined);
@@ -316,9 +326,9 @@ export class GridModel<T = any> implements IGridModel<T> {
     const columnResizeEvents$ = new Subject<ColumnResizeEvent>();
     const columnMoveEvents$ = new Subject<ColumnMoveEvent>();
     const scrollToCellEvents$ = new Subject<CellPosition>();
-    const leftColumns$ = new BehaviorSubject<Column<T>[]>([]);
-    const middleColumns$ = new BehaviorSubject<Column<T>[]>([]);
-    const rightColumns$ = new BehaviorSubject<Column<T>[]>([]);
+    const leftColumns$ = new BehaviorSubject<Column<TRowData>[]>([]);
+    const middleColumns$ = new BehaviorSubject<Column<TRowData>[]>([]);
+    const rightColumns$ = new BehaviorSubject<Column<TRowData>[]>([]);
 
     const leftWidth$ = createColumnsWidth(leftColumns$);
     const middleWidth$ = createColumnsWidth(middleColumns$);
@@ -327,14 +337,14 @@ export class GridModel<T = any> implements IGridModel<T> {
     // });
     const rightWidth$ = createColumnsWidth(rightColumns$);
 
-    const leftColumnGroups$ = new BehaviorSubject<ColumnGroup<T>[] | undefined>(
-      undefined
-    );
+    const leftColumnGroups$ = new BehaviorSubject<
+      ColumnGroup<TRowData>[] | undefined
+    >(undefined);
     const middleColumnGroups$ = new BehaviorSubject<
-      ColumnGroup<T>[] | undefined
+      ColumnGroup<TRowData>[] | undefined
     >(undefined);
     const rightColumnGroups$ = new BehaviorSubject<
-      ColumnGroup<T>[] | undefined
+      ColumnGroup<TRowData>[] | undefined
     >(undefined);
 
     // TODO replace columnGroupDefinitions by columnGroups. There may be auto-groups
@@ -438,8 +448,12 @@ export class GridModel<T = any> implements IGridModel<T> {
       leftWidth$
     );
 
-    this.rowSelection = new RowSelection<T>(data$, getKey, rowSelectionMode$);
-    this.cellSelection = new CellSelection<T>(
+    this.rowSelection = new RowSelection<TRowData>(
+      data$,
+      getKey,
+      rowSelectionMode$
+    );
+    this.cellSelection = new CellSelection<TRowData>(
       data$,
       getKey,
       cellSelectionMode$,
@@ -452,7 +466,7 @@ export class GridModel<T = any> implements IGridModel<T> {
       this.editMode.isActive$.next(false);
     });
 
-    const rows$ = createRows<T>(
+    const rows$ = createRows<TRowData>(
       getKey,
       data$,
       visibleRowRange$,

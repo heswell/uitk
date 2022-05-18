@@ -9,7 +9,7 @@ import {
 } from "@brandname/lab";
 
 export default {
-  title: "Lab/Grid/Vuu Next",
+  title: "Lab/Grid/Vuu",
   component: GridVuu,
 };
 
