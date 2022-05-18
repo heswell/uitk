@@ -16,12 +16,13 @@
 .uitkFormLabel {
   box-sizing: border-box;
   color: var(--uitkFormLabel-text-color, var(--uitk-text-secondary-color));
-  display: flex;
+  display: block;
   font-size: var(--uitkFormLabel-font-size, var(--uitk-text-caption-font-size));
   margin-bottom: var(--uitkFormLabel-margin-bottom, var(--form-label-margin-bottom));
   min-height: var(--uitkFormLabel-min-height, var(--form-label-min-height, var(--uitk-text-caption-min-height)));
   margin-top: var(--uitkFormLabel-margin-top, var(--form-label-margin-top));
   line-height: var(--uitkFormLabel-line-height, var(--uitk-typography-line-height));
+  overflow: hidden;
   padding-left: var(--uitkFormLabel-padding-left, var(--form-label-padding-left));
   padding-right: var(--uitkFormLabel-padding-right, var(--form-label-padding-right));
   padding-top: var(--uitkFormLabel-padding-top, 0);

@@ -21,7 +21,7 @@
   width: 100%;
 
   /* We don't want the activation indicator to increase height of it's container */
-  bottom: calc(var(--uitkFormFieldHelperText-height, -3px) + 3px);
+  bottom: calc(var(--uitkFormFieldHelperText-line-height, var(--uitk-typography-line-height)) + 3px);
   position: var(--uitkFormLabel-position, absolute);
 }
 

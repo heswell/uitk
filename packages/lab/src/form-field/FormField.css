@@ -46,12 +46,6 @@
   --uitkFormActivationIndicator-size: var(--uitk-editable-border-width-active);
 }
 
-/* Class applied to the root element when helper text is provided */
-.uitkFormField-withHelperText {
-  /* Setting Helper Text API */
-  --uitkFormFieldHelperText-height: var(--uitk-text-help-font-size);
-}
-
 /* Class applied to the root element if `disabled={true}` */
 .uitkFormField-disabled {
   cursor: var(--uitk-editable-cursor-disabled);
@@ -110,14 +104,14 @@
   background: var(--uitkFormField-background, var(--form-field-background));
 }
 
+.uitk-density-medium .uitkFormField-labelTop {
+  --form-label-margin-bottom: 2px;
+}
 .uitk-density-touch .uitkFormField-labelTop {
   --form-label-margin-bottom: 8px;
 }
 .uitk-density-low .uitkFormField-labelTop {
   --form-label-margin-bottom: 4px;
-}
-.uitk-density-medium .uitkFormField-labelTop {
-  --form-label-margin-bottom: 2px;
 }
 .uitk-density-high .uitkFormField-labelTop {
   --form-label-margin-bottom: 2px;
@@ -150,6 +144,8 @@
 
 /* Class applied to the root element if `fillWidth={true}` */
 .uitkFormField-fullWidth {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
