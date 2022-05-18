@@ -284,10 +284,10 @@ export const FormField = forwardRef(
             }}
           >
             <div
-              className={cx([`${classBase}-controlWrapper`], {
-                [`${classBase}-warning`]: isWarning,
-                [`${classBase}-error`]: isError,
-                [`${classBase}-${focusClass}`]: states.focused && labelTop,
+              className={cx([withBaseName("controlWrapper")], {
+                [withBaseName("warning")]: isWarning,
+                [withBaseName("error")]: isError,
+                [withBaseName(`${focusClass}`)]: states.focused && labelTop,
               })}
             >
               {!!label && (
