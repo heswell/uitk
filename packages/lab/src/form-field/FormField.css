@@ -61,7 +61,7 @@
 
 /* Class applied to the root element on warning state */
 .uitkFormField .uitkFormField-warning {
-  --form-field-focus-outline-color: var(--uitk-status-warning-color);
+  --form-field-focus-outline-color: var(--uitkFormField-focus-outline-color-warning, var(--uitk-status-warning-color));
 
   /* Setting Activation Indicator API */
   --uitkFormActivationIndicator-border-color: var(--uitk-status-warning-color);
@@ -70,7 +70,7 @@
 
 /* Class applied to the root element on error state */
 .uitkFormField .uitkFormField-error {
-  --form-field-focus-outline-color: var(--uitk-status-error-color);
+  --form-field-focus-outline-color: var(--uitkFormField-focus-outline-color-error, var(--uitk-status-error-color));
 
   /* Setting Activation Indicator API */
   --uitkFormActivationIndicator-border-color: var(--uitk-status-error-color);
@@ -79,11 +79,11 @@
 
 /* As above when `uitkEmphasisHigh` className passed */
 .uitkEmphasisHigh.uitkFormField-error {
-  --form-field-background: var(--uitk-status-error-background-high);
+  --form-field-background: var(--uitkFormField-background-error-high, var(--uitk-status-error-background-high));
 }
 
 .uitkEmphasisHigh.uitkFormField-warning {
-  --form-field-background: var(--uitk-status-warning-background-high);
+  --form-field-background: var(--uitkFormField-background-warning-high, var(--uitk-status-warning-background-high));
 }
 
 /* Class applied to the root element if `labelPlacement="left"` */
