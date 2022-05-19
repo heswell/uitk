@@ -9,7 +9,7 @@ import {
   DataGrid,
   DataSetColumnDefinition,
   Grid,
-} from "@brandname/lab";
+} from "@jpmorganchase/lab";
 import { LazyGrid } from "./grid/lazy-loading/LazyGrid";
 
 export default {

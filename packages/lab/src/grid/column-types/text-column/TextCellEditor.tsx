@@ -2,7 +2,7 @@ import { EditorProps } from "../../model";
 import { ChangeEventHandler } from "react";
 import "./TextCellEditor.css";
 import { useGridContext } from "../../GridContext";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridTextCellEditor");
 

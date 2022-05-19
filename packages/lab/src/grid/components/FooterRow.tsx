@@ -1,6 +1,6 @@
 import { Column } from "../model";
 import "./FooterRow.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridFooterRow");
 

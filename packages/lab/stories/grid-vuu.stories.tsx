@@ -6,7 +6,7 @@ import {
   VuuColumnDefinition,
   VuuConfig,
   VuuRow,
-} from "@brandname/lab";
+} from "@jpmorganchase/lab";
 
 export default {
   title: "Lab/Grid/Vuu",

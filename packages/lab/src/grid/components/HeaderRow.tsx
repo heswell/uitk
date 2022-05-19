@@ -2,7 +2,7 @@ import "./HeaderRow.css";
 import { Column } from "../model";
 import { HeaderCell } from "./HeaderCell";
 import { HeaderCellValue } from "./HeaderCellValue";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridHeaderRow");
 

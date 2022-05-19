@@ -4,7 +4,7 @@ import { useGridContext } from "../GridContext";
 import { TableColGroup } from "./TableColGroup";
 import { HeaderRow } from "./HeaderRow";
 import { TableBody } from "./TableBody";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridMovingColumn");
 

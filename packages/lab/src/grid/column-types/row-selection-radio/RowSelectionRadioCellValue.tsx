@@ -1,4 +1,4 @@
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { CellValueProps } from "../../model";
 import { useGridContext } from "../../GridContext";
 import { MouseEventHandler, useCallback } from "react";

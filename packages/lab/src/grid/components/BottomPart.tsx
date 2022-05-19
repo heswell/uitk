@@ -3,7 +3,7 @@ import { TableColGroup } from "./TableColGroup";
 import { FooterRow } from "./FooterRow";
 import { RefObject, useMemo, WheelEventHandler } from "react";
 import { useGridContext } from "../GridContext";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridBottomPart");
 

@@ -20,7 +20,7 @@ import { BottomRightPart } from "./BottomRightPart";
 import { useGridContext } from "../GridContext";
 import { ColumnDropTarget } from "./ColumnDropTarget";
 import { MovingColumn } from "./MovingColumn";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGrid");
 

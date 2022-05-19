@@ -3,7 +3,7 @@ import { CSSProperties, FC, HTMLAttributes } from "react";
 import cn from "classnames";
 import "./BaseCell.css";
 import { Cursor } from "./Cursor";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { useGridContext } from "../GridContext";
 
 const withBaseName = makePrefixer("uitkGridBaseCell");

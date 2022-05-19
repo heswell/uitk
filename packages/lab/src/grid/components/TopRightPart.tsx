@@ -5,7 +5,7 @@ import { HeaderRow } from "./HeaderRow";
 import { HeaderToolbarRow } from "./HeaderToolbarRow";
 import "./TopRightPart.css";
 import { GroupHeaderRow } from "./GroupHeaderRow";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridTopRightPart");
 

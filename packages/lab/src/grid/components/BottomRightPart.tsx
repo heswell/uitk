@@ -2,7 +2,7 @@ import { useGridContext } from "../GridContext";
 import { useMemo, WheelEventHandler } from "react";
 import { TableColGroup } from "./TableColGroup";
 import { FooterRow } from "./FooterRow";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridBottomRightPart");
 

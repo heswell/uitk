@@ -3,7 +3,7 @@ import { HeaderValueProps } from "../../model";
 import "./RowSelectionCheckboxColumn.css";
 import { useGridContext } from "../../GridContext";
 import { CheckboxCheckedIcon, CheckboxIcon } from "../../../checkbox";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridRowSelectionCheckboxHeaderValue");
 

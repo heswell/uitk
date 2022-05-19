@@ -1,5 +1,5 @@
 import { Column } from "../model";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridHeaderToolbarRow");
 

@@ -4,7 +4,7 @@ import cn from "classnames";
 import { TableColGroup } from "./TableColGroup";
 import { TableBody } from "./TableBody";
 import "./RightPart.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridRightPart");
 

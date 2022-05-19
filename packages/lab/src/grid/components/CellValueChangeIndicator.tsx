@@ -1,4 +1,4 @@
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./CellValueChangeIndicator.css";
 
 export interface CellValueChangeIndicatorProps {}

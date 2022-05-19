@@ -1,7 +1,7 @@
 import { ColumnGroup, useObservable } from "../model";
 import cn from "classnames";
 import "./GroupHeaderCell.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridGroupHeaderCell");
 

@@ -1,7 +1,7 @@
 import { useGridContext } from "../GridContext";
 import { FC, useMemo } from "react";
 import "./ColumnDropTarget.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridColumnDropTarget");
 

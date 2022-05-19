@@ -1,7 +1,7 @@
 import { CellValueProps } from "../../grid";
 import { VuuNumericCell, VuuRow } from "../model";
 import { ReactNode, useEffect, useRef } from "react";
-import { ArrowDownIcon, ArrowUpIcon } from "@brandname/icons";
+import { ArrowDownIcon, ArrowUpIcon } from "@jpmorganchase/uitk-icons";
 import "./NumericCellValueVuu.css";
 
 export const NumericCellValueVuu = function NumericCellValueVuu(

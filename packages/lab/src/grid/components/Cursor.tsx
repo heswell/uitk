@@ -1,6 +1,6 @@
 import { FC } from "react";
 import "./Cursor.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridCursor");
 

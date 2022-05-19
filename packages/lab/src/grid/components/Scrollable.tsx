@@ -1,7 +1,7 @@
 import { useGridContext } from "../GridContext";
 import { RefObject, UIEventHandler, useEffect, useMemo, useRef } from "react";
 import "./Scrollable.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridScrollable");
 

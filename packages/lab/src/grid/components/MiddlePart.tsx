@@ -3,7 +3,7 @@ import { RefObject, useMemo, WheelEventHandler } from "react";
 import { TableColGroup } from "./TableColGroup";
 import { TableBody } from "./TableBody";
 import "./MiddlePart.css";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridMiddlePart");
 

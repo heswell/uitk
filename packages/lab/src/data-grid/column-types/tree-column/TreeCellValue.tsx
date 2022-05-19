@@ -2,8 +2,8 @@ import { DataSetRow, TreeField } from "../../model";
 import { CellValueProps } from "../../../grid";
 import { CSSProperties } from "react";
 import { useDataGridContext } from "../../DataGridContext";
-import { makePrefixer } from "@brandname/core";
-import { ChevronDownIcon, ChevronRightIcon } from "@brandname/icons";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { ChevronDownIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
 
 const withBaseName = makePrefixer("uitkDataGrid");
 

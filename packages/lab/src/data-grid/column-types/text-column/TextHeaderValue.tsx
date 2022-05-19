@@ -1,7 +1,7 @@
 import { HeaderValueProps } from "../../../grid";
 import { useDataGridContext } from "../../DataGridContext";
 import { MouseEventHandler } from "react";
-import { ArrowDownIcon, ArrowUpIcon } from "@brandname/icons";
+import { ArrowDownIcon, ArrowUpIcon } from "@jpmorganchase/uitk-icons";
 
 export const TextHeaderValue = function TextHeaderValue<T>(
   props: HeaderValueProps<T>

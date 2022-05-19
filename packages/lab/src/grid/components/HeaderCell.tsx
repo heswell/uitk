@@ -3,7 +3,7 @@ import { Column, ColumnSeparatorType } from "../model";
 import { Children, ReactNode, useEffect, useRef } from "react";
 import { useColumnResize } from "../features/useColumnResize";
 import { useColumnMove } from "../features/useColumnMove";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { useGridContext } from "../GridContext";
 
 const withBaseName = makePrefixer("uitkGridHeaderCell");

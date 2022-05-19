@@ -2,7 +2,7 @@ import { Column, ColumnDefinition, Row } from "../model";
 import { memo, MouseEventHandler } from "react";
 import "./TableRow.css";
 import { BaseCell } from "./BaseCell";
-import { makePrefixer } from "@brandname/core";
+import { makePrefixer } from "@jpmorganchase/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridTableRow");
 
