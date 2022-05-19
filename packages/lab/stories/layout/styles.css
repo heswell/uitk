@@ -33,6 +33,54 @@
   background-color: var(--uitk-color-grey-90);
 }
 
+.flow-layout-container {
+  padding: calc(var(--uitk-size-unit) * 2) calc(var(--uitk-size-unit) * 3);
+  background-color: var(--uitk-container-background-high);
+}
+
+.flow-layout-container p,
+.flow-layout-container h1 {
+  margin: 0;
+}
+
+.flow-layout-custom-form label {
+  min-width: 150px;
+  justify-content: flex-end;
+}
+
+.flow-layout-custom-form .uitkFormField-labelLeft {
+  width: 70%;
+}
+
+.flow-layout-custom-form .uitkInput-suffixContainer {
+  margin-right: var(--uitk-size-unit);
+}
+
+.border-layout-switch-container {
+  padding: var(--uitk-size-unit);
+}
+
+.border-layout-button-container,
+.flow-layout-form-container {
+  padding: calc(var(--uitk-size-unit) * 2) calc(var(--uitk-size-unit) * 3);
+}
+
+.border-layout-pill {
+  margin: calc(var(--uitk-size-unit) * 2) calc(var(--uitk-size-unit) * 3);
+  background: var(--uitk-status-success-foreground);
+  color: var(--uitk-color-white);
+}
+
+.border-layout-form-header,
+.border-layout-form-footer {
+  background-color: var(--uitk-color-white);
+  z-index: 10;
+}
+
+.border-layout-form-steps {
+  background-color: var(--uitk-container-background-high);
+}
+
 @media (prefers-reduced-motion) {
   .reduced-motion .uitkParentChildItem-slide-left {
     animation: none;

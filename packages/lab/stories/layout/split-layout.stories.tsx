@@ -6,7 +6,6 @@ import {
 } from "@jpmorganchase/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
-import { ExportIcon, ImportIcon } from "@jpmorganchase/uitk-icons";
 import { useMemo } from "react";
 
 export default {
@@ -62,36 +61,22 @@ DefaultSplitLayout.args = {
   rightSplitItem: rightItem,
 };
 
-const ButtonBarExample: ComponentStory<typeof SplitLayout> = (args) => {
-  const leftItem = useMemo(
-    () => (
-      <FlowLayout>
-        <Button variant="secondary">
-          <ExportIcon style={{ marginRight: 5 }} />
-          Export
-        </Button>
-        <Button variant="secondary">
-          <ImportIcon style={{ marginRight: 5 }} />
-          Import
-        </Button>
-      </FlowLayout>
-    ),
-    []
-  );
-  const rightItem = useMemo(
-    () => (
-      <FlowLayout>
-        <Button variant="cta">Save</Button> <Button>Cancel</Button>
-      </FlowLayout>
-    ),
-    []
-  );
+const leftButtons = (
+  <FlowLayout>
+    <Button variant="cta">Submit</Button>
+    <Button variant="primary">Save as draft</Button>
+  </FlowLayout>
+);
+
+const rightButton = <Button variant="secondary">Cancel</Button>;
+
+const FormButtonBar: ComponentStory<typeof SplitLayout> = (args) => {
   return (
     <SplitLayout
       {...args}
-      leftSplitItem={leftItem}
-      rightSplitItem={rightItem}
+      leftSplitItem={leftButtons}
+      rightSplitItem={rightButton}
     />
   );
 };
-export const ButtonBarInSplitLayout = ButtonBarExample.bind({});
+export const SplitLayoutSimpleUsage = FormButtonBar.bind({});
