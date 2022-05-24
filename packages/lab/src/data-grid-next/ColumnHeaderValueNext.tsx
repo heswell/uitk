@@ -3,6 +3,7 @@ import { DataGridColumn } from "./DataGridNextModel";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./ColumnHeaderValueNext.css";
 import { ColumnMenu } from "./ColumnMenu";
+import { FilterIcon } from "../../../icons";
 
 const withBasename = makePrefixer("uitkColumnHeaderValueNext");
 
@@ -16,11 +17,13 @@ export const ColumnHeaderValueNext = function ColumHeaderValueNext<TRowData>(
   if (!dataGridColumn) {
     throw new Error(`DataGrid column not found.`);
   }
-  const menuModel = dataGridColumn?.menu;
+  const menuModel = dataGridColumn.menu;
+  const isFilterApplied = menuModel.filter.useIsFilterApplied();
   // const title = dataGridColumn?.definition.title || "";
   return (
     <span className={withBasename()}>
       {title}
+      {isFilterApplied ? <FilterIcon /> : null}
       <ColumnMenu model={menuModel} />
     </span>
   );

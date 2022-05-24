@@ -230,10 +230,6 @@ export class DataGridNextModel<TRowData = any> {
       this.filteredRows$.next(filteredRows);
     });
 
-    // this.rows$.subscribe((rows) => {
-    //   this.gridModel.setData(rows);
-    // });
-
     this.filteredRows$.subscribe((filteredRows) => {
       this.gridModel.setData(filteredRows);
     });

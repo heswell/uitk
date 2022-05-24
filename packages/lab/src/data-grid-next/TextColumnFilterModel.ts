@@ -1,4 +1,9 @@
-import { BehaviorSubject, combineLatest, map } from "rxjs";
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+} from "rxjs";
 import { createHandler, createHook } from "../grid";
 
 export type TextFilterFn = (value: string | undefined) => boolean;
@@ -24,6 +29,8 @@ export class TextColumnFilterModel {
   public readonly setQuery: (query: string) => void;
 
   public readonly filterFn$: BehaviorSubject<TextFilterFn | undefined>;
+  public readonly isFilterApplied$: BehaviorSubject<boolean>;
+  public readonly useIsFilterApplied: () => boolean;
 
   constructor() {
     this.operation$ = new BehaviorSubject("Contains");
@@ -35,6 +42,7 @@ export class TextColumnFilterModel {
     this.setQuery = createHandler(this.query$);
 
     this.filterFn$ = new BehaviorSubject<TextFilterFn | undefined>(undefined);
+    this.isFilterApplied$ = new BehaviorSubject<boolean>(false);
 
     combineLatest([this.operation$, this.query$])
       .pipe(
@@ -70,5 +78,14 @@ export class TextColumnFilterModel {
         })
       )
       .subscribe(this.filterFn$);
+
+    this.filterFn$
+      .pipe(
+        map((fn) => fn != undefined),
+        distinctUntilChanged()
+      )
+      .subscribe(this.isFilterApplied$);
+
+    this.useIsFilterApplied = createHook(this.isFilterApplied$);
   }
 }
