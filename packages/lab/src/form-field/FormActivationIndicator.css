@@ -22,7 +22,7 @@
 
   /* We don't want the activation indicator to increase height of it's container */
   bottom: calc(var(--uitkFormFieldHelperText-line-height, var(--uitk-typography-line-height)) + 3px);
-  position: var(--uitkFormLabel-position, absolute);
+  position: var(--uitkFormActivationIndicator-position, absolute);
 }
 
 .uitkFormActivationIndicator-icon {
@@ -35,7 +35,7 @@
   * Applying opacity instead of re-defining all colors.
   */
   opacity: var(--uitkFormActivationIndicator-icon-opacity, 1);
-  position: absolute;
+  position: var(--uitkFormActivationIndicator-icon-position, absolute);
   right: var(--uitkFormActivationIndicator-icon-right, 2px);
   width: var(--uitkFormActivationIndicator-icon-size, var(--form-activation-indicator-icon-size));
 }

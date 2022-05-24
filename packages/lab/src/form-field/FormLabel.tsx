@@ -28,9 +28,9 @@ export interface FormLabelProps
    */
   label?: string;
   /**
-   * Location of label is left; default false
+   * Location of label
    */
-  labelLeft?: boolean;
+  labelPlacement?: FormFieldLabelPlacement;
   /**
    * An optional renderer function used to customize the necessity adornment
    */
@@ -59,7 +59,7 @@ export const FormLabel = ({
   required,
   displayedNecessity,
   hasStatusIndicator = false,
-  labelLeft = false,
+  labelPlacement = "top",
   StatusIndicatorProps,
   validationState,
   necessityText,
@@ -73,7 +73,7 @@ export const FormLabel = ({
     className={cx(className, classBase, {
       [withBaseName("disabled")]: disabled,
       [withBaseName("readOnly")]: readOnly,
-      [withBaseName("labelLeft")]: labelLeft,
+      [withBaseName("labelLeft")]: labelPlacement === "left",
     })}
     {...restProps}
   >
