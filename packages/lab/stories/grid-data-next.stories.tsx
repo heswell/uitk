@@ -1,14 +1,6 @@
 import { Story } from "@storybook/react";
-import {
-  ColDefNext,
-  DataGrid,
-  DataGridModelOptions,
-  DataGridNext,
-  DataGridNextModel,
-  DataSetColumnDefinition,
-} from "../src";
+import { ColDefNext, DataGrid, DataGridNext } from "../src";
 import { Blotter, BlotterRecord, makeFakeBlotterRecord } from "./grid/blotter";
-import { useEffect, useMemo, useRef } from "react";
 
 export default {
   title: "Lab/Data Grid Next",
@@ -21,14 +13,6 @@ for (let i = 0; i < 100; ++i) {
   const record = makeFakeBlotterRecord();
   record.identifier = `${i}-${record.identifier}`;
   blotter.addRecord(record);
-  // for (let j = 0; j < 2; ++j) {
-  //   const subRecord = makeFakeBlotterRecord();
-  //   blotter.addRecord(subRecord, record);
-  //   for (let k = 0; k < 2; ++k) {
-  //     const subSubRecord = makeFakeBlotterRecord();
-  //     blotter.addRecord(subSubRecord, subRecord);
-  //   }
-  // }
 }
 
 const columnDefinitions: ColDefNext<BlotterRecord>[] = [
@@ -69,34 +53,16 @@ const columnDefinitions: ColDefNext<BlotterRecord>[] = [
   },
 ];
 
-const options: DataGridModelOptions<BlotterRecord> = {
-  rowKeyGetter: (rowData) => rowData.key,
-  data: [],
-  columnDefinitions: columnDefinitions,
-};
+const rowKeyGetter = (rowData: BlotterRecord) => rowData.key;
 
 const DataGridNextStoryTemplate: Story<{}> = () => {
-  const modelRef = useRef<DataGridNextModel>();
-
-  const dataGridModel = useMemo(() => {
-    const model = new DataGridNextModel(options);
-    model.setRowData(blotter.visibleRecords);
-    modelRef.current = model;
-    return model;
-  }, []);
-
-  const updateRows = () => {
-    setTimeout(() => {
-      modelRef.current!.setRowData(blotter.visibleRecords);
-      updateRows();
-    }, 500);
-  };
-
-  useEffect(() => {
-    updateRows();
-  }, []);
-
-  return <DataGridNext dataGridModel={dataGridModel} />;
+  return (
+    <DataGridNext
+      rowKeyGetter={rowKeyGetter}
+      data={blotter.visibleRecords}
+      columnDefinitions={columnDefinitions}
+    />
+  );
 };
 
 export const DataGridNextExample = DataGridNextStoryTemplate.bind({});

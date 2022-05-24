@@ -1,0 +1,7 @@
+.uitkDataGridTextColumnFilter {
+  margin-top: var(--uitk-spacing-unit);
+}
+
+.uitkDataGridTextColumnFilter-list {
+  z-index: 3;
+}

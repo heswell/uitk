@@ -1,7 +1,14 @@
 import { BehaviorSubject } from "rxjs";
-import { ColumnDefinition, createHook, GridModel, RowKeyGetter } from "../grid";
+import {
+  ColumnDefinition,
+  createHandler,
+  createHook,
+  GridModel,
+  RowKeyGetter,
+} from "../grid";
 import React from "react";
 import { TextCellValueNext } from "./TextCellValueNext";
+import { ColumnHeaderValueNext } from "./ColumnHeaderValueNext";
 
 export type ValueGetterFn<TRowData, TCellValue> = (
   rowNode: RowNode<TRowData>
@@ -10,6 +17,8 @@ export type RowKeyGetterFn<TRowData> = (rowData: TRowData) => string;
 export type HeaderValueGetterFn<TColumnData, THeaderValue = any> = (
   column: ColDefNext<TColumnData>
 ) => THeaderValue;
+
+export type ColFilterFn<TRowData> = (rowData: TRowData) => boolean;
 
 export interface ColDefNext<
   TRowData = any,
@@ -21,6 +30,7 @@ export interface ColDefNext<
   field: string;
   type: string;
   width?: number;
+  title?: string;
   data?: TColumnData;
   headerValueGetter?: HeaderValueGetterFn<TColumnData, THeaderValue>;
   headerComponent?: React.ComponentType<THeaderValue>;
@@ -97,18 +107,22 @@ export class DataGridNextModel<TRowData = any> {
   private readonly columnDefinitions$: BehaviorSubject<ColDefNext<TRowData>[]>;
   private readonly rows$: BehaviorSubject<RowNode<TRowData>[]>;
   private readonly columns$: BehaviorSubject<DataGridColumn[]>;
+
   public readonly gridModel: GridModel<RowNode<TRowData>>;
+  public readonly setRowData: (data: TRowData[]) => void;
+  public readonly setColumnDefs: (columnDefs: ColDefNext<TRowData>[]) => void;
 
   public constructor(options: DataGridModelOptions<TRowData>) {
     this.rowKeyGetter = options.rowKeyGetter;
     this.data$ = new BehaviorSubject<TRowData[]>(options.data || []);
+    this.setRowData = createHandler(this.data$);
     this.columnDefinitions$ = new BehaviorSubject<ColDefNext<TRowData>[]>(
       options.columnDefinitions || []
     );
+    this.setColumnDefs = createHandler(this.columnDefinitions$);
     this.rows$ = new BehaviorSubject<RowNode<TRowData>[]>([]); // TODO init
     this.columns$ = new BehaviorSubject<DataGridColumn[]>([]); // TODO
 
-    // TODO
     const getRowKey: RowKeyGetter<RowNode<TRowData>> = (row, index) => {
       return row ? row.key : `row_${index}`;
     };
@@ -117,8 +131,7 @@ export class DataGridNextModel<TRowData = any> {
 
     this.columnDefinitions$.subscribe((columnDefinitions) => {
       const columns = columnDefinitions.map((colDef, index) => {
-        const column = new DataGridColumn(colDef);
-        return column;
+        return new DataGridColumn(colDef);
       });
       this.columns$.next(columns);
     });
@@ -131,6 +144,8 @@ export class DataGridNextModel<TRowData = any> {
           cellValueComponent:
             column.definition.cellComponent || TextCellValueNext,
           data: column,
+          headerValueComponent:
+            column.definition.headerComponent || ColumnHeaderValueNext,
         };
         return columnDefinition;
       });
@@ -140,8 +155,7 @@ export class DataGridNextModel<TRowData = any> {
     this.data$.subscribe((data) => {
       const rows = data.map((rowData, index) => {
         const key = this.rowKeyGetter(rowData);
-        const row = new RowNode(key, rowData);
-        return row;
+        return new RowNode(key, rowData);
       });
       this.rows$.next(rows);
     });
@@ -149,78 +163,5 @@ export class DataGridNextModel<TRowData = any> {
     this.rows$.subscribe((rows) => {
       this.gridModel.setData(rows);
     });
-  }
-
-  // Mimicking ag-grid api
-  public getColumnDefs() {
-    return this.columnDefinitions$.getValue();
-  }
-
-  public setColumnDefs(columnDefs: ColDefNext<TRowData>[]) {
-    this.columnDefinitions$.next(columnDefs);
-  }
-
-  public setAutoGroupColumnDef() {
-    // TODO
-  }
-
-  public setDefaultColDef(colDef: ColDefNext<TRowData>) {
-    // TODO
-  }
-
-  public sizeColumnsToFit() {
-    // TODO
-  }
-
-  public getRowNode(key: string) {
-    // TODO
-  }
-
-  public forEachNode(fn: (node: RowNode<TRowData>, index: number) => void) {
-    // TODO
-  }
-
-  public forEachNodeAfterFilter() {
-    // TODO
-  }
-
-  public forEachNodeAfterFilterAndSort() {
-    // TODO
-  }
-
-  public forEachLeafNode() {
-    // TODO
-  }
-
-  public setRowData(rowData: TRowData[]) {
-    this.data$.next(rowData);
-  }
-
-  public ensureIndexVisible(index: number) {
-    // TODO
-  }
-
-  public ensureNodeVisible(key: string) {
-    // TODO
-  }
-
-  public ensureColumnVisible(key: string) {
-    // TODO
-  }
-
-  public selectAll() {
-    // TODO
-  }
-
-  public deselectAll() {
-    // TODO
-  }
-
-  public getSelectedRows() {
-    // TODO
-  }
-
-  public getSelectedNodes() {
-    // TODO
   }
 }

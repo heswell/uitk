@@ -6,10 +6,8 @@ import {
   ColumnGroupDefinition,
   createNumericColumn,
   createTextColumn,
-  DataGrid,
-  DataSetColumnDefinition,
   Grid,
-} from "@jpmorganchase/lab";
+} from "@jpmorganchase/uitk-lab";
 import { LazyGrid } from "./grid/lazy-loading/LazyGrid";
 
 export default {
