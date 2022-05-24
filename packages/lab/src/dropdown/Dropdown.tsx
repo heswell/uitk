@@ -32,7 +32,7 @@ import { useDropdown } from "./useDropdown";
 import "./Dropdown.css";
 import { useDropdownSelectionAriaAttributes } from "./internal/useDropdownSelectionAriaAttributes";
 import { Portal, PortalProps } from "../portal";
-import { useWindow } from "../window";
+import { useWindow, WindowProps } from "../window";
 import {
   flip,
   limitShift,
@@ -80,6 +80,10 @@ export interface DropdownProps<
    * Props to be applied on the list component
    */
   ListProps?: Partial<ListProps<Item, Variant>>;
+  /**
+   * Props to be applied on the window component
+   */
+  WindowProps?: Partial<WindowProps>;
   /**
    * Object that houses ADA-related props.
    *
@@ -196,6 +200,7 @@ export const Dropdown = forwardRef(function Dropdown<
     children,
     container,
     disablePortal,
+    WindowProps,
     ...restProps
   }: DropdownProps<Item, Variant>,
   ref: ForwardedRef<HTMLDivElement>
@@ -285,6 +290,7 @@ export const Dropdown = forwardRef(function Dropdown<
               maxHeight: maxListHeight ?? "",
             }}
             ref={floating}
+            {...WindowProps}
           >
             <ListStateContext.Provider value={listContext}>
               <ListBase<Item>

@@ -1,4 +1,4 @@
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, combineLatest, map, switchMap } from "rxjs";
 import {
   ColumnDefinition,
   createHandler,
@@ -9,6 +9,7 @@ import {
 import React from "react";
 import { TextCellValueNext } from "./TextCellValueNext";
 import { ColumnHeaderValueNext } from "./ColumnHeaderValueNext";
+import { ColumnMenuModel } from "./ColumnMenuModel";
 
 export type ValueGetterFn<TRowData, TCellValue> = (
   rowNode: RowNode<TRowData>
@@ -63,11 +64,13 @@ export class DataGridColumn<
     THeaderValue,
     TCellValue
   >;
+  public readonly menu: ColumnMenuModel;
 
   public constructor(
     definition: ColDefNext<TRowData, TColumnData, THeaderValue, TCellValue>
   ) {
     this.definition = definition;
+    this.menu = new ColumnMenuModel();
   }
 }
 
@@ -101,12 +104,17 @@ export interface DataGridModelOptions<TRowData> {
   events?: DataGridModelEvents<TRowData>;
 }
 
+export type FilterFn<TRowData> = (rowData: TRowData) => boolean;
+
 export class DataGridNextModel<TRowData = any> {
   private readonly rowKeyGetter: RowKeyGetterFn<TRowData>;
   private readonly data$: BehaviorSubject<TRowData[]>;
   private readonly columnDefinitions$: BehaviorSubject<ColDefNext<TRowData>[]>;
   private readonly rows$: BehaviorSubject<RowNode<TRowData>[]>;
+  private readonly filteredRows$: BehaviorSubject<RowNode<TRowData>[]>;
   private readonly columns$: BehaviorSubject<DataGridColumn[]>;
+
+  private readonly filterFn$: BehaviorSubject<FilterFn<TRowData> | undefined>;
 
   public readonly gridModel: GridModel<RowNode<TRowData>>;
   public readonly setRowData: (data: TRowData[]) => void;
@@ -121,6 +129,7 @@ export class DataGridNextModel<TRowData = any> {
     );
     this.setColumnDefs = createHandler(this.columnDefinitions$);
     this.rows$ = new BehaviorSubject<RowNode<TRowData>[]>([]); // TODO init
+    this.filteredRows$ = new BehaviorSubject<RowNode<TRowData>[]>([]);
     this.columns$ = new BehaviorSubject<DataGridColumn[]>([]); // TODO
 
     const getRowKey: RowKeyGetter<RowNode<TRowData>> = (row, index) => {
@@ -152,16 +161,81 @@ export class DataGridNextModel<TRowData = any> {
       this.gridModel.setColumnDefinitions(gridColumnDefinitions);
     });
 
+    this.filterFn$ = new BehaviorSubject<FilterFn<TRowData> | undefined>(
+      undefined
+    );
+
+    this.columns$
+      .pipe(
+        map((columns) => {
+          const filterStreams = columns.map((column) =>
+            column.menu.filter.filterFn$.pipe(
+              map((fn) => {
+                if (fn === undefined) {
+                  return undefined;
+                }
+                return (rowData: TRowData) => {
+                  const cellValue = String(
+                    rowData[column.definition.field as keyof TRowData]
+                  );
+                  return fn(cellValue);
+                };
+              })
+            )
+          );
+          return combineLatest(filterStreams);
+        }),
+        switchMap((filters) => filters),
+        map((filters) => {
+          const columnFilters: FilterFn<TRowData>[] = filters.filter(
+            (x) => x != undefined
+          ) as FilterFn<TRowData>[];
+
+          if (columnFilters.length < 1) {
+            return undefined;
+          }
+
+          return (rowData: TRowData) => {
+            return columnFilters.every((f) => f!(rowData));
+          };
+        })
+      )
+      .subscribe(this.filterFn$);
+
     this.data$.subscribe((data) => {
       const rows = data.map((rowData, index) => {
         const key = this.rowKeyGetter(rowData);
         return new RowNode(key, rowData);
       });
+      const filterFn = this.filterFn$.getValue();
+      const filteredRows =
+        filterFn != undefined
+          ? rows.filter((rowNode) => {
+              return filterFn(rowNode.data$.getValue());
+            })
+          : rows;
+
       this.rows$.next(rows);
+      this.filteredRows$.next(filteredRows);
     });
 
-    this.rows$.subscribe((rows) => {
-      this.gridModel.setData(rows);
+    this.filterFn$.subscribe((filterFn) => {
+      const rows = this.rows$.getValue();
+      const filteredRows =
+        filterFn != undefined
+          ? rows.filter((rowNode) => {
+              return filterFn(rowNode.data$.getValue());
+            })
+          : rows;
+      this.filteredRows$.next(filteredRows);
+    });
+
+    // this.rows$.subscribe((rows) => {
+    //   this.gridModel.setData(rows);
+    // });
+
+    this.filteredRows$.subscribe((filteredRows) => {
+      this.gridModel.setData(filteredRows);
     });
   }
 }

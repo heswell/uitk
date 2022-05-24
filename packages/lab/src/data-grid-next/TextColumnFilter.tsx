@@ -1,44 +1,12 @@
-import { BehaviorSubject } from "rxjs";
 import { Dropdown } from "../dropdown";
-import { createHandler, createHook } from "../grid";
 import "./TextColumnFilter.css";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import { Input } from "../input";
 import { FlexLayout } from "../layout";
-import { RadioButton, RadioButtonGroup } from "../radio-button";
+import { FormField } from "../form-field";
+import { TextColumnFilterModel } from "./TextColumnFilterModel";
 
 const withBaseName = makePrefixer("uitkDataGridTextColumnFilter");
-
-export class TextColumnFilterModel {
-  public readonly operations: string[] = [
-    "Contains",
-    "Not Contains",
-    "Equals",
-    "Not Equal",
-    "Starts With",
-    "Ends With",
-    "Blank",
-    "Not Blank",
-  ];
-
-  public readonly operation$: BehaviorSubject<string>;
-  public readonly useOperation: () => string;
-  public readonly setOperation: (operation: string) => void;
-
-  public readonly query$: BehaviorSubject<string>;
-  public readonly useQuery: () => string;
-  public readonly setQuery: (query: string) => void;
-
-  constructor() {
-    this.operation$ = new BehaviorSubject("Contains");
-    this.useOperation = createHook(this.operation$);
-    this.setOperation = createHandler(this.operation$);
-
-    this.query$ = new BehaviorSubject("");
-    this.useQuery = createHook(this.query$);
-    this.setQuery = createHandler(this.query$);
-  }
-}
 
 export interface TextColumnFilterProps {
   model: TextColumnFilterModel;
@@ -66,14 +34,17 @@ export const TextColumnFilter = function TextColumnFilter(
           source={operations}
           onChange={onOperationChange}
           selectedItem={selectedOperation}
-          // isOpen={true}
-          // ListProps={{ className: withBaseName("list") }}
+          WindowProps={{
+            className: withBaseName("window"),
+          }}
         />
-        <Input
-          placeholder="Filter query"
-          value={query}
-          onChange={onQueryChange}
-        />
+        <FormField>
+          <Input
+            placeholder="Filter query"
+            value={query}
+            onChange={onQueryChange}
+          />
+        </FormField>
         {/*<RadioButtonGroup row={true} defaultValue="and">*/}
         {/*  <RadioButton key="and" label="And" value="and" />*/}
         {/*  <RadioButton key="or" label="Or" value="or" />*/}
