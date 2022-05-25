@@ -17,6 +17,7 @@
 .uitkPill {
   --pill-background: var(--uitkPill-background, var(--uitk-taggable-background));
   --pill-background-active: var(--uitkPill-background-active, var(--uitk-taggable-background-active));
+  --pill-background-disabled: var(--uitkPill-background-disabled, var(--uitk-taggable-background-disabled));
   --pill-background-hover: var(--uitkPill-background-hover, var(--uitk-taggable-background));
 
   --pill-checkbox-size: var(--uitkPill-checkbox-size, calc(var(--uitk-size-pill) - 2px));
@@ -93,11 +94,24 @@
   padding-right: var(--uitkPill-label-padding-right, calc(var(--uitk-size-unit) * 0.75));
 }
 
+.uitkPill:not(.uitkPill-disabled):hover:not(:active) {
+  background: var(--pill-background-hover);
+  color: var(--pill-text-color-hover);
+  cursor: var(--uitk-selectable-cursor-hover);
+}
+
+.uitkPill:not(.uitkPill-disabled):active,
+.uitkPill:not(.uitkPill-disabled).uitkPill-active {
+  background: var(--pill-background-active);
+  color: var(--pill-text-color-active);
+  cursor: var(--uitk-selectable-cursor-active);
+}
+
 .uitkPill-disabled {
   --uitkButton-background-hover: var(--uitk-taggable-background-disabled);
   --uitkButton-background-active: var(--uitk-taggable-background-disabled);
 
-  background: var(--uitkPill-background-disabled, var(--uitk-taggable-background-disabled));
+  background: var(--pill-background-disabled);
   cursor: var(--uitk-selectable-cursor-disabled);
 }
 
@@ -108,19 +122,6 @@
 
   --uitkIcon-color: var(--pill-icon-color);
   --uitkIcon-color-hover: var(--pill-icon-color);
-}
-
-.uitkPill:hover:not(:active) {
-  background: var(--pill-background-hover);
-  color: var(--pill-text-color-hover);
-  cursor: var(--uitk-selectable-cursor-hover);
-}
-
-.uitkPill:active,
-.uitkPill.uitkPill-active {
-  background: var(--pill-background-active);
-  color: var(--pill-text-color-active);
-  cursor: var(--uitk-selectable-cursor-active);
 }
 
 .uitkPill-noShadow:active {
