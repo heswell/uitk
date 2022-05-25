@@ -167,6 +167,10 @@
   width: 100%;
 }
 
+.uitkFormField-withHelperText {
+  --uitkFormFieldHelperText-line-height: var(--uitk-typography-line-height);
+}
+
 .uitkFormField-labelLeft.uitkFormField-focused {
   outline: none;
 }

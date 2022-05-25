@@ -318,16 +318,16 @@ export const FormField = forwardRef(
                   hasIcon={!hasStatusIndicator}
                   validationState={validationState}
                 />
+                {renderHelperText && (
+                  <HelperTextComponent
+                    helperText={helperText}
+                    helperTextPlacement={helperTextPlacement}
+                    {...HelperTextProps}
+                    id={helperTextId}
+                  />
+                )}
               </div>
             </div>
-            {renderHelperText && (
-              <HelperTextComponent
-                helperText={helperText}
-                helperTextPlacement={helperTextPlacement}
-                {...HelperTextProps}
-                id={helperTextId}
-              />
-            )}
           </FormFieldContext.Provider>
         </div>
         <Tooltip {...getTooltipProps({ title: helperText })} />
