@@ -1,5 +1,5 @@
 .uitkPill-checkbox {
-  --pill-checkbox-stroke: var(--uitkPill-checkbox-stroke, var(--uitk-taggable-stroke));
+  --pill-checkbox-stroke: var(--uitkPill-checkbox-stroke, var(--uitk-selectable-border-color));
   --pill-checkbox-tick: var(--uitkPill-checkbox-tick, var(--uitk-taggable-foreground));
 }
 
@@ -16,13 +16,13 @@
 }
 
 .uitkPill-checkbox-icon-checked:hover {
-  stroke: var(--uitkPill-checkbox-strok-hovere, var(--uitk-taggable-stroke-hover));
+  stroke: var(--uitkPill-checkbox-strok-hovere, var(--uitk-selectable-border-colro-hover));
 }
 
 .uitkPill:active .uitkPill-checkbox-icon-checked,
 .uitkPill.uitkPill-active .uitkPill-checkbox-icon-checked,
 .uitkPill-checkbox-icon-checked:active {
-  stroke: var(--uitkPill-checkbox-strok-hovere, var(--uitk-taggable-stroke-active));
+  stroke: var(--uitkPill-checkbox-strok-hovere, var(--uitk-selectable-border-color-active));
 }
 
 .uitkPill-checkbox-icon-checked-tick {
@@ -32,7 +32,7 @@
 
 .uitkPill-disabled .uitkPill-checkbox,
 .uitkPill-disabled .uitkPill-checkbox-icon {
-  stroke: var(--uitkPill-checkbox-stroke-disabled, var(--uitk-taggable-stroke-disabled));
+  stroke: var(--uitkPill-checkbox-stroke-disabled, var(--uitk-selectable-border-color-disabled));
 }
 
 .uitkPill-disabled .uitkPill-checkbox-icon-checked-tick {
