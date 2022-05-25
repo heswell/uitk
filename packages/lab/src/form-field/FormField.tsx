@@ -238,7 +238,9 @@ export const FormField = forwardRef(
     const labelLeft = labelPlacement === "left";
     const isWarning = validationState === "warning";
     const isError = validationState === "error";
-    const focusClass = disableFocusRing ? "lowFocused" : "focused";
+    const focusClass = disableFocusRing
+      ? "lowFocused"
+      : "focused"; /* Low emphasis will override this */
     const inlineHelperText =
       renderHelperText && helperTextPlacement === "bottom";
     const tooltipHelperText =
@@ -298,7 +300,7 @@ export const FormField = forwardRef(
                   StatusIndicatorProps={StatusIndicatorProps}
                   className={LabelProps.className}
                   label={label}
-                  labelPlacement={labelPlacement}
+                  labelLeft={labelLeft}
                   disabled={disabled}
                   readOnly={readOnly}
                   required={required}

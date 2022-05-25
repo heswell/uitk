@@ -13,15 +13,15 @@
 }
 
 .uitkFormActivationIndicator {
-  border-color: var(--uitkFormActivationIndicator-border-color, var(--uitk-editable-border-color));
-  border-bottom-width: var(--uitkFormActivationIndicator-size, var(--uitk-editable-border-width));
-  border-bottom-style: var(--uitkFormActivationIndicator-border-bottom-style, var(--uitk-editable-border-style));
+  border-color: var(--uitkFormActivationIndicator-color, var(--uitk-editable-border-color));
+  border-bottom-width: var(--uitkFormActivationIndicator-width, var(--uitk-editable-border-width));
+  border-bottom-style: var(--uitkFormActivationIndicator-style, var(--uitk-editable-border-style));
   height: auto;
   opacity: var(--uitkFormActivationIndicator-opacity, 1);
   width: 100%;
 
   /* We don't want the activation indicator to increase height of it's container */
-  bottom: calc(var(--uitkFormFieldHelperText-line-height, var(--uitk-typography-line-height)) + 3px);
+  bottom: var(--uitkFormFieldHelperText-line-height, 0px);
   position: var(--uitkFormActivationIndicator-position, absolute);
 }
 

@@ -33,18 +33,26 @@
 
 /* Class applied to the root element on hover
   Setting Activation Indicator API */
-.uitkFormField:hover {
-  --uitkFormActivationIndicator-border-color: var(--uitk-editable-border-color-hover);
+.uitkFormField:not(.uitkFormField-readOnly):not(.uitkFormField-disabled):hover {
+  --uitkFormActivationIndicator-color: var(--uitk-editable-border-color-hover);
   --uitkFormActivationIndicator-icon-color: var(--uitk-editable-border-color-hover);
+  --uitkFormActivationIndicator-width: var(--uitk-editable-border-width-hover);
+}
+
+.uitkFormField-focused,
+.uitkFormField-lowFocused {
+  --uitkFormActivationIndicator-color: var(--uitk-editable-border-color-active);
+  --uitkFormActivationIndicator-icon-color: var(--uitk-editable-border-color-active);
+  --uitkFormActivationIndicator-width: var(--uitk-editable-border-width-active);
 }
 
 /* Class applied to the root element on focus 
    Setting Activation Indicator API */
-.uitkFormField-focused,
-.uitkFormField-lowFocused {
-  --uitkFormActivationIndicator-border-color: var(--uitk-editable-border-color-active);
-  --uitkFormActivationIndicator-icon-color: var(--uitk-editable-border-color-active);
-  --uitkFormActivationIndicator-size: var(--uitk-editable-border-width-active);
+.uitkFormField:not(.uitkEmphasisLow) .uitkFormField-focused {
+  outline-color: var(--form-field-focus-outline-color);
+  outline-style: var(--form-field-focus-outline-style);
+  outline-width: var(--form-field-focus-outline-width);
+  outline-offset: var(--form-field-focus-outline-offset);
 }
 
 /* Class applied to the root element if `disabled={true}` */
@@ -60,37 +68,41 @@
 }
 
 /* Class applied to the root element on warning state */
-.uitkFormField .uitkFormField-warning {
-  --form-field-focus-outline-color: var(--uitkFormField-focus-outline-color-warning, var(--uitk-status-warning-color));
+.uitkFormField-warning,
+.uitkFormField-warning .uitkFormField-focused,
+.uitkFormField-warning .uitkFormField-lowFocused {
+  --form-field-focus-outline-color: var(--uitkFormField-focus-outline-color-warning, var(--uitk-status-warning-border-color));
 
   /* Setting Activation Indicator API */
-  --uitkFormActivationIndicator-border-color: var(--uitk-status-warning-color);
-  --uitkFormActivationIndicator-icon-color: var(--uitk-status-warning-color);
+  --uitkFormActivationIndicator-color: var(--uitk-status-warning-foreground);
+  --uitkFormActivationIndicator-icon-color: var(--uitk-status-warning-foreground);
 }
 
 /* Class applied to the root element on error state */
-.uitkFormField .uitkFormField-error {
-  --form-field-focus-outline-color: var(--uitkFormField-focus-outline-color-error, var(--uitk-status-error-color));
+.uitkFormField-error,
+.uitkFormField-error .uitkFormField-focused,
+.uitkFormField-error .uitkFormField-lowFocused {
+  --form-field-focus-outline-color: var(--uitkFormField-focus-outline-color-error, var(--uitk-status-error-border-color));
 
   /* Setting Activation Indicator API */
-  --uitkFormActivationIndicator-border-color: var(--uitk-status-error-color);
-  --uitkFormActivationIndicator-icon-color: var(--uitk-status-error-color);
+  --uitkFormActivationIndicator-color: var(--uitk-status-error-foreground);
+  --uitkFormActivationIndicator-icon-color: var(--uitk-status-error-foreground);
 }
 
 /* As above when `uitkEmphasisHigh` className passed */
-.uitkEmphasisHigh.uitkFormField-error {
+.uitkEmphasisHigh .uitkFormField-error {
   --form-field-background: var(--uitkFormField-background-error-high, var(--uitk-status-error-background-high));
 }
 
-.uitkEmphasisHigh.uitkFormField-warning {
+.uitkEmphasisHigh .uitkFormField-warning {
   --form-field-background: var(--uitkFormField-background-warning-high, var(--uitk-status-warning-background-high));
 }
 
 /* Class applied to the root element if `labelPlacement="left"` */
 .uitkFormField-labelLeft {
-  --uitkFormLabel-margin-top: var(--uitk-size-unit);
-  --uitkFormLabel-padding-right: calc(0.75 * var(--uitk-size-unit));
-  --uitkFormLabel-padding-left: 0px;
+  --form-label-margin-top: var(--uitk-size-unit);
+  --form-label-padding-right: calc(0.75 * var(--uitk-size-unit));
+  --form-label-padding-left: 0px;
 }
 
 .uitkFormField-labelLeft .uitkFormField-controlWrapper {
@@ -99,9 +111,14 @@
 
 .uitkFormField-controlContainer {
   height: fit-content;
+  position: relative;
 }
 
-.uitkFormField-controlWrapper {
+.uitkFormField:not(.uitkFormField-labelLeft) .uitkFormField-controlWrapper {
+  background: var(--uitkFormField-background, var(--form-field-background));
+}
+
+.uitkFormField-labelLeft .uitkFormField-controlContainer {
   background: var(--uitkFormField-background, var(--form-field-background));
 }
 
@@ -119,9 +136,9 @@
 }
 
 .uitkFormField-labelTop {
-  --form-field-label-root-padding-left: var(--uitk-size-unit);
-  --form-field-label-root-padding-right: var(--uitk-size-unit);
-  --form-field-label-margin-top: 0;
+  --form-label-margin-top: 0;
+  --form-label-padding-left: var(--uitk-size-unit);
+  --form-label-padding-right: var(--uitk-size-unit);
 }
 
 .uitkFormField > * {
@@ -150,14 +167,6 @@
   width: 100%;
 }
 
-/* Class applied to the root element when control has focus` */
-.uitkFormField-focused {
-  outline-color: var(--form-field-focus-outline-color);
-  outline-style: var(--form-field-focus-outline-style);
-  outline-width: var(--form-field-focus-outline-width);
-  outline-offset: var(--form-field-focus-outline-offset);
-}
-
 .uitkFormField-labelLeft.uitkFormField-focused {
   outline: none;
 }
@@ -183,12 +192,11 @@
 
 /* Class applied to the root element if `readonly={true}` */
 .uitkFormField-readOnly {
+  --uitkFormActivationIndicator-color: var(--uitk-editable-border-color-readonly);
+  --uitkFormActivationIndicator-border-width: var(--uitk-editable-border-width-readonly);
 }
 
-/* Class applied to the root element if `validationState="error"` */
-.uitkFormField-error {
-}
-
-/* Class applied to the root element if `validationState="warning"` */
-.uitkFormField-warning {
+.uitkFormField-readOnly .uitkFormField-focused {
+  --uitkFormActivationIndicator-color: var(--uitk-editable-border-color-readonly);
+  --uitkFormActivationIndicator-border-width: var(--uitk-editable-border-width-active);
 }
