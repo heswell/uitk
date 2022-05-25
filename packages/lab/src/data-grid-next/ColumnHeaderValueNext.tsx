@@ -2,7 +2,7 @@ import { HeaderValueProps } from "../grid";
 import { DataGridColumn } from "./DataGridNextModel";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./ColumnHeaderValueNext.css";
-import { ColumnMenu } from "./ColumnMenu";
+import { ColumnMenu } from "./column-menu/ColumnMenu";
 import { FilterIcon } from "../../../icons";
 
 const withBasename = makePrefixer("uitkColumnHeaderValueNext");

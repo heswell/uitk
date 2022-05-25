@@ -1,16 +1,17 @@
 import { makePrefixer } from "@jpmorganchase/uitk-core";
 import "./ColumnMenu.css";
-import { MenuIcon } from "../../../icons";
+import { MenuIcon } from "@jpmorganchase/uitk-icons";
 import { useRef, useState } from "react";
-import { Portal } from "../portal";
-import { useWindow } from "../window";
-import { useId } from "../utils";
-import { useFloatingUI } from "../popper";
+import { Portal } from "../../portal";
+import { useWindow } from "../../window";
+import { useId } from "../../utils";
+import { useFloatingUI } from "../../popper";
 import { flip, limitShift, shift } from "@floating-ui/react-dom-interactions";
-import { Tab, Tabstrip } from "../tabs";
-import { Card } from "../card";
+import { Tab, Tabstrip } from "../../tabs";
+import { Card } from "../../card";
 import { TextColumnFilter } from "./TextColumnFilter";
 import { ColumnMenuModel } from "./ColumnMenuModel";
+import { ColumnSettings } from "./ColumnSettings";
 
 const withBaseName = makePrefixer("uitkDataGridColumnMenu");
 
@@ -74,7 +75,9 @@ export const ColumnMenu = function ColumnMenu(props: ColumnMenuProps) {
                 <Tab label={"Filter"} />
                 <Tab label={"search"} />
               </Tabstrip>
-              {selectedTab === 0 ? <div>Content for Menu</div> : null}
+              {selectedTab === 0 ? (
+                <ColumnSettings model={model.settings} />
+              ) : null}
               {selectedTab === 1 ? (
                 <TextColumnFilter model={model.filter} />
               ) : null}

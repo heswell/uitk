@@ -1,9 +1,9 @@
-import { Dropdown } from "../dropdown";
+import { Dropdown } from "../../dropdown";
 import "./TextColumnFilter.css";
 import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { Input } from "../input";
-import { FlexLayout } from "../layout";
-import { FormField } from "../form-field";
+import { Input } from "../../input";
+import { FlexLayout } from "../../layout";
+import { FormField } from "../../form-field";
 import { TextColumnFilterModel } from "./TextColumnFilterModel";
 
 const withBaseName = makePrefixer("uitkDataGridTextColumnFilter");

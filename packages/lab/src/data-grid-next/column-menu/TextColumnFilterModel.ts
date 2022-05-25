@@ -4,7 +4,7 @@ import {
   distinctUntilChanged,
   map,
 } from "rxjs";
-import { createHandler, createHook } from "../grid";
+import { createHandler, createHook } from "../../grid";
 
 export type TextFilterFn = (value: string | undefined) => boolean;
 

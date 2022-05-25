@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { TextCellValueNext } from "./TextCellValueNext";
 import { ColumnHeaderValueNext } from "./ColumnHeaderValueNext";
-import { ColumnMenuModel } from "./ColumnMenuModel";
+import { ColumnMenuModel } from "./column-menu/ColumnMenuModel";
 
 export type ValueGetterFn<TRowData, TCellValue> = (
   rowNode: RowNode<TRowData>
@@ -145,21 +145,51 @@ export class DataGridNextModel<TRowData = any> {
       this.columns$.next(columns);
     });
 
-    this.columns$.subscribe((columns) => {
-      const gridColumnDefinitions = columns.map((column) => {
-        const columnDefinition: ColumnDefinition<RowNode<TRowData>> = {
-          key: column.definition.key,
-          title: column.definition.field,
-          cellValueComponent:
-            column.definition.cellComponent || TextCellValueNext,
-          data: column,
-          headerValueComponent:
-            column.definition.headerComponent || ColumnHeaderValueNext,
-        };
-        return columnDefinition;
+    // this.columns$.subscribe((columns) => {
+    //   const gridColumnDefinitions = columns.map((column) => {
+    //     const columnDefinition: ColumnDefinition<RowNode<TRowData>> = {
+    //       key: column.definition.key,
+    //       title: column.definition.field,
+    //       cellValueComponent:
+    //         column.definition.cellComponent || TextCellValueNext,
+    //       data: column,
+    //       headerValueComponent:
+    //         column.definition.headerComponent || ColumnHeaderValueNext,
+    //     };
+    //     return columnDefinition;
+    //   });
+    //   this.gridModel.setColumnDefinitions(gridColumnDefinitions);
+    // });
+
+    this.columns$
+      .pipe(
+        map((columns) => {
+          const pinStreams = columns.map((column) =>
+            column.menu.settings.pinned$.pipe(map((pin) => ({ pin, column })))
+          );
+          return combineLatest(pinStreams);
+        }),
+        switchMap((pins) => pins)
+      )
+      .subscribe((pins) => {
+        const gridColumnDefinitions = pins.map(({ column, pin }) => {
+          const columnDefinition: ColumnDefinition<RowNode<TRowData>> = {
+            key: column.definition.key,
+            title: column.definition.field,
+            cellValueComponent:
+              column.definition.cellComponent || TextCellValueNext,
+            data: column,
+            headerValueComponent:
+              column.definition.headerComponent || ColumnHeaderValueNext,
+            pinned: pin,
+          };
+          console.log(
+            `Created column definition. key: ${column.definition.key}; pinned: ${pin}`
+          );
+          return columnDefinition;
+        });
+        this.gridModel.setColumnDefinitions(gridColumnDefinitions);
       });
-      this.gridModel.setColumnDefinitions(gridColumnDefinitions);
-    });
 
     this.filterFn$ = new BehaviorSubject<FilterFn<TRowData> | undefined>(
       undefined
