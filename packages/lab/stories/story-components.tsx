@@ -1,5 +1,5 @@
 import { FC, CSSProperties, useRef, useState, useReducer } from "react";
-import { Button, Input, InputProps } from "@jpmorganchase/uitk-core";
+import { Button, Input, InputProps } from "@heswell/uitk-core";
 
 export interface AdjustableFlexboxProps {
   containerWidth?: number | string;

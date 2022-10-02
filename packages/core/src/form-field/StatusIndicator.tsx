@@ -1,4 +1,4 @@
-import { IconProps } from "@jpmorganchase/uitk-icons";
+import { IconProps } from "@heswell/uitk-icons";
 import cx from "classnames";
 import { ElementType } from "react";
 import { StatusIcon } from "../status-icon";

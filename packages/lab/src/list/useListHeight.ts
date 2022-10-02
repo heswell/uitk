@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback, RefObject } from "react";
-import { useResizeObserver, HeightOnly } from "@jpmorganchase/uitk-core";
+import { useResizeObserver, HeightOnly } from "@heswell/uitk-core";
 
 export interface ListHeightHookProps {
   borderless?: boolean;

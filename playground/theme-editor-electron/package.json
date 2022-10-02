@@ -86,8 +86,8 @@
     "ts-loader": "^9.2.2"
   },
   "dependencies": {
-    "@jpmorganchase/theme-editor": ">=1.0.0",
-    "@jpmorganchase/theme-editor-app": ">=0.1.0",
+    "@heswell/theme-editor": ">=1.0.0",
+    "@heswell/theme-editor-app": ">=0.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"

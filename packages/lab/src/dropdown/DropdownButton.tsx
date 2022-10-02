@@ -3,8 +3,8 @@ import {
   DivButtonProps,
   makePrefixer,
   useFormFieldProps,
-} from "@jpmorganchase/uitk-core";
-import { ChevronDownIcon, IconProps } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { ChevronDownIcon, IconProps } from "@heswell/uitk-icons";
 import classnames from "classnames";
 import { AriaAttributes, ComponentType, ForwardedRef, forwardRef } from "react";
 

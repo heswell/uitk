@@ -5,13 +5,13 @@ import {
   Pill,
   SplitLayout,
   Switch,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ChevronLeftIcon,
   MessageIcon,
   NotificationIcon,
   SettingsIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import {
   AppHeader,
   Badge,
@@ -20,7 +20,7 @@ import {
   Tab,
   Tabstrip,
   Tooltray,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import cx from "classnames";
 import { ChangeEvent, useState } from "react";

@@ -1,4 +1,4 @@
-import { makePrefixer, ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { makePrefixer, ToolkitProvider } from "@heswell/uitk-core";
 import cx from "classnames";
 import {
   Children,

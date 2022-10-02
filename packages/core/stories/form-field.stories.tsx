@@ -3,8 +3,8 @@ import {
   FormFieldProps,
   Input,
   ToolkitProvider,
-} from "@jpmorganchase/uitk-core";
-import { Dropdown } from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-core";
+import { Dropdown } from "@heswell/uitk-lab";
 import { useState } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { usStateExampleData } from "./exampleData";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { Color } from "./Color";
 import { isTransparent } from "./color-utils";
 

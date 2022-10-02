@@ -1,4 +1,4 @@
-import { IconProps } from "@jpmorganchase/uitk-icons";
+import { IconProps } from "@heswell/uitk-icons";
 import cn from "classnames";
 import {
   ComponentProps,

@@ -1,16 +1,11 @@
 import { CSSProperties } from "react";
-import {
-  Card,
-  GridLayout,
-  GridItem,
-  FlowLayout,
-} from "@jpmorganchase/uitk-core";
+import { Card, GridLayout, GridItem, FlowLayout } from "@heswell/uitk-core";
 import {
   ToolkitProvider,
   FlexLayout,
   FlexItem,
   Pill,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import "./styles.css";
 

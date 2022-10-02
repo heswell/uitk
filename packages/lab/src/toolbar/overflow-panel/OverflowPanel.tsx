@@ -3,8 +3,8 @@ import {
   makePrefixer,
   useControlled,
   useIdMemo as useId,
-} from "@jpmorganchase/uitk-core";
-import { OverflowMenuIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { OverflowMenuIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import React, {
   ForwardedRef,

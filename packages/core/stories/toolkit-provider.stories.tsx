@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Card, Density, ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { Card, Density, ToolkitProvider } from "@heswell/uitk-core";
 import {
   ToggleButton,
   ToggleButtonGroup,
   ToggleButtonGroupChangeEventHandler,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 import "docs/story.css";
 

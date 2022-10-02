@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ToolkitProvider, useDensity } from "@jpmorganchase/uitk-core";
+import { ToolkitProvider, useDensity } from "@heswell/uitk-core";
 import {
   ButtonBar,
   Dialog,
@@ -8,7 +8,7 @@ import {
   DialogProps,
   DialogTitle,
   OrderedButton,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { ComponentStory, ComponentMeta, Story } from "@storybook/react";
 import { QAContainer } from "docs/components";
 import "./dialog.qa.stories.css";

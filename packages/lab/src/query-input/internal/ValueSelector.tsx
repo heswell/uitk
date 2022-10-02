@@ -5,7 +5,7 @@ import {
   useForkRef,
   useIsomorphicLayoutEffect,
   useWindow,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { Dispatch, FC, Ref, SetStateAction, useMemo } from "react";
 import { QueryInputCategory, QueryInputItem } from "../queryInputTypes";
 import { CategoryList } from "./CategoryList";

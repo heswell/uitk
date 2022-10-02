@@ -1,5 +1,5 @@
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import "./CollapsibleToolbarItem.css";
 
 const withBaseName = makePrefixer("CollapsibleToolbarItem");

@@ -7,6 +7,21 @@
     "**/*.css",
     "**/*.css.js"
   ],
+  "dependencies": {
+    "@floating-ui/react-dom-interactions": "^0.5.0",
+    "@heswell/uitk-core": "0.5.0",
+    "@heswell/uitk-icons": "0.4.0",
+    "@internationalized/date": "^3.0.0",
+    "attr-accept": "^2.0.0",
+    "clipboard-copy": "^4.0.1",
+    "compute-scroll-into-view": "^1.0.16",
+    "deepmerge": "^4.2.2",
+    "react-color": "^2.19.3",
+    "react-window": "^1.8.6",
+    "rifm": "^0.12.0",
+    "tinycolor2": "^1.4.2",
+    "warning": "^4.0.3"
+  },
   "peerDependencies": {
     "@types/react": ">=16.8.6",
     "react": ">=16.8.0",
@@ -18,6 +33,6 @@
     }
   },
   "publishConfig": {
-    "directory": "../../dist/jpmorganchase-uitk-lab"
+    "directory": "../../dist/heswell-uitk-lab"
   }
 }

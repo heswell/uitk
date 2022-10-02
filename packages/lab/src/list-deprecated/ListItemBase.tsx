@@ -3,7 +3,7 @@ import {
   useForkRef,
   useTooltip,
   useTooltipContext,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import cn from "classnames";
 import {
   ForwardedRef,

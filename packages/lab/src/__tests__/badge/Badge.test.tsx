@@ -1,7 +1,7 @@
 import { screen, render } from "@testing-library/react";
 
 import { Badge } from "../../badge";
-import { ClockIcon } from "@jpmorganchase/uitk-icons";
+import { ClockIcon } from "@heswell/uitk-icons";
 
 describe("GIVEN a Badge", () => {
   it("THEN can render a Badge with badge number larger than max", () => {

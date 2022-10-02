@@ -7,8 +7,8 @@
  */
 
 import { SyntheticEvent, useState } from "react";
-import { Pill, ToolkitProvider } from "@jpmorganchase/uitk-core";
-import { FavoriteIcon } from "@jpmorganchase/uitk-icons";
+import { Pill, ToolkitProvider } from "@heswell/uitk-core";
+import { FavoriteIcon } from "@heswell/uitk-icons";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {

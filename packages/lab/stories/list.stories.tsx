@@ -18,8 +18,8 @@ import {
   FormField,
   useDensity,
   StackLayout,
-} from "@jpmorganchase/uitk-core";
-import { ArrowDownIcon, ArrowUpIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { ArrowDownIcon, ArrowUpIcon } from "@heswell/uitk-icons";
 
 import {
   ContentStatus,
@@ -31,7 +31,7 @@ import {
   ListItemProps,
   ListScrollHandles,
   VirtualizedList,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { SelectionChangeHandler, SelectHandler } from "../src/common-hooks";
 
 import {

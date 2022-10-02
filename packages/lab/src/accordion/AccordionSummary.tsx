@@ -6,8 +6,8 @@ import {
   useCallback,
 } from "react";
 import cn from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { ChevronRightIcon } from "@jpmorganchase/uitk-icons";
+import { makePrefixer } from "@heswell/uitk-core";
+import { ChevronRightIcon } from "@heswell/uitk-icons";
 import { useAccordionSectionContext } from "./AccordionSectionContext";
 import "./Accordion.css";
 

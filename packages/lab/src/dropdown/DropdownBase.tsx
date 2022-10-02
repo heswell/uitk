@@ -12,7 +12,7 @@ import {
   useForkRef,
   useIdMemo as useId,
   useWindow,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import cx from "classnames";
 import { Children, cloneElement, forwardRef, useRef, useState } from "react";
 import { forwardCallbackProps } from "../utils";

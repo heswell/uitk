@@ -6,15 +6,15 @@ import {
   Input,
   StaticInputAdornment,
   ToolkitProvider,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   CalendarIcon,
   CallIcon,
   CloseIcon,
   SendIcon,
   UserIcon,
-} from "@jpmorganchase/uitk-icons";
-import { Dropdown } from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-icons";
+import { Dropdown } from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import "./input.qa.stories.css";
 

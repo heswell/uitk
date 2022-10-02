@@ -1,9 +1,9 @@
-import { FormField, Panel, ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { FormField, Panel, ToolkitProvider } from "@heswell/uitk-core";
 import {
   ColumnLayoutContainer,
   ColumnLayoutItem,
-} from "@jpmorganchase/uitk-core/stories";
-import { StepperInput } from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-core/stories";
+import { StepperInput } from "@heswell/uitk-lab";
 import { ComponentMeta, Story } from "@storybook/react";
 import { FC, ReactNode, useEffect, useState } from "react";
 

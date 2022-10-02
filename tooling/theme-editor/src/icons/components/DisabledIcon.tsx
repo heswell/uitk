@@ -1,4 +1,4 @@
-import { Icon, IconProps } from "@jpmorganchase/uitk-icons";
+import { Icon, IconProps } from "@heswell/uitk-icons";
 import { forwardRef, Ref, SVGProps } from "react";
 
 function SvgComponent(

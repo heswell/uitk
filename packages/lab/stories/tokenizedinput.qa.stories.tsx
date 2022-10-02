@@ -1,4 +1,4 @@
-import { TokenizedInput } from "@jpmorganchase/uitk-lab";
+import { TokenizedInput } from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { AllRenderer, QAContainer } from "docs/components";
 import "./tokenizedinput.qa.stories.css";

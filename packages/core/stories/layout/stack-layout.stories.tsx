@@ -4,9 +4,9 @@ import {
   Input,
   Panel,
   StackLayout,
-} from "@jpmorganchase/uitk-core";
-import { SearchIcon } from "@jpmorganchase/uitk-icons";
-import { Dropdown } from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-core";
+import { SearchIcon } from "@heswell/uitk-icons";
+import { Dropdown } from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
 

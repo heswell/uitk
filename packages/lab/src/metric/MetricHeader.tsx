@@ -1,4 +1,4 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import cx from "classnames";
 import { forwardRef, HTMLAttributes, useCallback } from "react";
 import warning from "warning";

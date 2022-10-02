@@ -1,4 +1,4 @@
-import { FormFieldProps } from "@jpmorganchase/uitk-core";
+import { FormFieldProps } from "@heswell/uitk-core";
 import { FC } from "react";
 import { CompactInput } from "./CompactInput";
 import { PageButton } from "./PageButton";

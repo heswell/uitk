@@ -1,4 +1,4 @@
-import { useForkRef, UseTooltipProps } from "@jpmorganchase/uitk-core";
+import { useForkRef, UseTooltipProps } from "@heswell/uitk-core";
 import { ForwardedRef, forwardRef, ReactNode } from "react";
 import {
   TokenizedInputBase,

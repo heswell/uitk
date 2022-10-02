@@ -1,8 +1,8 @@
 import { StrictMode } from "react";
 import * as ReactDOM from "react-dom";
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { ToolkitProvider } from "@heswell/uitk-core";
 
-import "@jpmorganchase/uitk-theme/index.css";
+import "@heswell/uitk-theme/index.css";
 
 import { App } from "./App";
 

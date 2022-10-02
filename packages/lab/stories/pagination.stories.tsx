@@ -4,7 +4,7 @@ import {
   PaginationProps,
   Paginator,
   PaginatorProps,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { Meta, Story } from "@storybook/react";
 import { useState } from "react";
 

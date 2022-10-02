@@ -1,5 +1,5 @@
-import { makePrefixer, useId } from "@jpmorganchase/uitk-core";
-import { IconProps } from "@jpmorganchase/uitk-icons";
+import { makePrefixer, useId } from "@heswell/uitk-core";
+import { IconProps } from "@heswell/uitk-icons";
 import cn from "classnames";
 import { ComponentType, forwardRef, HTMLAttributes, useEffect } from "react";
 import { Div } from "../text";

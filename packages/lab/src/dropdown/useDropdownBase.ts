@@ -4,7 +4,7 @@ import {
   measurements,
   useResizeObserver,
   WidthOnly,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   FocusEvent,
   HTMLAttributes,

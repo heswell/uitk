@@ -12,7 +12,7 @@ import {
   useFloatingUI,
   useForkRef,
   useWindow,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ListBase, ListStateContext } from "../../list-deprecated";
 import { TokenizedInputBase, TokenizedInputProps } from "../../tokenized-input";

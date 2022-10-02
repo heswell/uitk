@@ -1,6 +1,6 @@
 import type { Parameters } from "@storybook/react";
 import type { GlobalTypes } from "@storybook/csf";
-import "@jpmorganchase/uitk-theme/index.css";
+import "@heswell/uitk-theme/index.css";
 
 import { ComponentProps } from "react";
 import { withTheme } from "docs/decorators/withTheme";
@@ -8,7 +8,7 @@ import { withResponsiveWrapper } from "docs/decorators/withResponsiveWrapper";
 import { withTestIdWrapper } from "docs/decorators/withTestIdWrapper";
 import { WithTextSpacingWrapper } from "docs/decorators/withTextSpacingWrapper";
 import { withStrictMode } from "docs/decorators/withStrictMode";
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { ToolkitProvider } from "@heswell/uitk-core";
 import { DocsContainer } from "@storybook/addon-docs";
 
 const densities = ["touch", "low", "medium", "high"];

@@ -13,24 +13,24 @@ The UITK has been developed with the following design goals:
 
 There are four packages you can install:
 
-- @jpmorganchase/uitk-core is required, this contains stable components and receives
+- @heswell/uitk-core is required, this contains stable components and receives
   new features and patch updates when needed.
-- @jpmorganchase/uitk-lab is where we introduce new components which are under initial development until they are stable and moved over to uitk-core. This is typically an unstable environment and may have major breaking changes.
-- @jpmorganchase/uitk-theme is required, this contains the UITK .css files required
+- @heswell/uitk-lab is where we introduce new components which are under initial development until they are stable and moved over to uitk-core. This is typically an unstable environment and may have major breaking changes.
+- @heswell/uitk-theme is required, this contains the UITK .css files required
   for any application you develop with UITK.
-- @jpmorganchase/uitk-icons contains SVG-based icons you can use in your
+- @heswell/uitk-icons contains SVG-based icons you can use in your
   application.
 
 Depending on the package manager you use, edit and run one of the following commands to install the packages you need:
 
 ```sh
-npm install @jpmorganchase/uitk-core @jpmorganchase/uitk-theme @jpmorganchase/uitk-lab @jpmorganchase/uitk-icons
+npm install @heswell/uitk-core @heswell/uitk-theme @heswell/uitk-lab @heswell/uitk-icons
 ```
 
 Or
 
 ```sh
-yarn add @jpmorganchase/uitk-core @jpmorganchase/uitk-theme @jpmorganchase/uitk-lab @jpmorganchase/uitk-icons
+yarn add @heswell/uitk-core @heswell/uitk-theme @heswell/uitk-lab @heswell/uitk-icons
 ```
 
 You will then need to import the .css files into your application, along with any components that you plan to use.
@@ -38,9 +38,9 @@ You will then need to import the .css files into your application, along with an
 Here’s a quick example of a Call-to-Action (CTA) button for your reference:
 
 ```JSX
-import { Button, ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { Button, ToolkitProvider } from "@heswell/uitk-core";
 
-import "@jpmorganchase/uitk-theme/index.css";
+import "@heswell/uitk-theme/index.css";
 
 function App() {
   return (

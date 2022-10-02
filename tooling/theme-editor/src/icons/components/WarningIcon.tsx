@@ -1,6 +1,6 @@
 import { SVGProps, Ref, forwardRef } from "react";
 
-import { Icon, IconProps } from "@jpmorganchase/uitk-icons";
+import { Icon, IconProps } from "@heswell/uitk-icons";
 
 function SvgComponent(
   props: SVGProps<SVGSVGElement>,

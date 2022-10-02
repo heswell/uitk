@@ -3,7 +3,7 @@ import { Link, LinkProps } from "../link";
 import "./SkipLink.css";
 import cx from "classnames";
 import { useManageFocusOnTarget } from "./internal/useManageFocusOnTarget";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 interface SkipLinkProps extends LinkProps {
   /**

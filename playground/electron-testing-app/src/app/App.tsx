@@ -7,7 +7,7 @@ import {
   useTooltip,
   useWindow,
   WindowContext,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ButtonBar,
   CascadingMenu,
@@ -23,7 +23,7 @@ import {
   OrderedButton,
   SelectionChangeHandler,
   Toolbar,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { useCallback, useRef, useState } from "react";
 
 import {
@@ -31,7 +31,7 @@ import {
   NotificationIcon,
   ShareIcon,
   TearOutIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 import { usStateExampleData } from "./exampleData";
 import { ToolbarAnchor } from "./ToolbarAnchor";

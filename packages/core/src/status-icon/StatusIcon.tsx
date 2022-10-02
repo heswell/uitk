@@ -5,7 +5,7 @@ import {
   SuccessTickIcon,
   WarningIcon,
   DEFAULT_ICON_SIZE,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import classnames from "classnames";
 import { forwardRef } from "react";
 import { makePrefixer } from "../utils";

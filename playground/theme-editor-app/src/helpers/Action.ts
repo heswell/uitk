@@ -1,4 +1,4 @@
-import { JSONByScope } from "@jpmorganchase/theme-editor";
+import { JSONByScope } from "@heswell/theme-editor";
 
 export enum ActionType {
   UPDATE = "UPDATE",

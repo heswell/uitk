@@ -27,6 +27,6 @@
     "mustache": "^4.2.0"
   },
   "publishConfig": {
-    "directory": "../../dist/jpmorganchase-uitk-icons"
+    "directory": "../../dist/heswell-uitk-icons"
   }
 }

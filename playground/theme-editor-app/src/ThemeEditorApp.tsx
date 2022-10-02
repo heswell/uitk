@@ -7,21 +7,21 @@ import {
   useState,
 } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { isDesktop, ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { isDesktop, ToolkitProvider } from "@heswell/uitk-core";
 import {
   AppHeader,
   SearchInput,
   Spinner,
   useLayoutEffectSkipFirst,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import {
   CSSByPattern,
   JSONByScope,
   parseJSONtoCSS,
   ThemeEditor,
   uitkTheme,
-} from "@jpmorganchase/theme-editor";
-import { ThemeMode } from "@jpmorganchase/theme-editor/src/header/ScopeSelector";
+} from "@heswell/theme-editor";
+import { ThemeMode } from "@heswell/theme-editor/src/header/ScopeSelector";
 import { ActionType } from "./helpers/Action";
 import { jsonReducer } from "./helpers/jsonReducer";
 import { useTheme } from "./helpers/useTheme";
@@ -29,7 +29,7 @@ import { DefaultView } from "./views/DefaultView";
 import { CSSView } from "./views/CSSView";
 import { saveToDirectory } from "./views/FileHandler";
 
-import "@jpmorganchase/uitk-theme/index.css";
+import "@heswell/uitk-theme/index.css";
 import "./ThemeEditorApp.css";
 
 interface JSONHistory {

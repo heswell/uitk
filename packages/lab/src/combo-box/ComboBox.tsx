@@ -1,8 +1,4 @@
-import {
-  Input,
-  InputProps,
-  useIdMemo as useId,
-} from "@jpmorganchase/uitk-core";
+import { Input, InputProps, useIdMemo as useId } from "@heswell/uitk-core";
 import { ForwardedRef, forwardRef, ReactElement, useCallback } from "react";
 
 import { DropdownBase, DropdownBaseProps } from "../dropdown";

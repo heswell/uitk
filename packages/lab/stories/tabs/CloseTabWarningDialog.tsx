@@ -1,11 +1,11 @@
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import {
   TabDescriptor,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 export const CloseTabWarningDialog = ({
   closedTab,

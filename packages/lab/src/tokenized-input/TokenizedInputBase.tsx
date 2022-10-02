@@ -28,8 +28,8 @@ import {
   useForkRef,
   useId,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
-import { CloseIcon, OverflowMenuIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { CloseIcon, OverflowMenuIcon } from "@heswell/uitk-icons";
 import { calcFirstHiddenIndex } from "./internal/calcFirstHiddenIndex";
 import { defaultItemToString } from "./internal/defaultItemToString";
 import { InputPill } from "./internal/InputPill";

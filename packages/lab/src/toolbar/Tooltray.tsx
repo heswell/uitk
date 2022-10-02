@@ -1,4 +1,4 @@
-import { useIdMemo } from "@jpmorganchase/uitk-core";
+import { useIdMemo } from "@heswell/uitk-core";
 import cx from "classnames";
 import React, { cloneElement } from "react";
 import { OverflowPanel } from "./overflow-panel/OverflowPanel";
@@ -39,7 +39,9 @@ export const Tooltray: React.FC<TooltrayProps> = (props) => {
     "uitkTooltray",
     classNameProp,
     `uitkTooltray-${orientation}`,
-    { "uitkTooltray-tooltrayOverflowed": isInsidePanel }
+    {
+      "uitkTooltray-tooltrayOverflowed": isInsidePanel,
+    }
   );
 
   const collectionHook = useOverflowCollectionItems({

@@ -1,5 +1,5 @@
-import { DoubleChevronDownIcon, FavoriteIcon } from "@jpmorganchase/uitk-icons";
-import { Metric, MetricHeader, MetricContent } from "@jpmorganchase/uitk-lab";
+import { DoubleChevronDownIcon, FavoriteIcon } from "@heswell/uitk-icons";
+import { Metric, MetricHeader, MetricContent } from "@heswell/uitk-lab";
 import "./metric.stories.css";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 

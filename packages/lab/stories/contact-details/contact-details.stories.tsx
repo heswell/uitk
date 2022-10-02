@@ -4,14 +4,14 @@ import {
   FormField,
   Tooltip,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   CallIcon,
   ChatIcon,
   CopyIcon,
   ExportIcon,
   MessageIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import {
   ComboBox,
   ContactAction,
@@ -30,7 +30,7 @@ import {
   SelectionChangeHandler,
   useOverlay,
   ValueComponentProps,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { Story } from "@storybook/react";
 import { FC, forwardRef, Fragment } from "react";
 

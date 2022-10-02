@@ -3,8 +3,8 @@ import {
   StatusIcon,
   FlowLayout,
   VALIDATION_NAMED_STATUS as status,
-} from "@jpmorganchase/uitk-core";
-import { ICON_NAMED_SIZES } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { ICON_NAMED_SIZES } from "@heswell/uitk-icons";
 
 export default {
   title: "Core/StatusIcon",

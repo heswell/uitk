@@ -1,5 +1,5 @@
 {
-  "name": "@jpmorganchase/theme-editor",
+  "name": "@heswell/theme-editor",
   "version": "1.0.0",
   "private": true,
   "main": "src/index.tsx",

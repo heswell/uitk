@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { Tree } from "@jpmorganchase/uitk-lab";
+import { Tree } from "@heswell/uitk-lab";
 
 function createNodes(count: number, factory: (index: number) => any) {
   const nodes = [];

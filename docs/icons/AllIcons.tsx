@@ -1,4 +1,4 @@
-import { allIcons } from "@jpmorganchase/uitk-icons/stories/icon.all";
+import { allIcons } from "@heswell/uitk-icons/stories/icon.all";
 import { createElement } from "react";
 
 export const AllIcons = () => {

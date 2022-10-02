@@ -1,5 +1,5 @@
 import { fireEvent, screen, render } from "@testing-library/react";
-import { FormField, Input } from "@jpmorganchase/uitk-core";
+import { FormField, Input } from "@heswell/uitk-core";
 
 //TODO density tests
 

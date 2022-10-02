@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import {
   DropdownBase,
   DropdownBaseProps,
   DropdownButton,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 import { Story } from "@storybook/react";
 

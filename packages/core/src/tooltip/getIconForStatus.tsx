@@ -3,7 +3,7 @@ import {
   SuccessTickIcon,
   WarningIcon,
   IconProps,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import { TooltipStatus } from "./Tooltip";
 
 export const Status = {

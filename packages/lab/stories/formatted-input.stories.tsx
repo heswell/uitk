@@ -1,5 +1,5 @@
-import { FormField } from "@jpmorganchase/uitk-core";
-import { FormattedInput, FormattedInputProps } from "@jpmorganchase/uitk-lab";
+import { FormField } from "@heswell/uitk-core";
+import { FormattedInput, FormattedInputProps } from "@heswell/uitk-lab";
 import { Story } from "@storybook/react";
 import { useState } from "react";
 

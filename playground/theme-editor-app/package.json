@@ -1,11 +1,11 @@
 {
-  "name": "@jpmorganchase/theme-editor-app",
+  "name": "@heswell/theme-editor-app",
   "version": "0.1.0",
   "private": true,
   "modular": {
     "type": "app"
   },
   "dependencies": {
-    "@jpmorganchase/theme-editor": ">=1.0.0"
+    "@heswell/theme-editor": ">=1.0.0"
   }
 }

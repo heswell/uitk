@@ -1,6 +1,6 @@
 import cn from "classnames";
 import "./BaseCell.css";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { GridCellProps } from "./GridColumn";
 import { GridColumnModel } from "./Grid";
 

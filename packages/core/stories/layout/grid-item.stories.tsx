@@ -1,4 +1,4 @@
-import { GridItem, GridLayout } from "@jpmorganchase/uitk-core";
+import { GridItem, GridLayout } from "@heswell/uitk-core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import "./styles.css";
 export default {

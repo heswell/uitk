@@ -1,11 +1,11 @@
 import { render, cleanup, screen } from "@testing-library/react";
 import { Spinner } from "../../spinner";
-import { AriaAnnouncerProvider } from "@jpmorganchase/uitk-core";
+import { AriaAnnouncerProvider } from "@heswell/uitk-core";
 
 const mockAnnounce = jest.fn();
 
-jest.mock("@jpmorganchase/uitk-core", () => ({
-  ...jest.requireActual("@jpmorganchase/uitk-core"),
+jest.mock("@heswell/uitk-core", () => ({
+  ...jest.requireActual("@heswell/uitk-core"),
   useAriaAnnouncer: () => ({
     announce: mockAnnounce,
   }),

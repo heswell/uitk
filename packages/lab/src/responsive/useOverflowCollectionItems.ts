@@ -7,7 +7,7 @@ import {
   ReactNode,
   isValidElement,
 } from "react";
-import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import { useIsomorphicLayoutEffect } from "@heswell/uitk-core";
 
 import {
   OverflowItem,

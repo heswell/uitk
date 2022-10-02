@@ -1,5 +1,5 @@
 import { forwardRef, HTMLAttributes } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { useContactDetailsContext } from "./internal";
 
 const withBaseName = makePrefixer("uitkContactActions");

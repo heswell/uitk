@@ -1,4 +1,4 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import cx from "classnames";
 import { ReactElement } from "react";
 import { CircularProgress } from "../../progress";

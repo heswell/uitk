@@ -5,7 +5,7 @@ import {
   FormField,
   Pill,
   StaticInputAdornment,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   AddIcon,
   ColumnChooserIcon,
@@ -16,7 +16,7 @@ import {
   ShareIcon,
   SwapIcon,
   TearOutIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 import {
   Dropdown,
@@ -24,7 +24,7 @@ import {
   Toolbar,
   ToolbarButton,
   Tooltray,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { QAContainer, QAContainerProps } from "docs/components";
 
 import "docs/story.css";

@@ -1,10 +1,10 @@
-import { Badge } from "@jpmorganchase/uitk-lab";
+import { Badge } from "@heswell/uitk-lab";
 
 import {
   ClockIcon,
   SettingsSolidIcon,
   UserBadgeIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 import "./badge.stories.css";
 

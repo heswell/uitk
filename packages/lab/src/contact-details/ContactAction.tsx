@@ -5,8 +5,8 @@ import {
   TooltipProps,
   useForkRef,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
-import { IconProps } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { IconProps } from "@heswell/uitk-icons";
 import { ComponentType, forwardRef } from "react";
 
 export type ContactActionProps = ButtonProps & {

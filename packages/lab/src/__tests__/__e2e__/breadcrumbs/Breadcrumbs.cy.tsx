@@ -1,4 +1,4 @@
-import { Breadcrumbs, Breadcrumb } from "@jpmorganchase/uitk-lab";
+import { Breadcrumbs, Breadcrumb } from "@heswell/uitk-lab";
 
 describe("GIVEN a Breadcrumbs component", () => {
   describe("WHEN Breadcrumbs are passed as children", () => {

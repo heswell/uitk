@@ -1,6 +1,6 @@
 import cn from "classnames";
 import "./GroupHeaderCell.css";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { GridColumnGroupModel } from "./Grid";
 import { ReactNode } from "react";
 

@@ -2,7 +2,7 @@ import {
   debounce,
   useForkRef,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ElementType,
   ForwardedRef,

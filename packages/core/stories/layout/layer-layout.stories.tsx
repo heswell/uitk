@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from "react";
-import { ContentStatus, ContentStatusProps } from "@jpmorganchase/uitk-lab";
+import { ContentStatus, ContentStatusProps } from "@heswell/uitk-lab";
 import {
   Button,
   FlowLayout,
@@ -11,7 +11,7 @@ import {
   Card,
   LayerLayout,
   LAYER_POSITIONS,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ContactDetailsExample } from "../../../core/stories/layout/flex-layout.stories";
 import "./styles.css";

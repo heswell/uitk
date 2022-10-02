@@ -1,4 +1,4 @@
-import { Portal, useForkRef } from "@jpmorganchase/uitk-core";
+import { Portal, useForkRef } from "@heswell/uitk-core";
 import cx from "classnames";
 import { forwardRef, MutableRefObject, useCallback } from "react";
 import { Rect } from "./dragDropTypes";

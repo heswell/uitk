@@ -1,5 +1,5 @@
 import { RefAttributes } from "react";
-import { IconProps, MoveAllIcon } from "@jpmorganchase/uitk-icons";
+import { IconProps, MoveAllIcon } from "@heswell/uitk-icons";
 
 export const ToolbarAnchor = (
   props: JSX.IntrinsicAttributes & IconProps & RefAttributes<HTMLSpanElement>

@@ -1,5 +1,5 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { ChevronRightIcon } from "@jpmorganchase/uitk-icons";
+import { makePrefixer } from "@heswell/uitk-core";
+import { ChevronRightIcon } from "@heswell/uitk-icons";
 import { CSSProperties, useMemo, useRef } from "react";
 import { ListItem, ListItemProps, ListItemType } from "../../list";
 import { QueryInputCategory } from "../queryInputTypes";

@@ -1,7 +1,7 @@
 import { QueryInputCategory } from "../queryInputTypes";
 import { Dispatch, FC, ReactElement, SetStateAction } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { ChevronLeftIcon } from "@jpmorganchase/uitk-icons";
+import { makePrefixer } from "@heswell/uitk-core";
+import { ChevronLeftIcon } from "@heswell/uitk-icons";
 import { List, ListItem } from "../../list";
 import { SelectHandler } from "../../common-hooks";
 

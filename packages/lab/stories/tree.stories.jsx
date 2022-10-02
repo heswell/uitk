@@ -1,6 +1,6 @@
 import { ComponentAnatomy } from "docs/components/ComponentAnatomy";
 
-import { Tree as Tree } from "@jpmorganchase/uitk-lab";
+import { Tree as Tree } from "@heswell/uitk-lab";
 import { usa_states_cities, groupByInitialLetter } from "./list.data";
 import { folderData } from "./tree.data";
 

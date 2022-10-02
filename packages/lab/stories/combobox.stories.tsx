@@ -1,6 +1,6 @@
 import { ComponentProps, memo } from "react";
 
-import { FormField } from "@jpmorganchase/uitk-core";
+import { FormField } from "@heswell/uitk-core";
 import {
   ComboBox,
   ComboBoxProps,
@@ -9,7 +9,7 @@ import {
   ListItem,
   ListItemProps,
   ListItemType,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 import { ComponentMeta, Story } from "@storybook/react";
 

@@ -1,7 +1,7 @@
 import { HTMLAttributes, useEffect, useMemo, useRef, useState } from "react";
 import { AgGridReactProps } from "ag-grid-react";
 import { ColumnApi, GridApi, GridReadyEvent } from "ag-grid-community";
-import { DEFAULT_THEME, useDensity, useTheme } from "@jpmorganchase/uitk-core";
+import { DEFAULT_THEME, useDensity, useTheme } from "@heswell/uitk-core";
 
 // Helps to set className, rowHeight and headerHeight depending on the current density
 export function useAgGridHelpers(): {

@@ -4,8 +4,8 @@ import {
   DivButtonProps,
   makePrefixer,
   useForkRef,
-} from "@jpmorganchase/uitk-core";
-import { CloseIcon, CloseSmallIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { CloseIcon, CloseSmallIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import React, {
   forwardRef,

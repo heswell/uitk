@@ -1,8 +1,5 @@
-import {
-  useAriaAnnouncer,
-  AriaAnnouncerProvider,
-} from "@jpmorganchase/uitk-core";
-import { ContentStatus } from "@jpmorganchase/uitk-lab";
+import { useAriaAnnouncer, AriaAnnouncerProvider } from "@heswell/uitk-core";
+import { ContentStatus } from "@heswell/uitk-lab";
 
 describe("GIVEN Content Status", () => {
   it("renders the info status with NO title AND NO message and NO actions WHEN no props are passed", () => {

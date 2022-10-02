@@ -1,4 +1,4 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import cn from "classnames";
 import { forwardRef, HTMLAttributes } from "react";
 import { QueryInputBody, ValueSelector } from "./internal";

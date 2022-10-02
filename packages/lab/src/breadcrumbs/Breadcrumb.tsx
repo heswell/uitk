@@ -1,5 +1,5 @@
-import { makePrefixer, TooltipProps } from "@jpmorganchase/uitk-core";
-import { IconProps } from "@jpmorganchase/uitk-icons";
+import { makePrefixer, TooltipProps } from "@heswell/uitk-core";
+import { IconProps } from "@heswell/uitk-icons";
 import classnames from "classnames";
 import React, { forwardRef, HTMLAttributes, ReactNode } from "react";
 import { Div } from "../text";

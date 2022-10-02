@@ -1,6 +1,6 @@
 import "./HeaderCell.css";
 import { MouseEventHandler, ReactNode, useLayoutEffect, useRef } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import cn from "classnames";
 import { ColumnSeparatorType, GridColumnModel } from "./Grid";
 import { useSizingContext } from "./SizingContext";

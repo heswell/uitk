@@ -1,4 +1,4 @@
-import { CloseSmallIcon } from "@jpmorganchase/uitk-icons";
+import { CloseSmallIcon } from "@heswell/uitk-icons";
 import cn from "classnames";
 import { MouseEvent } from "react";
 import { Button, ButtonProps } from "../../button";

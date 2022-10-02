@@ -10,7 +10,7 @@ import {
   StackLayout,
   FlowLayout,
   Pill,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   Metric,
   MetricContent,
@@ -24,7 +24,7 @@ import {
   ContactTertiaryInfo,
   ButtonBar,
   OrderedButton,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
 

@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
-import { ThemeEditorApp } from "@jpmorganchase/theme-editor-app/src/ThemeEditorApp";
-import { ElectronWindow } from "@jpmorganchase/uitk-lab/src/window";
-import { WindowContext } from "@jpmorganchase/uitk-core/src/window";
-import { isDesktop } from "@jpmorganchase/uitk-core";
+import { ThemeEditorApp } from "@heswell/theme-editor-app/src/ThemeEditorApp";
+import { ElectronWindow } from "@heswell/uitk-lab/src/window";
+import { WindowContext } from "@heswell/uitk-core/src/window";
+import { isDesktop } from "@heswell/uitk-core";
 
-import { CSSByPattern } from "@jpmorganchase/theme-editor";
+import { CSSByPattern } from "@heswell/theme-editor";
 
 import "./App.css";
 

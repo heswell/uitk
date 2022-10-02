@@ -1,6 +1,6 @@
 import { ComponentMeta, Story } from "@storybook/react";
 
-import { Text, Div } from "@jpmorganchase/uitk-lab";
+import { Text, Div } from "@heswell/uitk-lab";
 import { transactions } from "./transactions";
 import "./Table.css";
 

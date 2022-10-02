@@ -2,7 +2,7 @@ import {
   useControlled,
   useForkRef,
   useIsFocusVisible,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import React, {
   FocusEventHandler,
   forwardRef,

@@ -1,4 +1,4 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import {
   ErrorIcon,
   IconProps,
@@ -6,7 +6,7 @@ import {
   LoaderIcon,
   SuccessIcon,
   WarningIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import { ComponentType, ReactElement } from "react";
 import { ContentStatusProps, ContentStatusStatus } from "../ContentStatus";
 import { getDeterminateLoadingComponent } from "./getDeterminateLoadingComponent";

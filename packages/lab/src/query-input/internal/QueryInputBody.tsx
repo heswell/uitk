@@ -1,5 +1,5 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import { FilterIcon } from "@jpmorganchase/uitk-icons";
+import { makePrefixer } from "@heswell/uitk-core";
+import { FilterIcon } from "@heswell/uitk-icons";
 import {
   ChangeEventHandler,
   FocusEventHandler,

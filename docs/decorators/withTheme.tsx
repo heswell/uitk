@@ -1,5 +1,5 @@
 import { DecoratorFn } from "@storybook/react";
-import { Panel, ToolkitProvider, useTheme } from "@jpmorganchase/uitk-core";
+import { Panel, ToolkitProvider, useTheme } from "@heswell/uitk-core";
 import { useEffect } from "react";
 
 const THEMES = ["light", "dark"];

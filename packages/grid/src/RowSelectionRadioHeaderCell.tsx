@@ -1,5 +1,5 @@
 import { AutoSizeHeaderCell, HeaderCellProps } from "./HeaderCell";
-import { makePrefixer, RadioButtonIcon } from "@jpmorganchase/uitk-core";
+import { makePrefixer, RadioButtonIcon } from "@heswell/uitk-core";
 import "./CheckboxCell.css";
 import cx from "classnames";
 

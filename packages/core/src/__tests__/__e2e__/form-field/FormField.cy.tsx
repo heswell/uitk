@@ -1,4 +1,4 @@
-import { FormField, Input } from "@jpmorganchase/uitk-core";
+import { FormField, Input } from "@heswell/uitk-core";
 
 describe("GIVEN an Input", () => {
   describe("WHEN validation status is warning", () => {

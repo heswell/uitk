@@ -5,7 +5,7 @@ import {
   SearchIcon,
   PrintIcon,
   NotificationIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import {
   ToggleButton,
   ToggleButtonGroup,

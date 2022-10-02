@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
 
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
-import { Breadcrumbs, Breadcrumb } from "@jpmorganchase/uitk-lab";
-import { HomeIcon, TreeIcon } from "@jpmorganchase/uitk-icons";
+import { ToolkitProvider } from "@heswell/uitk-core";
+import { Breadcrumbs, Breadcrumb } from "@heswell/uitk-lab";
+import { HomeIcon, TreeIcon } from "@heswell/uitk-icons";
 import { QAContainer } from "docs/components";
 import { BackgroundBlock } from "docs/components/BackgroundBlock";
 

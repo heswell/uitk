@@ -1,4 +1,4 @@
-import { useControlled, useForkRef, useWidth } from "@jpmorganchase/uitk-core";
+import { useControlled, useForkRef, useWidth } from "@heswell/uitk-core";
 import {
   ChangeEventHandler,
   FocusEventHandler,

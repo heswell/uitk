@@ -6,7 +6,7 @@ import {
   ToolkitProvider,
   useDensity,
   useTheme,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 
 const TestComponent = ({
   id = "test-1",

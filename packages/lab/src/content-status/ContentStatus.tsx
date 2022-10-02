@@ -3,7 +3,7 @@ import {
   makePrefixer,
   useAriaAnnouncer,
   useId,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import cx from "classnames";
 import {
   ForwardedRef,

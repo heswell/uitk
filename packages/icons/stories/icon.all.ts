@@ -192,7 +192,7 @@ import {
   WarningIcon,
   XlsIcon,
   ZipIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 export const allIcons = [
   AddIcon,

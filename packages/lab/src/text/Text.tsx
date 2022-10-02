@@ -4,7 +4,7 @@ import {
   TooltipProps,
   useForkRef,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import cx from "classnames";
 import {
   CSSProperties,

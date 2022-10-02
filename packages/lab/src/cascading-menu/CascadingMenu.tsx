@@ -3,7 +3,7 @@ import {
   useDensity,
   useForkRef,
   ownerWindow,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   cloneElement,
   forwardRef,
@@ -17,7 +17,7 @@ import {
   useState,
 } from "react";
 import { useEventCallback } from "../utils";
-import { usePrevious } from "@jpmorganchase/uitk-core";
+import { usePrevious } from "@heswell/uitk-core";
 import { CascadingMenuProps } from "./CascadingMenuProps";
 
 import { CascadingMenuList } from "./CascadingMenuList";

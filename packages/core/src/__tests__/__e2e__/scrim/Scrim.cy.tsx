@@ -1,4 +1,4 @@
-import { Scrim } from "@jpmorganchase/uitk-core";
+import { Scrim } from "@heswell/uitk-core";
 import { useRef, useState } from "react";
 import { composeStories } from "@storybook/testing-react";
 import * as scrimStories from "@stories/scrim.stories";

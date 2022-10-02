@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction, useCallback } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { List, ListItem, ListItemGroup } from "../../list";
 
 import { SelectionChangeHandler } from "../../common-hooks";
@@ -64,9 +64,9 @@ export const SearchList: FC<SearchListProps> = function SearchList(props) {
           </ListItemGroup>
         );
       })}
-      <ListItem className={withBaseName("addKeyword")}>
-        {`Add keyword: "${inputValue}"`}
-      </ListItem>
+      <ListItem
+        className={withBaseName("addKeyword")}
+      >{`Add keyword: "${inputValue}"`}</ListItem>
     </List>
   );
 };

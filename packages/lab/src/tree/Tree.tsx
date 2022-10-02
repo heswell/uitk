@@ -1,4 +1,4 @@
-import { makePrefixer, useForkRef, useIdMemo } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useForkRef, useIdMemo } from "@heswell/uitk-core";
 import cx from "classnames";
 import {
   forwardRef,

@@ -1,6 +1,6 @@
 // TODO: Use resize observer from Tabstrip / Toolbar
 
-import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import { useIsomorphicLayoutEffect } from "@heswell/uitk-core";
 import { useRef, useEffect, Ref } from "react";
 
 /**

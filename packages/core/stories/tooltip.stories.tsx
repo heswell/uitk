@@ -5,7 +5,7 @@ import {
   useForkRef,
   useTooltip,
   UseTooltipProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { ComponentMeta, Story } from "@storybook/react";
 import { useCallback } from "react";
 

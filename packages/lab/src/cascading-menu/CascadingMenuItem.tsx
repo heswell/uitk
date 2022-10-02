@@ -3,8 +3,8 @@ import {
   Tooltip,
   useForkRef,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
-import { ChevronRightIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { ChevronRightIcon } from "@heswell/uitk-icons";
 import classnames from "classnames";
 import {
   forwardRef,

@@ -3,8 +3,8 @@ import "../../uitk-ag-theme.css";
 import dataGridExampleData from "../dependencies/dataGridExampleData";
 import dataGridExampleColumns from "../dependencies/dataGridExampleColumns";
 import { AgGridReact, AgGridReactProps } from "ag-grid-react";
-import { Card } from "@jpmorganchase/uitk-core";
-import { Spinner } from "@jpmorganchase/uitk-lab";
+import { Card } from "@heswell/uitk-core";
+import { Spinner } from "@heswell/uitk-lab";
 import { useAgGridHelpers } from "../dependencies/useAgGridHelpers";
 
 const LoadingOverlayExample = function LoadingOverlayExample(

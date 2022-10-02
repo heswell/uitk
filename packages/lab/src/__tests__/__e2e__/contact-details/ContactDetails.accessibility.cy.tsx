@@ -13,7 +13,7 @@ import {
   ContactPrimaryInfo,
   ContactSecondaryInfo,
   ContactTertiaryInfo,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 const variants: ContactDetailsVariant[] = ["default", "compact", "mini"];
 

@@ -8,7 +8,7 @@ import "cypress-axe";
 import { Options } from "cypress-axe";
 import { PerformanceResult, PerformanceTester } from "./PerformanceTester";
 import { ReactNode } from "react";
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { ToolkitProvider } from "@heswell/uitk-core";
 import { AnnouncementListener } from "./AnnouncementListener";
 
 const SupportedThemeValues = ["light", "dark"] as const;

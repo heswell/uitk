@@ -12,8 +12,8 @@ import {
   ContactSecondaryInfo,
   ContactTertiaryInfo,
   MailLinkComponent,
-} from "@jpmorganchase/uitk-lab";
-import { CallIcon, ChatIcon, MessageIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-lab";
+import { CallIcon, ChatIcon, MessageIcon } from "@heswell/uitk-icons";
 import { QAContainer, QAContainerProps } from "docs/components";
 import avatar1 from "./assets/avatar1.png";
 

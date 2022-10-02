@@ -4,7 +4,7 @@ import {
   InputProps,
   useControlled,
   useId,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { useDynamicAriaLabel } from "./internal/useDynamicAriaLabel";
 import { useSpinner } from "./internal/useSpinner";
 import { StepperInputProps } from "./StepperInput";

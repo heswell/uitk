@@ -3,7 +3,7 @@ import {
   TooltipProps,
   useForkRef,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { forwardRef } from "react";
 import { FavoriteToggle, FavoriteToggleProps } from "./FavoriteToggle";
 

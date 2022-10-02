@@ -1,7 +1,7 @@
 import cx from "classnames";
 import { forwardRef } from "react";
 import { useRifm } from "rifm";
-import { Input, InputProps, useControlled } from "@jpmorganchase/uitk-core";
+import { Input, InputProps, useControlled } from "@heswell/uitk-core";
 import {
   baseName,
   InputWithMask,

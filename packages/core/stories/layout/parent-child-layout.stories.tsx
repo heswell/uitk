@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { ChevronLeftIcon } from "@jpmorganchase/uitk-icons";
-import { Tabstrip, Tab } from "@jpmorganchase/uitk-lab";
+import { ChevronLeftIcon } from "@heswell/uitk-icons";
+import { Tabstrip, Tab } from "@heswell/uitk-lab";
 import {
   Button,
   ParentChildLayout,
   StackedViewElement,
   useIsViewportLargerThanBreakpoint,
   FlowLayout,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { DashboardExample } from "./flow-layout.stories";
 import { SectionForm, Blog } from "./flex-layout.stories";
 

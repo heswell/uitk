@@ -1,4 +1,4 @@
-import { StepperInput } from "@jpmorganchase/uitk-lab";
+import { StepperInput } from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { AllRenderer, QAContainer } from "docs/components";
 import "./stepper-input.qa.stories.css";

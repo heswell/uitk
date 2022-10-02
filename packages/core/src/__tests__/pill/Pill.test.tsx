@@ -1,4 +1,4 @@
-import { CallIcon } from "@jpmorganchase/uitk-icons";
+import { CallIcon } from "@heswell/uitk-icons";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Pill } from "../../pill";

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import "../../uitk-ag-theme.css";
 import changeDetectionExampleColumns from "../dependencies/changeDetectionExampleColumns";
 import { AgGridReact, AgGridReactProps } from "ag-grid-react";

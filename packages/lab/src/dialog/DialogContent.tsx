@@ -1,4 +1,4 @@
-import { makePrefixer, useForkRef } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useForkRef } from "@heswell/uitk-core";
 import classnames from "classnames";
 import { forwardRef, HTMLAttributes, useContext } from "react";
 import { DialogContext } from "./internal/DialogContext";

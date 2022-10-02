@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import dataGridExampleData from "../dependencies/dataGridExampleData";
 import customFilterExampleColumns from "../dependencies/customFilterExampleColumns";
 import { AgGridReact, AgGridReactProps } from "ag-grid-react";

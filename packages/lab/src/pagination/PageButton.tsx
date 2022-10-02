@@ -1,6 +1,6 @@
 import { FC, KeyboardEventHandler, MouseEventHandler } from "react";
 import { withBaseName } from "./utils";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import cn from "classnames";
 
 export interface PageButtonProps {

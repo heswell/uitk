@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Card, Panel, ToolkitProvider } from "@jpmorganchase/uitk-core";
-import { Link } from "@jpmorganchase/uitk-lab";
+import { Card, Panel, ToolkitProvider } from "@heswell/uitk-core";
+import { Link } from "@heswell/uitk-lab";
 import {
   ColumnLayoutContainer,
   ColumnLayoutItem,

@@ -5,7 +5,7 @@ import {
   Tooltip,
   useForkRef,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import cx from "classnames";
 import {
   forwardRef,

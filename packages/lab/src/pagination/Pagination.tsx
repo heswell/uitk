@@ -1,4 +1,4 @@
-import { useAriaAnnouncer, useControlled } from "@jpmorganchase/uitk-core";
+import { useAriaAnnouncer, useControlled } from "@heswell/uitk-core";
 import cn from "classnames";
 import {
   forwardRef,

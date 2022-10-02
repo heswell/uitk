@@ -1,4 +1,4 @@
-import { TooltipContextProps } from "@jpmorganchase/uitk-core";
+import { TooltipContextProps } from "@heswell/uitk-core";
 import { HTMLAttributes, Ref, SyntheticEvent } from "react";
 
 export type ListSingleSelectionVariant = "default" | "deselectable";

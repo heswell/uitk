@@ -5,7 +5,7 @@ import {
   RadioButtonGroup,
   GridLayout,
   DeckLayout,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ChangeEventHandler,
   Children,
@@ -14,7 +14,7 @@ import {
   ReactElement,
   useEffect,
 } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heswell/uitk-icons";
 import warning from "warning";
 import cx from "classnames";
 import "./Carousel.css";

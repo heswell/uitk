@@ -1,6 +1,6 @@
-import { Card } from "@jpmorganchase/uitk-core";
+import { Card } from "@heswell/uitk-core";
 import { ComponentMeta, Story } from "@storybook/react";
-import { H1, Text } from "@jpmorganchase/uitk-lab";
+import { H1, Text } from "@heswell/uitk-lab";
 import { QAContainer, QAContainerProps } from "docs/components";
 import "./card.qa.stories.css";
 
