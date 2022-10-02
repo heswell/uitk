@@ -1,5 +1,5 @@
 import "./Cursor.css";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridCursor");
 

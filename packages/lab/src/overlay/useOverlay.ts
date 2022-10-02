@@ -15,7 +15,7 @@ import {
   useControlled,
   useFloatingUI,
   UseFloatingUIProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ComponentPropsWithoutRef,
   ComponentPropsWithRef,

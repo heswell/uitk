@@ -1,4 +1,4 @@
-import { TooltipProps } from "@jpmorganchase/uitk-core";
+import { TooltipProps } from "@heswell/uitk-core";
 import { ComponentType, HTMLAttributes, ReactNode } from "react";
 
 export type OrientationShape = "vertical" | "horizontal";

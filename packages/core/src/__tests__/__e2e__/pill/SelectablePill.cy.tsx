@@ -1,4 +1,4 @@
-import { Pill } from "@jpmorganchase/uitk-core";
+import { Pill } from "@heswell/uitk-core";
 
 /**
  * Changes applied to the tests after copy over

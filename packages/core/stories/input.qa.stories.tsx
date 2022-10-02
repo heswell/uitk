@@ -1,12 +1,12 @@
-import { Button, Input, StaticInputAdornment } from "@jpmorganchase/uitk-core";
+import { Button, Input, StaticInputAdornment } from "@heswell/uitk-core";
 import {
   CalendarIcon,
   CallIcon,
   CloseIcon,
   SendIcon,
   UserIcon,
-} from "@jpmorganchase/uitk-icons";
-import { Dropdown } from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-icons";
+import { Dropdown } from "@heswell/uitk-lab";
 import { ComponentMeta, Story } from "@storybook/react";
 import { QAContainer, QAContainerProps } from "docs/components";
 

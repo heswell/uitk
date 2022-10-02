@@ -1,6 +1,6 @@
 import { ComponentMeta, Story } from "@storybook/react";
 
-import { Text, TextProps } from "@jpmorganchase/uitk-lab";
+import { Text, TextProps } from "@heswell/uitk-lab";
 import { useEffect, useState } from "react";
 
 export default {

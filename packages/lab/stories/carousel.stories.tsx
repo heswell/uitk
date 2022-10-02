@@ -5,9 +5,9 @@ import {
   Carousel,
   CarouselSlide,
   OrderedButton,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import "./carousel.stories.css";
-import { FlexLayout } from "@jpmorganchase/uitk-core";
+import { FlexLayout } from "@heswell/uitk-core";
 
 export default {
   title: "Lab/Carousel",

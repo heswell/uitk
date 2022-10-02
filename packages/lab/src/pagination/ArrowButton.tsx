@@ -1,9 +1,9 @@
-import { Button, ButtonProps } from "@jpmorganchase/uitk-core";
+import { Button, ButtonProps } from "@heswell/uitk-core";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   IconProps,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import cn from "classnames";
 import { ComponentType, KeyboardEventHandler, MouseEventHandler } from "react";
 import { withBaseName } from "./utils";

@@ -1,4 +1,4 @@
-import { TooltipContext, useForkRef } from "@jpmorganchase/uitk-core";
+import { TooltipContext, useForkRef } from "@heswell/uitk-core";
 
 import {
   forwardRef,

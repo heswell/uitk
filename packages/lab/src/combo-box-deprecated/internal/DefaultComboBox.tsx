@@ -16,7 +16,7 @@ import {
   useForkRef,
   Window,
   WindowProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ComponentType,
   HTMLAttributes,

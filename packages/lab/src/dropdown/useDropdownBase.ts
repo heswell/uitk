@@ -4,7 +4,7 @@ import {
   useFormFieldProps,
   useResizeObserver,
   WidthOnly,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { KeyboardEvent, useCallback, useRef, useState } from "react";
 
 import { DropdownHookProps, DropdownHookResult } from "./dropdownTypes";

@@ -1,4 +1,4 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import React, { useRef } from "react";
 
 import { useActivationIndicator } from "./useActivationIndicator";

@@ -16,7 +16,7 @@ import {
   useForkRef,
   useId,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { usePaginationContext } from "./usePaginationContext";
 import { withBaseName } from "./utils";
 

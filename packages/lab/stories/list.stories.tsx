@@ -18,8 +18,8 @@ import {
   Input,
   StackLayout,
   useDensity,
-} from "@jpmorganchase/uitk-core";
-import { ArrowDownIcon, ArrowUpIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { ArrowDownIcon, ArrowUpIcon } from "@heswell/uitk-icons";
 
 import {
   ContentStatus,
@@ -32,7 +32,7 @@ import {
   ListScrollHandles,
   VirtualizedList,
   SelectionChangeHandler,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { SelectHandler } from "../src/common-hooks";
 
 import { usa_states } from "./list.data";

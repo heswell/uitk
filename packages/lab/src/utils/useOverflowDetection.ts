@@ -3,7 +3,7 @@ import {
   debounce,
   ownerWindow,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 
 export function useOverflowDetection<Element extends HTMLElement>(
   dependencies: DependencyList = []

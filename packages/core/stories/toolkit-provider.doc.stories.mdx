@@ -1,5 +1,5 @@
 import { ArgsTable, Canvas, Meta, Story } from "@storybook/addon-docs";
-import { Card, ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { Card, ToolkitProvider } from "@heswell/uitk-core";
 
 import { NestedProviders } from "./toolkit-provider.stories";
 
@@ -61,7 +61,7 @@ You can use the `density` prop to change the density on the wrapped component or
 You can use the `useDensity` hook to access the currently active density of your app in the provided scope. The `useDensity` hook returns the string value of the currently set density. The possible values are `touch`, `low`, `medium` and `high`. You can optionally override this value by passing your new value as the first parameter to the function.
 
 ```tsx
-import { useDensity } from "@jpmorganchase/uitk-core";
+import { useDensity } from "@heswell/uitk-core";
 import cx from "classnames";
 
 function MyComponent() {
@@ -109,7 +109,7 @@ The default value is the following breakpoint size mapping object.
 You can use the `useBreakpoints` hook to access the current value of `breakpoints` in the `ToolkitProvider` context. This is a low-level hook that is used internally in other hooks such as `useResponsiveProp`. You can read more about this in the [breakpoints section](#breakpoints).
 
 ```tsx
-import { useBreakpoints } from "@jpmorganchase/uitk-core";
+import { useBreakpoints } from "@heswell/uitk-core";
 
 function MyApp() {
   return (

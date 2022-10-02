@@ -5,8 +5,8 @@ import {
   Tooltip,
   useId,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
-import { ChevronLeftIcon, ChevronRightIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import {
   ComponentPropsWithRef,

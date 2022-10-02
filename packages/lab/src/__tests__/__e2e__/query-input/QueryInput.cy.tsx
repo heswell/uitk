@@ -1,5 +1,5 @@
-import { QueryInput, QueryInputCategory } from "@jpmorganchase/uitk-lab";
-import { Button } from "@jpmorganchase/uitk-core";
+import { QueryInput, QueryInputCategory } from "@heswell/uitk-lab";
+import { Button } from "@heswell/uitk-core";
 
 const fakeCategories: QueryInputCategory[] = [
   { name: "A", values: ["A1", "A2", "A3"] },

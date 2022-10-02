@@ -1,5 +1,5 @@
 import { CSSProperties, useRef, useState, useReducer, ReactNode } from "react";
-import { Button, Input, InputProps } from "@jpmorganchase/uitk-core";
+import { Button, Input, InputProps } from "@heswell/uitk-core";
 
 export interface AdjustableFlexboxProps {
   children?: ReactNode;

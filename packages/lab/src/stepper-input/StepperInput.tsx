@@ -6,12 +6,12 @@ import {
   ButtonProps,
   Input,
   InputProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   RefreshIcon,
   TriangleDownIcon,
   TriangleUpIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import { useStepperInput } from "./useStepperInput";
 
 import "./StepperInput.css";

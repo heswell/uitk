@@ -5,7 +5,7 @@ import {
   useIsomorphicLayoutEffect,
   Window as ToolkitWindow,
   WindowProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 

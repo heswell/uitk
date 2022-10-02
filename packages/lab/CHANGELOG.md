@@ -1,4 +1,4 @@
-# @jpmorganchase/uitk-lab
+# @heswell/uitk-lab
 
 ## 0.8.0
 
@@ -368,7 +368,7 @@ export const AddIcon = forwardRef<SVGSVGElement, IconProps>(function AddIcon(
 - e6164788: **BREAKING CHANGES:**
 
   - Move Scrim to core
-    `import {Scrim} from "@jpmorganchase/uitk-core";`
+    `import {Scrim} from "@heswell/uitk-core";`
   - Refactor `containerFix` and `parentRef` in to a single prop `containerRef`
   - Rename `disableEnforceFocus` prop to `disableFocusTrap`
   - Rename `returnFocus` prop to `returnFocusOptions`

@@ -1,4 +1,4 @@
-import { Avatar } from "@jpmorganchase/uitk-lab";
+import { Avatar } from "@heswell/uitk-lab";
 
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 

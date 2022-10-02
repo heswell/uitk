@@ -1,4 +1,4 @@
-import { CheckboxIcon, makePrefixer } from "@jpmorganchase/uitk-core";
+import { CheckboxIcon, makePrefixer } from "@heswell/uitk-core";
 import { GridCellValueProps } from "./GridColumn";
 import { useSelectionContext } from "./SelectionContext";
 import { MouseEventHandler } from "react";

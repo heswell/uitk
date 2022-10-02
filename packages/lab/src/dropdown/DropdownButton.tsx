@@ -3,12 +3,12 @@ import {
   ButtonProps,
   makePrefixer,
   useFormFieldProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ChevronDownIcon,
   IconProps,
   DEFAULT_ICON_SIZE,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import classnames from "classnames";
 import { AriaAttributes, ComponentType, ForwardedRef, forwardRef } from "react";
 

@@ -1,4 +1,4 @@
-import { FileDropZone } from "@jpmorganchase/uitk-lab";
+import { FileDropZone } from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { AllRenderer } from "docs/components";
 

@@ -1,4 +1,4 @@
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import {
   DoubleChevronDownIcon,
   ExportIcon,
@@ -13,13 +13,13 @@ import {
   TearOutIcon,
   UserGroupIcon,
   UserIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import {
   Toolbar,
   ToolbarButton,
   ToolbarProps,
   Tooltray,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { Story } from "@storybook/react";
 
 import { AdjustableFlexbox, AdjustableFlexboxProps } from "./story-components";

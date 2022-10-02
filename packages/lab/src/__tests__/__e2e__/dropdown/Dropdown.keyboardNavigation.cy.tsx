@@ -1,8 +1,4 @@
-import {
-  Dropdown,
-  DropdownButton,
-  SelectionStrategy,
-} from "@jpmorganchase/uitk-lab";
+import { Dropdown, DropdownButton, SelectionStrategy } from "@heswell/uitk-lab";
 
 /**
  * Changes applied

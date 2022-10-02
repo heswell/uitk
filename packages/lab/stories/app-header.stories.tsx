@@ -9,15 +9,15 @@ import {
   Tabstrip,
   TabstripProps,
   Tooltray /*, Toolbar */,
-} from "@jpmorganchase/uitk-lab";
-import { Button } from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-lab";
+import { Button } from "@heswell/uitk-core";
 import {
   FilterIcon,
   MessageIcon,
   SearchIcon,
   UserGroupIcon,
   UserIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 import PlaceholderLogo from "docs/assets/placeholder.svg";
 

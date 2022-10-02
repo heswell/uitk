@@ -6,12 +6,12 @@ import {
   Density,
   ModeValues,
   ToolkitProvider,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ToggleButton,
   ToggleButtonGroup,
   ToggleButtonGroupChangeEventHandler,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 import "docs/story.css";
 

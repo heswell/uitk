@@ -5,7 +5,7 @@ import {
   StepperInput,
   ToggleButton,
   ToggleButtonGroup,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 
 export const ResponsiveContainer = ({ children }: { children?: ReactNode }) => {
   const [containerWidth, setWidth] = useState(90);

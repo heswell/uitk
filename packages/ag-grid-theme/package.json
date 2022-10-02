@@ -11,7 +11,7 @@
     "build-watch": "yarn node ./scripts/build.js --watch"
   },
   "publishConfig": {
-    "directory": "../../dist/jpmorganchase-uitk-ag-grid-theme"
+    "directory": "../../dist/heswell-uitk-ag-grid-theme"
   },
   "devDependencies": {
     "cssnano": "^5.1.13",

@@ -1,4 +1,4 @@
-import { Metric, MetricHeader, MetricContent } from "@jpmorganchase/uitk-lab";
+import { Metric, MetricHeader, MetricContent } from "@heswell/uitk-lab";
 
 describe("Metric - by default", () => {
   it("should NOT render the indicator", () => {

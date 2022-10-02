@@ -3,7 +3,7 @@ import {
   useResizeObserver,
   HeightOnly,
   ResizeHandler,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 
 export interface ListHeightHookProps {
   borderless?: boolean;

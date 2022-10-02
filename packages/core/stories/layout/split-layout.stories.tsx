@@ -1,5 +1,5 @@
-import { Button, SplitLayout } from "@jpmorganchase/uitk-core";
-import { FLEX_ALIGNMENT_BASE, FlowLayout } from "@jpmorganchase/uitk-core";
+import { Button, SplitLayout } from "@heswell/uitk-core";
+import { FLEX_ALIGNMENT_BASE, FlowLayout } from "@heswell/uitk-core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
 

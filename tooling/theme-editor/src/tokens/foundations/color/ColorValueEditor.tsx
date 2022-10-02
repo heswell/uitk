@@ -3,13 +3,13 @@ import {
   ToolkitProvider,
   Tooltip,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   capitalize,
   Color,
   ColorChooser,
   getColorNameByHexValue,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import cn from "classnames";
 import { useEffect, useMemo, useState } from "react";
 

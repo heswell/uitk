@@ -269,7 +269,7 @@ import {
   XlsSolidIcon,
   ZipIcon,
   ZipSolidIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 export const allIcons = [
   AddIcon,

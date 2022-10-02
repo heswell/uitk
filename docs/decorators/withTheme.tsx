@@ -5,7 +5,7 @@ import {
   Panel,
   ToolkitProvider,
   useTheme,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { useEffect } from "react";
 
 // Modified from storybook background addon

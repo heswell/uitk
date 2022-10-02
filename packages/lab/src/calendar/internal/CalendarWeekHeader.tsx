@@ -1,6 +1,6 @@
 import { forwardRef, ComponentPropsWithRef } from "react";
 import cx from "classnames";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 import "./CalendarWeekHeader.css";
 import { daysForLocale } from "./utils";

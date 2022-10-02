@@ -1,7 +1,7 @@
 import { composeStories } from "@storybook/testing-react";
 import * as gridStories from "@stories/layout/grid-layout.stories";
 import { checkAccessibility } from "../../../../../../cypress/tests/checkAccessibility";
-import { ToolkitProvider } from "@jpmorganchase/uitk-core";
+import { ToolkitProvider } from "@heswell/uitk-core";
 
 const composedStories = composeStories(gridStories);
 const {

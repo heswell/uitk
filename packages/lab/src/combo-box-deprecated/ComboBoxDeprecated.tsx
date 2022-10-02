@@ -3,7 +3,7 @@ import {
   useForkRef,
   useFormFieldProps,
   useId,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import classnames from "classnames";
 import { ComponentType, forwardRef, Ref, useRef } from "react";
 

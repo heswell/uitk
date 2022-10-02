@@ -5,7 +5,7 @@ import {
   useForkRef,
   useIsomorphicLayoutEffect,
   useWindow,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import classnames from "classnames";
 import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
 import { List, ListProps } from "../list-deprecated";

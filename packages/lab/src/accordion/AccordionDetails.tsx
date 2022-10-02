@@ -2,7 +2,7 @@ import {
   makePrefixer,
   useForkRef,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import cn from "classnames";
 import { forwardRef, HTMLAttributes, useRef, useState } from "react";
 import { useAccordionSectionContext } from "./AccordionSectionContext";

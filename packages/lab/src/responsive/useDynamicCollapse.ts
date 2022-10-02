@@ -1,4 +1,4 @@
-import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import { useIsomorphicLayoutEffect } from "@heswell/uitk-core";
 import { useCallback, useState } from "react";
 import {
   ElementRef,

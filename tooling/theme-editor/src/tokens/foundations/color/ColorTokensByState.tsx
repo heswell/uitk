@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { JSONObj } from "../../../helpers/parseToJson";
 import { ValueEditor } from "../../editor/ValueEditor";
 import { InnerFieldLabel } from "../../labels/InnerFieldLabel";

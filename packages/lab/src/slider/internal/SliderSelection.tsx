@@ -1,4 +1,4 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import "../Slider.css";
 
 const withBaseName = makePrefixer("uitkSliderSelection");

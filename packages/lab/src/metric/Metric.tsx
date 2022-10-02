@@ -1,4 +1,4 @@
-import { makePrefixer, useId } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useId } from "@heswell/uitk-core";
 import cx from "classnames";
 import { forwardRef, HTMLAttributes, useMemo } from "react";
 import { MetricContextProvider, MetricContextValue } from "./internal";

@@ -6,7 +6,7 @@ import {
   useDensity,
   useFormFieldProps,
   useId,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import copy from "clipboard-copy";
 import {
   ChangeEvent,

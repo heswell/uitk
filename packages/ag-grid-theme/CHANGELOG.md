@@ -1,4 +1,4 @@
-# @jpmorganchase/uitk-ag-grid-theme
+# @heswell/uitk-ag-grid-theme
 
 ## 0.2.1
 

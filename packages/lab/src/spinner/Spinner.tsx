@@ -1,4 +1,4 @@
-import { useAriaAnnouncer, useId } from "@jpmorganchase/uitk-core";
+import { useAriaAnnouncer, useId } from "@heswell/uitk-core";
 import cx from "classnames";
 import { forwardRef, HTMLAttributes, useEffect } from "react";
 import { getSvgSpinner } from "./svgSpinners";

@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, InputHTMLAttributes } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import "./InputRuler.css";
 
 const withBaseName = makePrefixer("uitkInputRuler");

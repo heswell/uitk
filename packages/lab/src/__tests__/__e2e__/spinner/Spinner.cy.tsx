@@ -1,4 +1,4 @@
-import { Spinner } from "@jpmorganchase/uitk-lab";
+import { Spinner } from "@heswell/uitk-lab";
 
 // All previous tests were snapshot tests. These tests are to check svg existence by class
 

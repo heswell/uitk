@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { GridCellValueProps } from "../GridColumn";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import cn from "classnames";
 import "./DefaultCellValue.css";
 

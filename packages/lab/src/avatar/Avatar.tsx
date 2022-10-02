@@ -1,4 +1,4 @@
-import { makePrefixer, useId } from "@jpmorganchase/uitk-core";
+import { makePrefixer, useId } from "@heswell/uitk-core";
 import cn from "classnames";
 import { forwardRef, HTMLAttributes, ImgHTMLAttributes } from "react";
 import { classBase } from "./internal/constants";

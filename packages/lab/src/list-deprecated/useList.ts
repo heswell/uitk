@@ -4,7 +4,7 @@ import {
   useForkRef,
   useId,
   useIsFocusVisible,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 
 import {
   AriaAttributes,

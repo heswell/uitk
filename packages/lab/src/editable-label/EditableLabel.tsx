@@ -12,7 +12,7 @@ import {
   Input,
   useControlled,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 
 import "./EditableLabel.css";
 

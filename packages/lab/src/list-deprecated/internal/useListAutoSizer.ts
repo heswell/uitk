@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, Ref } from "react";
-import { useIsomorphicLayoutEffect } from "@jpmorganchase/uitk-core";
+import { useIsomorphicLayoutEffect } from "@heswell/uitk-core";
 
 export interface ListAutosizerProps {
   responsive: boolean;

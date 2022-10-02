@@ -1,4 +1,4 @@
-# @jpmorganchase/uitk-icons
+# @heswell/uitk-icons
 
 ## 0.7.0
 

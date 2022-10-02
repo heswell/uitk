@@ -1,5 +1,5 @@
-import { Button, makePrefixer, useId } from "@jpmorganchase/uitk-core";
-import { ErrorIcon, UploadIcon } from "@jpmorganchase/uitk-icons";
+import { Button, makePrefixer, useId } from "@heswell/uitk-core";
+import { ErrorIcon, UploadIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import {
   ChangeEventHandler,

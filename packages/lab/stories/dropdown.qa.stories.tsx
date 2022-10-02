@@ -1,9 +1,9 @@
 import { Story } from "@storybook/react";
 import { QAContainer, QAContainerProps } from "docs/components";
 
-import { FormField } from "@jpmorganchase/uitk-core";
+import { FormField } from "@heswell/uitk-core";
 
-import { Dropdown } from "@jpmorganchase/uitk-lab";
+import { Dropdown } from "@heswell/uitk-lab";
 import { usa_states } from "./list.data";
 
 export default {

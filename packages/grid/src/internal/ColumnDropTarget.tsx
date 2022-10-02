@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import "./ColumnDropTarget.css";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridColumnDropTarget");
 

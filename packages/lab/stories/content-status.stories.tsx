@@ -4,8 +4,8 @@ import {
   Button,
   Card,
   useAriaAnnouncer,
-} from "@jpmorganchase/uitk-core";
-import { ContentStatus, ContentStatusProps } from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-core";
+import { ContentStatus, ContentStatusProps } from "@heswell/uitk-lab";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

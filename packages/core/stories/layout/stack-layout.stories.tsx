@@ -4,8 +4,8 @@ import {
   Input,
   Panel,
   StackLayout,
-} from "@jpmorganchase/uitk-core";
-import { SearchIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { SearchIcon } from "@heswell/uitk-icons";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexContent } from "./flex-item.stories";
 

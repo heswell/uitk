@@ -1,8 +1,8 @@
 import { HTMLAttributes, MouseEventHandler, ReactNode } from "react";
 import cx from "classnames";
-import { TriangleRightIcon } from "@jpmorganchase/uitk-icons";
+import { TriangleRightIcon } from "@heswell/uitk-icons";
 
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 import "./TreeNode.css";
 

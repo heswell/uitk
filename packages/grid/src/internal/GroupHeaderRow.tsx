@@ -1,6 +1,6 @@
 import "./GroupHeaderRow.css";
 import { GroupHeaderCell } from "../GroupHeaderCell";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { GridColumnGroupModel } from "../Grid";
 import { FakeGroupCell } from "./FakeGroupCell";
 import { GroupHeaderCellValue } from "../GroupHeaderCellValue";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Text, P, Span, Div } from "@jpmorganchase/uitk-lab";
+import { Text, P, Span, Div } from "@heswell/uitk-lab";
 
 export default {
   title: "Lab/Text",

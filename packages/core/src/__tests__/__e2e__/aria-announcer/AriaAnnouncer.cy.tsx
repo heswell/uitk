@@ -2,7 +2,7 @@ import {
   AriaAnnouncerProvider,
   useAriaAnnouncer,
   ARIA_ANNOUNCE_DELAY,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { mount } from "cypress/react18";
 
 const BUTTON_TEXT = "CLICK ME";

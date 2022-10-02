@@ -5,8 +5,8 @@ import {
   useIdMemo,
   useIsomorphicLayoutEffect,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
-import { AddIcon, OverflowMenuIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { AddIcon, OverflowMenuIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import React, {
   ForwardedRef,

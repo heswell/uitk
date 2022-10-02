@@ -3,7 +3,7 @@ import {
   useForkRef,
   useId,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import classnames from "classnames";
 import {
   Children,

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { Button, Scrim } from "@jpmorganchase/uitk-core";
-import { ContentStatus } from "@jpmorganchase/uitk-lab";
+import { Button, Scrim } from "@heswell/uitk-core";
+import { ContentStatus } from "@heswell/uitk-lab";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 export default {

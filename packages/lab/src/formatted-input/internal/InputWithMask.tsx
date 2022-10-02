@@ -1,4 +1,4 @@
-import { useId } from "@jpmorganchase/uitk-core";
+import { useId } from "@heswell/uitk-core";
 import cx from "classnames";
 import { forwardRef, InputHTMLAttributes } from "react";
 import { FormattedInputProps } from "../FormattedInput";

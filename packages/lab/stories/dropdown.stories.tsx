@@ -1,18 +1,13 @@
 import { useCallback, useState } from "react";
 import { Story } from "@storybook/react";
 
-import {
-  Button,
-  FormField,
-  Tooltip,
-  useTooltip,
-} from "@jpmorganchase/uitk-core";
+import { Button, FormField, Tooltip, useTooltip } from "@heswell/uitk-core";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   DoubleChevronDownIcon,
   DoubleChevronUpIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 
 import {
   Dropdown,
@@ -21,7 +16,7 @@ import {
   ListItem,
   ListItemType,
   SelectionChangeHandler,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { usa_states } from "./list.data";
 
 export default {

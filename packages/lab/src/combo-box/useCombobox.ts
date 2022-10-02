@@ -1,4 +1,4 @@
-import { InputProps, useControlled } from "@jpmorganchase/uitk-core";
+import { InputProps, useControlled } from "@heswell/uitk-core";
 import {
   ChangeEvent,
   FocusEvent,

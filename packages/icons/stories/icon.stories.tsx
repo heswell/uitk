@@ -4,7 +4,7 @@ import {
   AddDocumentSolidIcon,
   Icon,
   IconProps,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FlexLayout, FormField, Input, StackLayout } from "../../core";
 import { allIcons } from "./icon.all";

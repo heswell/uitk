@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import "./TextCellEditor.css";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { useEditorContext } from "./EditorContext";
 import { GridColumnModel, GridRowModel } from "./Grid";
 

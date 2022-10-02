@@ -1,6 +1,6 @@
 import { ComponentMeta, Story } from "@storybook/react";
 
-import { Metric, MetricContent, MetricHeader } from "@jpmorganchase/uitk-lab";
+import { Metric, MetricContent, MetricHeader } from "@heswell/uitk-lab";
 import { QAContainer, QAContainerProps } from "docs/components";
 
 export default {

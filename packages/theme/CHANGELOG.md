@@ -1,4 +1,4 @@
-# @jpmorganchase/uitk-theme
+# @heswell/uitk-theme
 
 ## 0.6.0
 

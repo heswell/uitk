@@ -5,7 +5,7 @@ import {
   InfoSolidIcon,
   SuccessTickIcon,
   WarningSolidIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import classnames from "classnames";
 import { forwardRef } from "react";
 import { makePrefixer } from "../utils";

@@ -1,7 +1,7 @@
 import { AutoSizeHeaderCell, HeaderCellProps } from "./HeaderCell";
 import { useSelectionContext } from "./SelectionContext";
 import { MouseEventHandler } from "react";
-import { CheckboxIcon, makePrefixer } from "@jpmorganchase/uitk-core";
+import { CheckboxIcon, makePrefixer } from "@heswell/uitk-core";
 import "./CheckboxCell.css";
 
 export function RowSelectionCheckboxHeaderCell<T>(props: HeaderCellProps<T>) {

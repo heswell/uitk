@@ -3,10 +3,10 @@ import {
   TooltipProps,
   TooltipStatus,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { QAContainer, QAContainerProps } from "docs/components";
 import { ComponentMeta, Story } from "@storybook/react";
-import { InfoSolidIcon } from "@jpmorganchase/uitk-icons";
+import { InfoSolidIcon } from "@heswell/uitk-icons";
 
 export default {
   title: "Core/Tooltip/QA",

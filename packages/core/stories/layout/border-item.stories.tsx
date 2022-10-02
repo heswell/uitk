@@ -1,4 +1,4 @@
-import { BorderLayout, BorderItem } from "@jpmorganchase/uitk-core";
+import { BorderLayout, BorderItem } from "@heswell/uitk-core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import "./styles.css";
 export default {

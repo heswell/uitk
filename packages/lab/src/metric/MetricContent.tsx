@@ -1,9 +1,5 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  IconProps,
-} from "@jpmorganchase/uitk-icons";
+import { makePrefixer } from "@heswell/uitk-core";
+import { ArrowDownIcon, ArrowUpIcon, IconProps } from "@heswell/uitk-icons";
 import cx from "classnames";
 import { ComponentType, forwardRef, HTMLAttributes } from "react";
 import { Div, Figure1, Figure2, Figure3 } from "../text";

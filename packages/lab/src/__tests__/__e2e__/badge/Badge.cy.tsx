@@ -1,4 +1,4 @@
-import { Badge } from "@jpmorganchase/uitk-lab";
+import { Badge } from "@heswell/uitk-lab";
 
 describe("GIVEN a Badge", () => {
   it("THEN can render a Badge with badge number larger than max", () => {

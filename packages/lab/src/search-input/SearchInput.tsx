@@ -14,8 +14,8 @@ import {
   StaticInputAdornment,
   useControlled,
   useForkRef,
-} from "@jpmorganchase/uitk-core";
-import { CloseIcon, SearchIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { CloseIcon, SearchIcon } from "@heswell/uitk-icons";
 
 import "./SearchInput.css";
 

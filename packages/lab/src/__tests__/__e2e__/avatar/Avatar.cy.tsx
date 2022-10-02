@@ -1,4 +1,4 @@
-import { Avatar } from "@jpmorganchase/uitk-lab";
+import { Avatar } from "@heswell/uitk-lab";
 
 describe("Given a Avatar", () => {
   it("has an aria-labelledby applied to the svg referencing the title", () => {

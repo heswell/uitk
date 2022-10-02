@@ -1,5 +1,5 @@
-import { DoubleChevronDownIcon, FavoriteIcon } from "@jpmorganchase/uitk-icons";
-import { Metric, MetricContent, MetricHeader } from "@jpmorganchase/uitk-lab";
+import { DoubleChevronDownIcon, FavoriteIcon } from "@heswell/uitk-icons";
+import { Metric, MetricContent, MetricHeader } from "@heswell/uitk-lab";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {

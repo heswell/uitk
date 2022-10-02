@@ -5,7 +5,7 @@ import {
   Pill,
   PillProps,
   useIsomorphicLayoutEffect,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { getWidth } from "./useWidth";
 
 const withBaseName = makePrefixer("uitkInputPill");

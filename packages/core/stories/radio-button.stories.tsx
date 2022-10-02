@@ -7,12 +7,12 @@ import {
   RadioButton,
   RadioButtonGroup,
   ToolkitProvider,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import {
   ColumnLayoutContainer,
   ColumnLayoutItem,
-} from "@jpmorganchase/uitk-core/stories";
-import { SuccessTickIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core/stories";
+import { SuccessTickIcon } from "@heswell/uitk-icons";
 import { ComponentMeta, ComponentStory, Story } from "@storybook/react";
 import { ChangeEventHandler, ReactNode, useState } from "react";
 

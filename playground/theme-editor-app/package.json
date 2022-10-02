@@ -1,14 +1,14 @@
 {
-  "name": "@jpmorganchase/theme-editor-app",
+  "name": "@heswell/theme-editor-app",
   "version": "0.1.0",
   "private": true,
   "modular": {
     "type": "app"
   },
   "dependencies": {
-    "@jpmorganchase/theme-editor": "*",
-    "@jpmorganchase/uitk-core": "*",
-    "@jpmorganchase/uitk-lab": "*",
-    "@jpmorganchase/uitk-theme": "*"
+    "@heswell/layout": "*",
+    "@heswell/uitk-core": "*",
+    "@heswell/uitk-lab": "*",
+    "@heswell/uitk-theme": "*"
   }
 }

@@ -1,8 +1,4 @@
-import {
-  FlexItem,
-  FLEX_ITEM_ALIGNMENTS,
-  FlexLayout,
-} from "@jpmorganchase/uitk-core";
+import { FlexItem, FLEX_ITEM_ALIGNMENTS, FlexLayout } from "@heswell/uitk-core";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import "./styles.css";
 import { ReactNode, HTMLAttributes } from "react";

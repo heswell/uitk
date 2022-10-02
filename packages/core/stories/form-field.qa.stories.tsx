@@ -1,5 +1,5 @@
 import cx from "classnames";
-import { FormField, Input } from "@jpmorganchase/uitk-core";
+import { FormField, Input } from "@heswell/uitk-core";
 import { ComponentMeta, Story } from "@storybook/react";
 import { QAContainer, QAContainerProps } from "docs/components";
 

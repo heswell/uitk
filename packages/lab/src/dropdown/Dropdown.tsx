@@ -1,4 +1,4 @@
-import { useForkRef, useIdMemo as useId } from "@jpmorganchase/uitk-core";
+import { useForkRef, useIdMemo as useId } from "@heswell/uitk-core";
 import {
   cloneElement,
   ForwardedRef,

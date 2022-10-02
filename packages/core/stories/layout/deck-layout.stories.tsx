@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Card, DeckLayout } from "@jpmorganchase/uitk-core";
-import { Tab, Tabstrip } from "@jpmorganchase/uitk-lab";
+import { Card, DeckLayout } from "@heswell/uitk-core";
+import { Tab, Tabstrip } from "@heswell/uitk-lab";
 
 import "./styles.css";
 

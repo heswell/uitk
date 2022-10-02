@@ -1,5 +1,5 @@
-import { makePrefixer, useId } from "@jpmorganchase/uitk-core";
-import { MessageIcon } from "@jpmorganchase/uitk-icons";
+import { makePrefixer, useId } from "@heswell/uitk-core";
+import { MessageIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import {
   cloneElement,

@@ -1,4 +1,4 @@
-# @jpmorganchase/uitk-grid
+# @heswell/uitk-grid
 
 ## 0.3.2
 

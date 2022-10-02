@@ -4,8 +4,8 @@ import {
   TooltipProps,
   useForkRef,
   useTooltip,
-} from "@jpmorganchase/uitk-core";
-import { CloseIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-core";
+import { CloseIcon } from "@heswell/uitk-icons";
 import cx from "classnames";
 import { ComponentPropsWithRef, forwardRef, ReactElement, useRef } from "react";
 import { DateValue } from "@internationalized/date";

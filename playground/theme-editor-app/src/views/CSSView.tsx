@@ -4,8 +4,8 @@ import {
   AccordionDetails,
   AccordionSection,
   AccordionSummary,
-} from "@jpmorganchase/uitk-lab";
-import { CSSByPattern } from "@jpmorganchase/theme-editor/src/helpers/parseToCss";
+} from "@heswell/uitk-lab";
+import { CSSByPattern } from "@heswell/theme-editor/src/helpers/parseToCss";
 
 interface CSSViewProps {
   cssByPattern: CSSByPattern[];

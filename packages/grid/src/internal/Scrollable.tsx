@@ -1,6 +1,6 @@
 import { RefObject, UIEventHandler, useEffect } from "react";
 import "./Scrollable.css";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridScrollable");
 

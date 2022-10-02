@@ -1,4 +1,4 @@
-import { Link } from "@jpmorganchase/uitk-lab";
+import { Link } from "@heswell/uitk-lab";
 
 describe("GIVEN a link", () => {
   it("WHEN passed children node, THEN children should be rendered", () => {

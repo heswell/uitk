@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "../../uitk-ag-theme.css";
 import { AgGridReact, AgGridReactProps } from "ag-grid-react";
-import { Button } from "@jpmorganchase/uitk-core";
+import { Button } from "@heswell/uitk-core";
 import { useAgGridHelpers } from "../dependencies/useAgGridHelpers";
 
 const RefreshGridContentExample = function RefreshGridContentExample(

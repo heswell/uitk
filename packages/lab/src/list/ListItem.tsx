@@ -1,6 +1,6 @@
 import { forwardRef, ForwardedRef, HTMLAttributes, memo } from "react";
 import cx from "classnames";
-import { CheckboxIcon, makePrefixer } from "@jpmorganchase/uitk-core";
+import { CheckboxIcon, makePrefixer } from "@heswell/uitk-core";
 import { ListItemType, ListItemProps } from "./listTypes";
 import { Highlighter } from "./Highlighter";
 

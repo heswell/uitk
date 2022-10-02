@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Checkbox, CheckboxGroup } from "@jpmorganchase/uitk-core";
+import { Checkbox, CheckboxGroup } from "@heswell/uitk-core";
 
 export default {
   title: "Core/Checkbox",

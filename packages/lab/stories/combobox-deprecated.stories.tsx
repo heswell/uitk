@@ -1,5 +1,5 @@
 import { ChangeEvent, ComponentProps, memo, useRef, useState } from "react";
-import { Button, FormField } from "@jpmorganchase/uitk-core";
+import { Button, FormField } from "@heswell/uitk-core";
 
 import {
   ComboBoxDeprecated,
@@ -10,11 +10,11 @@ import {
   ListItemBaseDeprecated,
   ListItemProps,
   useListItemDeprecated,
-} from "@jpmorganchase/uitk-lab";
+} from "@heswell/uitk-lab";
 import { ComponentStory, ComponentMeta, Story } from "@storybook/react";
 import { Highlighter } from "../src/list-deprecated/internal/Highlighter";
 import { IndexedListItemProps } from "../src/list-deprecated";
-import { CloseIcon } from "@jpmorganchase/uitk-icons";
+import { CloseIcon } from "@heswell/uitk-icons";
 
 export default {
   title: "Lab/ComboBox Deprecated",
