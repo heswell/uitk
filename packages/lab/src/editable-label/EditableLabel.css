@@ -4,13 +4,16 @@
   --editableLabel-padding: var(--uitkEditableLabel-padding, 6px);
   --editableLabel-height: var(--uitkEditableLabel-height, 26px);
   color: inherit;
+  cursor: default;
   display: flex;
   flex-direction: column;
   font-size: var(--uitk-text-fontSize);
   height: var(--editableLabel-height);
   justify-content: center;
+  outline: none;
   padding: 0 var(--editableLabel-padding);
   position: relative;
+  user-select: text;
   z-index: var(--uitk-zIndex-default);
 }
 

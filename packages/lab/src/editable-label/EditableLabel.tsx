@@ -7,6 +7,7 @@ import React, {
   ForwardedRef,
   ReactElement,
   useRef,
+  HTMLAttributes,
 } from "react";
 import {
   Input,
@@ -18,7 +19,8 @@ import "./EditableLabel.css";
 
 const classBase = "uitkEditableLabel";
 
-export interface EditableLabelProps {
+export interface EditableLabelProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onChange"> {
   className?: string;
   defaultEditing?: boolean;
   defaultValue?: string;
@@ -28,7 +30,8 @@ export interface EditableLabelProps {
   onExitEditMode: (
     originalLabel: string | undefined,
     editedLabel: string | undefined,
-    allowDeactivation?: boolean
+    allowDeactivation?: boolean,
+    editCancelled?: boolean
   ) => void;
   defaultIsEditing?: boolean;
   value?: string;
@@ -44,10 +47,12 @@ export const EditableLabel = forwardRef(function EditableLabel(
     onEnterEditMode,
     onExitEditMode,
     value: valueProp,
+    ...restProps
   }: EditableLabelProps,
   forwardedRef: ForwardedRef<HTMLDivElement>
 ): ReactElement<EditableLabelProps> {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const editingRef = useRef<boolean>(false);
 
   const [value, setValue] = useControlled({
     controlled: valueProp,
@@ -56,12 +61,16 @@ export const EditableLabel = forwardRef(function EditableLabel(
     state: "value",
   });
 
-  const [editing, setEditing] = useControlled({
+  const [editing, _setEditing] = useControlled({
     controlled: editingProp,
     default: defaultEditing ?? false,
     name: "EditableLabel",
     state: "editing",
   });
+
+  const setEditing = useCallback((value: boolean) => {
+    _setEditing((editingRef.current = value));
+  }, []);
 
   const initialValue = useRef(value);
 
@@ -93,7 +102,8 @@ export const EditableLabel = forwardRef(function EditableLabel(
         initialValue.current = value;
       }
     }
-    onExitEditMode && onExitEditMode(originalValue, value, allowDeactivation);
+    onExitEditMode &&
+      onExitEditMode(originalValue, value, allowDeactivation, cancelEdit);
   };
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
@@ -106,8 +116,12 @@ export const EditableLabel = forwardRef(function EditableLabel(
     enterEditMode();
   };
 
+  // We need the ref here as the blur fires before setEditing has taken effect,
+  // so we get a double call to exitEditMode if edit is cancelled.
   const handleBlur = () => {
-    exitEditMode({ allowDeactivation: true });
+    if (editingRef.current) {
+      exitEditMode({ allowDeactivation: true });
+    }
   };
 
   const handleKeyDown = (evt: KeyboardEvent<HTMLInputElement>) => {
@@ -129,6 +143,7 @@ export const EditableLabel = forwardRef(function EditableLabel(
   });
   return (
     <div
+      {...restProps}
       className={className}
       onDoubleClick={handleDoubleClick}
       data-text={value}
