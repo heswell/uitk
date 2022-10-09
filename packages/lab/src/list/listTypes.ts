@@ -7,8 +7,8 @@ import React, {
   MouseEventHandler,
   PropsWithChildren,
   Ref,
-  RefObject,
-} from "react";
+  RefObject
+} from 'react';
 
 import {
   CollectionHookResult,
@@ -21,19 +21,16 @@ import {
   SelectionHookResult,
   SelectionProps,
   SelectionStrategy,
-  ViewportTrackingResult,
-} from "../common-hooks";
+  ViewportTrackingResult
+} from '../common-hooks';
 
-export type ComponentType<T = unknown> = (
-  props: PropsWithChildren<T>
-) => JSX.Element;
+export type ComponentType<T = unknown> = (props: PropsWithChildren<T>) => JSX.Element;
 
 export type ListItemType<T = unknown> = ComponentType<
   ListItemProps<T> & { ref?: Ref<HTMLDivElement> }
 >;
 
-export interface ListItemProps<T = unknown>
-  extends HTMLAttributes<HTMLDivElement> {
+export interface ListItemProps<T = unknown> extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   disabled?: boolean;
   item?: T;
@@ -46,6 +43,11 @@ export interface ListItemProps<T = unknown>
    */
   selectable?: boolean;
   selected?: boolean;
+  /**
+   *  Will apply transform: translate style. Used for virtualised rendering,
+   *  supplied by VirtualisedList.
+   */
+  translate3d?: number;
 }
 
 export interface ListScrollHandles<Item> {
@@ -54,11 +56,9 @@ export interface ListScrollHandles<Item> {
   scrollTo: (scrollOffset: number) => void;
 }
 
-export interface ListProps<
-  Item = string,
-  Selection extends SelectionStrategy = "default"
-> extends SelectionProps<Item, Selection>,
-    Omit<HTMLAttributes<HTMLDivElement>, "onSelect" | "defaultValue"> {
+export interface ListProps<Item = string, Selection extends SelectionStrategy = 'default'>
+  extends SelectionProps<Item, Selection>,
+    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'defaultValue'> {
   /**
    * The component used to render a ListItem instead of the default. This must itself render a ListItem,
    * must implement props that extend ListItemProps and must forward ListItem props to the ListItem.
@@ -163,6 +163,8 @@ export interface ListProps<
   minWidth?: number | string;
 
   onHighlight?: (index: number) => void;
+
+  onViewportScroll?: (firstVisibleRowIndex: number, lastVisibleRowIndex: number) => void;
   /**
    * If `true`, the component will remember the last keyboard-interacted position
    * and highlight it when list is focused again.
@@ -193,7 +195,7 @@ export interface ListProps<
 }
 
 export interface ListControlProps {
-  "aria-activedescendant"?: string;
+  'aria-activedescendant'?: string;
   onBlur: FocusEventHandler;
   onFocus: FocusEventHandler;
   onKeyDown: KeyboardEventHandler;
@@ -202,10 +204,7 @@ export interface ListControlProps {
 }
 
 export interface ListHookProps<Item, Selection extends SelectionStrategy>
-  extends Omit<
-    SelectionProps<CollectionItem<Item>, Selection>,
-    "onSelect" | "onSelectionChange"
-  > {
+  extends Omit<SelectionProps<CollectionItem<Item>, Selection>, 'onSelect' | 'onSelectionChange'> {
   collapsibleHeaders?: boolean;
   collectionHook: CollectionHookResult<Item>;
   containerRef: RefObject<HTMLElement>;
@@ -220,10 +219,7 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
   label?: string;
   listHandlers?: ListHandlers;
   onHighlight?: (index: number) => void;
-  onKeyboardNavigation?: (
-    event: React.KeyboardEvent,
-    currentIndex: number
-  ) => void;
+  onKeyboardNavigation?: (event: React.KeyboardEvent, currentIndex: number) => void;
   onKeyDown?: (evt: KeyboardEvent) => void;
   onSelect?: SelectHandler<Item>;
   onSelectionChange?: SelectionChangeHandler<Item, Selection>;
@@ -235,8 +231,8 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
 
 export interface ListHookResult<Item, Selection extends SelectionStrategy>
   extends Partial<ViewportTrackingResult<Item>>,
-    Pick<SelectionHookResult<Item, Selection>, "selected" | "setSelected">,
-    Partial<Omit<NavigationHookResult, "listProps">> {
+    Pick<SelectionHookResult<Item, Selection>, 'selected' | 'setSelected'>,
+    Partial<Omit<NavigationHookResult, 'listProps'>> {
   keyboardNavigation: RefObject<boolean>;
   listHandlers: ListHandlers;
   listItemHeaderHandlers: Partial<ListHandlers>;

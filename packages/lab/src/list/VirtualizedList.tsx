@@ -1,6 +1,6 @@
 import { makePrefixer, useForkRef, useIdMemo } from "@heswell/uitk-core";
 import cx from "classnames";
-import { ForwardedRef, forwardRef, ReactElement, useRef } from "react";
+import { ForwardedRef, forwardRef, memo, ReactElement, useRef } from "react";
 import {
   CollectionIndexer,
   isSelected,
@@ -10,7 +10,7 @@ import {
 } from "../common-hooks";
 import { useListHeight } from "./useListHeight";
 
-import { ListItem, ListItemProxy } from "./ListItem";
+import { ListItem as DefaultListItem, ListItemProxy } from "./ListItem";
 import { ListProps } from "./listTypes";
 import { useList } from "./useList";
 import { Row, useVirtualization } from "./useVirtualization";
@@ -20,6 +20,8 @@ import "./List.css";
 const defaultEmptyMessage = "No data to display";
 
 const withBaseName = makePrefixer("uitkList");
+
+const ListItem = memo(DefaultListItem);
 
 export const VirtualizedList = forwardRef(function List<
   Item,
@@ -52,6 +54,7 @@ export const VirtualizedList = forwardRef(function List<
     minWidth,
     onSelect,
     onSelectionChange,
+    onViewportScroll,
     onHighlight,
     restoreLastFocus,
     selected: selectedProp,
@@ -94,6 +97,7 @@ export const VirtualizedList = forwardRef(function List<
     itemHeight: itemHeightProp,
     rowHeightRef: rowHeightProxyRef,
   });
+
   const {
     focusVisible,
     highlightedIndex,
@@ -136,6 +140,7 @@ export const VirtualizedList = forwardRef(function List<
   } = useVirtualization<Item>({
     viewportRef: rootRef,
     data: collectionHook.data,
+    onViewportScroll,
     itemGapSize,
   });
 
@@ -164,17 +169,18 @@ export const VirtualizedList = forwardRef(function List<
           uitkFocusVisible: focusVisible === index,
         })}
         data-idx={index}
+        item={item}
         key={key}
+        label={item.label}
         data-offset={offset}
         role="option"
         selected={isSelected<Item>(selected, item)}
         id={item.id}
-        style={{
-          transform: `translate3d(0px, ${offset}px, 0px)`,
-        }}
-      >
-        {item.label}
-      </ListItem>
+        translate3d={offset}
+        // style={{
+        //   transform: `translate3d(0px, ${offset}px, 0px)`
+        // }}
+      />
     );
     idx.value += 1;
   }
@@ -221,6 +227,7 @@ export const VirtualizedList = forwardRef(function List<
     maxWidth: maxWidth ?? width,
     maxHeight: maxHeight ?? preferredHeight,
   };
+
   return (
     <div
       {...htmlAttributes}
@@ -232,12 +239,10 @@ export const VirtualizedList = forwardRef(function List<
       role="listbox"
       onScroll={onScroll}
       style={{ ...styleProp, ...sizeStyles }}
-      tabIndex={listDisabled || disableFocus ? undefined : 0}
-    >
+      tabIndex={listDisabled || disableFocus ? undefined : 0}>
       <div
         className={withBaseName("scrollingContentContainer")}
-        style={{ height: contentHeight }}
-      >
+        style={{ height: contentHeight }}>
         <ListItemProxy ref={rowHeightProxyRef} />
         {renderContent()}
       </div>
