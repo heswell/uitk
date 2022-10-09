@@ -13,18 +13,22 @@ export const forwardCallbackProps = (elementProps: any, overrideProps: any) => {
   );
 
   if (callbackProps.some(([name]) => overrideProps[name] !== undefined)) {
-    return {
+    const props = {
       ...overrideProps,
       ...callbackProps.reduce((map, [name, fn]) => {
         if (overrideProps[name] && typeof overrideProps[name] === "function") {
           map[name] = (...args: any) => {
-            overrideProps[name]?.(...args);
             fn(...args);
+            overrideProps[name]?.(...args);
           };
+        } else {
+          map[name] = fn;
         }
         return map;
       }, {} as any),
     };
+
+    return props;
   } else {
     return overrideProps;
   }
