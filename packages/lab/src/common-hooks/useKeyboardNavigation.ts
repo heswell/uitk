@@ -328,7 +328,11 @@ export const useKeyboardNavigation = <
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (indexPositions.length > 0 && isNavigationKey(e)) {
+      if (
+        indexPositions.length > 0 &&
+        isNavigationKey(e) &&
+        !isControlledHighlighting
+      ) {
         e.preventDefault();
         e.stopPropagation();
         keyboardNavigation.current = true;
@@ -337,7 +341,7 @@ export const useKeyboardNavigation = <
         keyboardNavigation.current = true;
       }
     },
-    [indexPositions, navigateChildItems]
+    [indexPositions, isControlledHighlighting, navigateChildItems]
   );
 
   const listProps = useMemo(() => {
