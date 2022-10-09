@@ -43,6 +43,7 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
       selected,
       showCheckbox,
       style: styleProp,
+      translate3d,
       ...props
     },
     forwardedRef
@@ -51,11 +52,22 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
       uitkDisabled: disabled,
       [withBaseName("checkbox")]: showCheckbox,
     });
+
+    const transform =
+      translate3d !== undefined
+        ? `translate3d(0px, ${translate3d}px, 0px)`
+        : undefined;
     const style =
       itemHeight !== undefined
         ? {
             ...styleProp,
+            transform,
             height: itemHeight,
+          }
+        : transform
+        ? {
+            ...styleProp,
+            transform,
           }
         : styleProp;
 
@@ -66,8 +78,7 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
         aria-disabled={disabled || undefined}
         aria-selected={selected || undefined}
         ref={forwardedRef}
-        style={style}
-      >
+        style={style}>
         {showCheckbox && <CheckboxIcon aria-hidden checked={selected} />}
         {children && typeof children !== "string" ? (
           children

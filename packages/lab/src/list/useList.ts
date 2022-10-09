@@ -36,11 +36,11 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
   highlightedIndex: highlightedIndexProp,
   label = "",
   listHandlers: listHandlersProp,
-  onSelect,
-  onSelectionChange,
   onHighlight,
   onKeyboardNavigation,
   onKeyDown,
+  onSelect,
+  onSelectionChange,
   restoreLastFocus,
   selected,
   selectionStrategy,
@@ -142,7 +142,6 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
 
   const handleKeyDown = useCallback(
     (evt: KeyboardEvent) => {
-      console.log(`useList handleKeyDown`);
       if (!evt.defaultPrevented) {
         typeaheadOnKeyDown?.(evt);
       }
