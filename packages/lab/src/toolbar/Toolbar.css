@@ -45,7 +45,7 @@
 }
 
 .uitkToolbar[aria-orientation="horizontal"] > .Responsive-inner > :not(.uitkTooltray) {
-  margin-top: var(--uitk-size-unit);
+  margin-top: var(--uitkToolbarField-marginTop, var(--uitk-size-unit));
   margin-right: var(--uitk-size-unit);
 }
 
@@ -108,6 +108,10 @@
 .uitkToolbar > .Responsive-inner > .uitkToolbarField {
   flex-shrink: 0;
   flex-grow: 0;
+}
+
+.uitkToolbar > .Responsive-inner > .uitkToolbarField[data-collapsing="true"] {
+  flex-shrink: 1;
 }
 
 .uitkToolbarField.uitkFormField-labelLeft > .uitkFormLabel {
