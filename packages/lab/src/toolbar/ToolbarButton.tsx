@@ -20,3 +20,5 @@ export const ToolbarButton = forwardRef<HTMLButtonElement, ToolbarButtonProps>(
     );
   }
 );
+
+ToolbarButton.displayName = "ToolbarButton";
