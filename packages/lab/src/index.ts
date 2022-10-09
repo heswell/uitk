@@ -1,5 +1,6 @@
 export type {
   SelectHandler,
+  CollectionItem,
   SelectionChangeHandler,
   SelectionStrategy,
   useCollectionItems,
