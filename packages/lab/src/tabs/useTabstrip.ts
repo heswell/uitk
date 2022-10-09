@@ -91,7 +91,7 @@ export const useTabstrip = ({
 
   const overflowedItems = collectionHook.data.filter((item) => item.overflowed);
 
-  const keyboardHook = useKeyboardNavigation({
+  const { focusTab, ...keyboardHook } = useKeyboardNavigation({
     indexPositions: collectionHook.data,
     keyBoardActivation,
     orientation,
@@ -132,7 +132,7 @@ export const useTabstrip = ({
     [onMoveTab, selectionHook]
   );
 
-  const dragDropHook = useDragDrop({
+  const { onMouseDown: dragDropMouseDown, ...dragDropHook } = useDragDrop({
     allowDragDrop,
     containerRef: innerContainerRef,
     extendedDropZone: overflowedItems.length > 0,
@@ -161,10 +161,10 @@ export const useTabstrip = ({
         // this indicates that Enter or Esc key has been pressed, hence we
         // want to make sure keyboardHook treats this as a keyboard event
         // (and applies focusVisible). The last parameter here does that.
-        keyboardHook.focusTab(tabIndex, false, true);
+        focusTab(tabIndex, false, true);
       }
     },
-    [editableHook, keyboardHook]
+    [editableHook, focusTab]
   );
 
   const handleClick = useCallback(
@@ -202,6 +202,20 @@ export const useTabstrip = ({
     onExitEditMode: handleExitEditMode,
   };
 
+  const handleMouseDown = useCallback(
+    (evt) => {
+      // This piece of code is a no-op in many scenarios - the
+      // mousedown event will trigger focus and the focus event
+      const tab = evt.target.closest('[role^="tab"]');
+      if (tab?.getAttribute("role") === "tab") {
+        const tabIndex = parseInt(tab.dataset.index ?? "-1");
+        focusTab(tabIndex, true);
+      }
+      dragDropMouseDown?.(evt);
+    },
+    [dragDropMouseDown, focusTab]
+  );
+
   const addTab = useCallback(
     // The -1 is to account for the AddTab button - we shouldn't assume this
     (indexPosition: number = collectionHook.data.length - 1) => {
@@ -237,14 +251,14 @@ export const useTabstrip = ({
           // this will take care of focus, which will be set to the editable input
           editableHook.setEditing(true);
         } else {
-          keyboardHook.focusTab(tab.index);
+          focusTab(tab.index);
         }
       }
     },
     [
       collectionHook.data,
       editableHook,
-      keyboardHook,
+      focusTab,
       promptForNewTabName,
       selectionHook,
     ]
@@ -293,13 +307,14 @@ export const useTabstrip = ({
     containerProps: keyboardHook.containerProps,
     controlledSelection: selectionHook.isControlled,
     editing: editableHook.editing,
-    focusTab: keyboardHook.focusTab,
+    focusTab,
     focusIsWithinComponent: keyboardHook.focusIsWithinComponent,
     focusVisible: keyboardHook.focusVisible,
     highlightedIdx: keyboardHook.highlightedIdx,
     activeTabIndex: selectionHook.selected,
     navigationProps,
     tabProps,
+    onMouseDown: handleMouseDown,
     ...dragDropHook,
   };
 };
