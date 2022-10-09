@@ -22,6 +22,7 @@ const getObservedDimensions = (containerOnly: boolean) =>
     : ObservedDimensions.withContent;
 
 const NULL_REF = { current: null };
+const EXP_PATTERN = /^(\d+)\.(\d+)e\+(\d+)$/;
 
 const getItemTop = (
   element: HTMLElement,
@@ -30,7 +31,10 @@ const getItemTop = (
   const { transform = "none" } = getComputedStyle(element);
   if (transform.startsWith("matrix")) {
     const pos = transform.lastIndexOf(",");
-    return parseInt(transform.slice(pos + 1));
+    const transformY = transform.slice(pos + 1, -1).trim();
+    // very large numbers will be represented in scientific notation. Might run
+    // into this in a Virtualized list. Number deals with this, parseInt would fail.
+    return Number(transformY);
   } else {
     let offsetParent = element.offsetParent as HTMLElement;
     if (offsetParent === offsetContainer || offsetContainer === null) {
@@ -99,6 +103,7 @@ export const useViewportTracking = <Item>({
             el.ariaExpanded && el.firstChild
               ? (el.firstChild as HTMLElement)
               : el;
+          //TODO - use the actual height
           const headerHeight = stickyHeaders ? 36 : 0;
           const itemTop = getItemTop(targetEl, offsetContainer);
           const itemHeight = targetEl.offsetHeight;
