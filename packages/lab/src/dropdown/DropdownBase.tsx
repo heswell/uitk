@@ -127,7 +127,6 @@ export const DropdownBase = forwardRef<HTMLDivElement, DropdownBaseProps>(
         role = defaultRole,
         ...ownProps
       } = trigger.props as MaybeChildProps;
-
       return cloneElement(
         trigger,
         forwardCallbackProps(ownProps, {
