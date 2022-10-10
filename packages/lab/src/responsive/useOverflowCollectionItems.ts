@@ -23,7 +23,6 @@ import {
   OverflowReducer,
   OverflowReducerInitialisationProps,
 } from "./OverflowReducer";
-import { executionAsyncId } from "async_hooks";
 
 const defaultOptions: OverflowCollectionOptions = {};
 
@@ -66,8 +65,7 @@ const getItemsIdentity = (
 const syncIncomingChildrenToState = (
   data: OverflowItem[],
   children: ReactNode,
-  existingIdentity: string,
-  label: string
+  existingIdentity: string
 ): string => {
   if (children) {
     // TODO will need to exclude any items which are not child items
@@ -83,7 +81,6 @@ const syncIncomingChildrenToState = (
           React.isValidElement(child) &&
           child.type === overflowItem.element.type
         ) {
-          const componentName = child.type.displayName;
           overflowItem.element = child;
 
           // if (componentName === "ToolbarField") {
@@ -102,8 +99,8 @@ const syncIncomingChildrenToState = (
     } else {
       // this will be picked up with current identity scheme, need to have it here
     }
-    return existingIdentity;
   }
+  return existingIdentity;
 };
 
 export const useOverflowCollectionItems: OverflowCollectionHook = ({
@@ -211,7 +208,7 @@ export const useOverflowCollectionItems: OverflowCollectionHook = ({
 
   let identity = getItemsIdentity(defaultSource, source, children);
   if (label === "Toolbar" || label === "Tooltray") {
-    identity = syncIncomingChildrenToState(data, children, identity, label);
+    identity = syncIncomingChildrenToState(data, children, identity);
   }
   useIsomorphicLayoutEffect(() => {
     if (previousIdentityRef.current !== "") {
@@ -222,7 +219,7 @@ export const useOverflowCollectionItems: OverflowCollectionHook = ({
         idRoot,
         options,
       });
-      dispatch({ type: "init", overflowItems, label });
+      dispatch({ type: "init", overflowItems });
       measureManagedItems(true);
     }
     previousIdentityRef.current = identity;
