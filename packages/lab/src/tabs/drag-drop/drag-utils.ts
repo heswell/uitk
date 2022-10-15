@@ -1,3 +1,4 @@
+import { ViewportRange } from "../../list/useScrollPosition";
 import { orientationType } from "../../responsive";
 import { Direction, FWD } from "./dragDropTypes";
 
@@ -9,8 +10,9 @@ export type MeasuredDropTarget = {
   currentIndex: number;
   dataIndex?: number;
   element: HTMLElement;
+  id: string;
   index: number;
-  isDraggedElement: boolean;
+  isLast?: boolean;
   isOverflowIndicator?: boolean;
   start: number;
   end: number;
@@ -77,7 +79,7 @@ const DIMENSIONS = {
     DIMENSION: "width" as DOMRectDimensionKey,
     END: "right" as DOMRectKey,
     POS: "clientX" as MousePosKey,
-    SCROLL_POS: "scrollTop" as ElementDimension,
+    SCROLL_POS: "scrollLeft" as ElementDimension,
     SCROLL_SIZE: "scrollWidth" as ElementDimension,
     START: "left" as DOMRectKey,
   },
@@ -88,7 +90,7 @@ const DIMENSIONS = {
     DIMENSION: "height" as DOMRectDimensionKey,
     END: "bottom" as DOMRectKey,
     POS: "clientY" as MousePosKey,
-    SCROLL_POS: "scrollLeft" as ElementDimension,
+    SCROLL_POS: "scrollTop" as ElementDimension,
     SCROLL_SIZE: "scrollHeight" as ElementDimension,
     START: "top" as DOMRectKey,
   },
@@ -96,72 +98,80 @@ const DIMENSIONS = {
 export const dimensions = (orientation: orientationType) =>
   DIMENSIONS[orientation];
 
-export const getDraggedItem = (
-  measuredItems: MeasuredDropTarget[]
-): MeasuredDropTarget => {
-  const result = measuredItems.find((item) => item.isDraggedElement);
+export const getItemById = (
+  measuredItems: MeasuredDropTarget[],
+  id: string
+) => {
+  const result = measuredItems.find((item) => item.id === id);
   if (result) {
     return result;
-  } else {
-    throw Error("measuredItems do not contain a draggedElement");
   }
+  // else {
+  //   throw Error(`measuredItems do not contain an item with id #${id}`);
+  // }
 };
 
 export const moveDragItem = (
   measuredItems: MeasuredDropTarget[],
-  dropTarget: MeasuredDropTarget
+  dropTarget: MeasuredDropTarget,
+  draggedItem: MeasuredDropTarget
 ): MeasuredDropTarget[] => {
   const items: MeasuredDropTarget[] = measuredItems.slice();
-  const draggedItem = getDraggedItem(items);
-  const draggedIndex = items.indexOf(draggedItem!);
-  const targetIndex = items.indexOf(dropTarget);
-
+  const draggedIndex = items.findIndex((item) => item.id === draggedItem.id);
+  const targetIndex = items.findIndex((item) => item.id === dropTarget.id);
   const firstPos = Math.min(draggedIndex, targetIndex);
   const lastPos = Math.max(draggedIndex, targetIndex);
   let { start } = items[firstPos];
+
+  let currentIndex = items[firstPos].currentIndex;
 
   items[draggedIndex] = { ...dropTarget };
   items[targetIndex] = { ...draggedItem };
 
   for (let i = firstPos; i <= lastPos; i++) {
     const item = items[i];
-    item.currentIndex = i;
+    item.currentIndex = currentIndex;
     item.start = start;
     item.end = start + item.size;
     item.mid = start + item.size / 2;
     start = item.end;
+    currentIndex += 1;
   }
 
   return items;
 };
 
-export const isDraggedElement = (item: MeasuredDropTarget) =>
-  item.isDraggedElement;
-
 export const measureDropTargets = (
   container: HTMLElement,
   orientation: orientationType,
-  draggedItem: HTMLElement,
-  itemQuery?: string
+  itemQuery?: string,
+  viewportRange?: ViewportRange
 ) => {
   const dragThresholds: MeasuredDropTarget[] = [];
-
+  const { DIMENSION, START, END } = dimensions(orientation);
+  const { [START]: containerStart, [END]: containerEnd } =
+    container.getBoundingClientRect();
   // TODO need to make sure we're including only the children we should
   const children = Array.from(
     itemQuery ? container.querySelectorAll(itemQuery) : container.children
   );
+
   let previousThreshold = null;
-  for (let index = 0; index < children.length; index++) {
+  const itemCount = children.length;
+  const start = viewportRange?.from ?? 0;
+  const end = viewportRange?.to ?? itemCount - 1;
+  for (let index = start; index <= end; index++) {
     const element = children[index] as HTMLElement;
-    const dimension = orientation === "horizontal" ? "width" : "height";
-    let [start, size] = measureElementSizeAndPosition(element, dimension);
+    let [start, size] = measureElementSizeAndPosition(element, DIMENSION);
+    const isLast = index === itemCount - 1;
 
     dragThresholds.push(
       (previousThreshold = {
         currentIndex: index,
-        dataIndex: parseInt(element.dataset.index ?? "-1"),
+        dataIndex: parseInt(element.dataset.idx ?? "-1"),
+        id: element.id,
         index,
-        isDraggedElement: element === draggedItem,
+        isLast,
         isOverflowIndicator: element.dataset.overflowIndicator === "true",
         element: element as HTMLElement,
         start,
@@ -176,6 +186,7 @@ export const measureDropTargets = (
 
 export const getNextDropTarget = (
   dropTargets: MeasuredDropTarget[],
+  draggedItem: MeasuredDropTarget,
   pos: number,
   direction: Direction
 ) => {
@@ -187,10 +198,10 @@ export const getNextDropTarget = (
       if (pos > end) {
         continue;
       } else if (pos > mid) {
-        return dropTarget.isDraggedElement ? null : dropTarget;
+        return dropTarget.id === draggedItem.id ? null : dropTarget;
       } else if (pos > start) {
         dropTarget = dropTargets[index - 1];
-        return dropTarget.isDraggedElement ? null : dropTarget;
+        return dropTarget.id === draggedItem.id ? null : dropTarget;
       }
     }
   } else {
@@ -200,10 +211,10 @@ export const getNextDropTarget = (
       if (pos < start) {
         continue;
       } else if (pos < mid) {
-        return dropTarget.isDraggedElement ? null : dropTarget;
+        return dropTarget.id === draggedItem.id ? null : dropTarget;
       } else if (pos < end) {
         dropTarget = dropTargets[Math.min(len - 1, index + 1)];
-        return dropTarget.isDraggedElement ? null : dropTarget;
+        return dropTarget.id === draggedItem.id ? null : dropTarget;
       }
     }
   }

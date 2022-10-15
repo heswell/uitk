@@ -4,6 +4,7 @@ import { useDragDropNaturalMovement } from "./useDragDropNaturalMovement";
 const NULL_DRAG_DROP_RESULT = {
   draggable: null,
   isDragging: false,
+  isScrolling: { current: false },
   dropIndicator: null,
   revealOverflowedItems: false,
 };

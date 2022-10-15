@@ -14,6 +14,7 @@ import { ListItem as DefaultListItem, ListItemProxy } from "./ListItem";
 import { ListProps } from "./listTypes";
 import { useList } from "./useList";
 import { Row, useVirtualization } from "./useVirtualization";
+import { useScrollPosition } from "./useScrollPosition";
 
 import "./List.css";
 
@@ -88,13 +89,14 @@ export const VirtualizedList = forwardRef(function List<
     },
   });
 
-  const { preferredHeight } = useListHeight({
+  const { contentHeight, listItemHeight, listHeight } = useListHeight({
     borderless,
     displayedItemCount,
     height,
     itemCount: collectionHook.data.length,
     itemGapSize,
     itemHeight: itemHeightProp,
+    rootRef,
     rowHeightRef: rowHeightProxyRef,
   });
 
@@ -132,20 +134,23 @@ export const VirtualizedList = forwardRef(function List<
     tabToSelect,
   });
 
-  // TODO move into useList
-  const {
-    rows: data,
-    contentHeight,
-    onVerticalScroll: onScroll,
-  } = useVirtualization<Item>({
-    viewportRef: rootRef,
-    data: collectionHook.data,
-    onViewportScroll,
-    itemGapSize,
+  const { onVerticalScroll, viewportRange } = useScrollPosition({
+    containerSize: listHeight,
+    itemCount: collectionHook.data.length,
+    itemGapSize: itemGapSize,
+    itemSize: listItemHeight,
   });
 
-  // FIXME: useImperativeScrollingAPI doesn't work when element is not rendered beyond `renderBuffer`
-  // One potential way: pass `scrollIntoView` to `useVirtualization` and update rows before original `scrollIntoView` been called
+  console.log({ viewPortRange: viewportRange });
+
+  // TODO move into useList
+  const data = useVirtualization<Item>({
+    data: collectionHook.data,
+    listItemGapSize: itemGapSize,
+    listItemHeight,
+    viewportRange,
+  });
+
   useImperativeScrollingAPI({
     collectionHook,
     forwardedRef: scrollingApiRef,
@@ -225,7 +230,7 @@ export const VirtualizedList = forwardRef(function List<
     width: width ?? "100%",
     height: height ?? "100%",
     maxWidth: maxWidth ?? width,
-    maxHeight: maxHeight ?? preferredHeight,
+    maxHeight: maxHeight ?? listHeight,
   };
 
   return (
@@ -237,12 +242,14 @@ export const VirtualizedList = forwardRef(function List<
       id={`${id}`}
       ref={useForkRef<HTMLDivElement>(rootRef, forwardedRef)}
       role="listbox"
-      onScroll={onScroll}
+      onScroll={onVerticalScroll}
       style={{ ...styleProp, ...sizeStyles }}
-      tabIndex={listDisabled || disableFocus ? undefined : 0}>
+      tabIndex={listDisabled || disableFocus ? undefined : 0}
+    >
       <div
         className={withBaseName("scrollingContentContainer")}
-        style={{ height: contentHeight }}>
+        style={{ height: contentHeight }}
+      >
         <ListItemProxy ref={rowHeightProxyRef} />
         {renderContent()}
       </div>

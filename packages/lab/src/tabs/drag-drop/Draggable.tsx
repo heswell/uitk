@@ -41,10 +41,15 @@ export const Draggable = forwardRef<
   );
 });
 
+// const colors = ["black", "red", "green", "yellow"];
+// let color_idx = 0;
 export const createDragSpacer = (
   transitioning?: MutableRefObject<boolean>
 ): HTMLElement => {
+  // const idx = color_idx++ % 4;
+
   const spacer = document.createElement("div");
+  // spacer.className = `uitkDraggable-spacer ${colors[idx]}`;
   spacer.className = "uitkDraggable-spacer";
   if (transitioning) {
     spacer.addEventListener("transitionend", () => {

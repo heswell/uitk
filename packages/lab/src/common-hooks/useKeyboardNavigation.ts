@@ -168,6 +168,7 @@ export const useKeyboardNavigation = <
 
   const setHighlightedIndex = useCallback(
     (idx: number, fromKeyboard = false) => {
+      console.log(`setHighlightedIndex = ${idx}`);
       onHighlight?.(idx);
       setHighlightedIdx(idx);
       if (fromKeyboard) {

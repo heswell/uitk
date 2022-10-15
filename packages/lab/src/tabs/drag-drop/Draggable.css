@@ -3,11 +3,22 @@
   box-shadow: var(--uitk-overlayable-shadow-drag);
   cursor: var(--uitk-draggable-grab-cursor-active);
   position: absolute;
+  opacity: .5;
 }
 
 .uitkDraggable-spacer {
-  display: inline-block;
-  height: var(--tabs-tabstrip-height);
-  transition: width 0.4s ease;
-  width: 0;
+  display: var(--uitkDraggable-display, inline-block);
+  height: var(--uitkDraggable-spacer-height, var(--tabs-tabstrip-height));
+  transition: var(--uitkDraggable-transitionProp, width) 0.4s ease;
+  width: var(--uitkDraggable-spacer-width, 0);
 }
+
+/* .uitkDraggable-spacer.red {
+  background-color: red;
+}
+.uitkDraggable-spacer.black {
+  background-color: black;
+}
+.uitkDraggable-spacer.green {
+  background-color: green;
+} */
