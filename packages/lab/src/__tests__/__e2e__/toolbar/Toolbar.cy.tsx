@@ -224,10 +224,10 @@ describe("GIVEN a Toolbar component, with overflow behaviour", () => {
           2
         );
         cy.get(
-          '.Responsive-inner > *[data-overflowed="true"][data-index="8"]'
+          '.Responsive-inner > *[data-overflowed="true"][data-idx="8"]'
         ).should("have.length", 1);
         cy.get(
-          '.Responsive-inner > *[data-overflowed="true"][data-index="9"]'
+          '.Responsive-inner > *[data-overflowed="true"][data-idx="9"]'
         ).should("have.length", 1);
       });
       it("THEN overflowIndicator will be rendered", () => {
@@ -257,10 +257,10 @@ describe("GIVEN a Toolbar component, with overflow behaviour", () => {
         2
       );
       cy.get(
-        '.Responsive-inner > *[data-overflowed="true"][data-index="8"]'
+        '.Responsive-inner > *[data-overflowed="true"][data-idx="8"]'
       ).should("have.length", 1);
       cy.get(
-        '.Responsive-inner > *[data-overflowed="true"][data-index="9"]'
+        '.Responsive-inner > *[data-overflowed="true"][data-idx="9"]'
       ).should("have.length", 1);
     });
   });

@@ -73,13 +73,13 @@ export const DefaultAppHeader: ComponentStory<typeof AppHeader> = () => {
         <CollapsibleLogo
           data-align-start
           data-collapsible="instant"
-          data-index={0}
+          data-idx={0}
           data-priority={1}
           src={PlaceholderLogo as string}
           appTitle="Toolkit"
         />
         <Tabstrip
-          data-index={1}
+          data-idx={1}
           data-priority={2}
           onActiveChange={handleTabSelection}
         >
@@ -89,7 +89,7 @@ export const DefaultAppHeader: ComponentStory<typeof AppHeader> = () => {
         </Tabstrip>
         <Tooltray
           data-collapsible="dynamic"
-          data-index={2}
+          data-idx={2}
           data-priority={1}
           data-align-end
           data-reclaim-space

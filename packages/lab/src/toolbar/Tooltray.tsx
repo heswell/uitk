@@ -93,7 +93,7 @@ export const Tooltray = (props: TooltrayProps) => {
         {overflowIndicator || collapsed ? (
           <OverflowPanel
             className={cx("uitkToolbarField")}
-            data-index={collectionHook.data.length}
+            data-idx={collectionHook.data.length}
             data-overflow-indicator
             data-priority={1}
             id={overflowIndicator?.id}

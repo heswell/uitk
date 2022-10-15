@@ -104,7 +104,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
     const overflowPanel = overflowIndicator ? (
       <OverflowPanel
         className={cx("uitkToolbarField")}
-        data-index={collectionHook.data.length}
+        data-idx={collectionHook.data.length}
         data-overflow-indicator
         data-priority={1}
         id={overflowIndicator.id}
