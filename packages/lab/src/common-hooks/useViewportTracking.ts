@@ -22,7 +22,6 @@ const getObservedDimensions = (containerOnly: boolean) =>
     : ObservedDimensions.withContent;
 
 const NULL_REF = { current: null };
-const EXP_PATTERN = /^(\d+)\.(\d+)e\+(\d+)$/;
 
 const getItemTop = (
   element: HTMLElement,
@@ -96,6 +95,7 @@ export const useViewportTracking = <Item>({
     (item: CollectionItem<Item>) => {
       const offsetContainer = contentRef.current || containerRef.current;
       if (item.id) {
+        console.log({ scrollIntoViewIfNeeded: item.label });
         const el = document.getElementById(item.id);
         if (el && containerRef.current) {
           const { height: viewportHeight } = viewport.current;
@@ -116,7 +116,7 @@ export const useViewportTracking = <Item>({
               itemTop + itemHeight > viewportEnd
                 ? scrollTop + (itemTop + itemHeight) - viewportEnd
                 : itemTop - headerHeight;
-
+            console.log(`scroll ${item.label} to ${newScrollTop}`);
             scrollTo(newScrollTop);
           }
         }
@@ -127,6 +127,9 @@ export const useViewportTracking = <Item>({
 
   useLayoutEffect(() => {
     const { height, contentHeight } = viewport.current;
+    console.log(
+      `layoutEffect triggered in useViewportTracking, highlightedIndex = ${highlightedIdx}`
+    );
     const item = indexPositions[highlightedIdx];
     if (contentHeight > height && item) {
       const [firstItem] = indexPositions;

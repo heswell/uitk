@@ -333,7 +333,7 @@ export const Tabstrip = forwardRef(function Tabstrip(
             ref?: RefObject<HTMLDivElement>;
             key: string | number;
           } = {
-          "data-index": index,
+          "data-idx": index,
           "data-priority": item.priority,
           "data-overflowed": overflowed ? true : undefined,
           ...tabstripHook.navigationProps,

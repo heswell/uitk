@@ -19,10 +19,12 @@ import {
   useTypeahead,
   useViewportTracking,
 } from "../common-hooks";
+import { useDragDrop } from "../tabs/drag-drop";
 
 import { ListHookProps, ListHookResult, ListControlProps } from "./listTypes";
 
 export const useList = <Item, Selection extends SelectionStrategy = "default">({
+  allowDragDrop = false,
   collapsibleHeaders,
   collectionHook: dataHook,
   containerRef,
@@ -39,6 +41,7 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
   onHighlight,
   onKeyboardNavigation,
   onKeyDown,
+  onMoveListItem,
   onSelect,
   onSelectionChange,
   restoreLastFocus,
@@ -47,6 +50,7 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
   selectionKeys,
   stickyHeaders,
   tabToSelect,
+  viewportRange,
 }: ListHookProps<Item, Selection>): ListHookResult<Item, Selection> => {
   type selectedItem = selectedType<Item, Selection>;
 
@@ -119,6 +123,29 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     collectionHook: dataHook,
   });
 
+  const handleDrop = useCallback(
+    (fromIndex, toIndex) => {
+      console.log(`dropAtIndex ${fromIndex} ${toIndex}`);
+      onMoveListItem?.(fromIndex, toIndex);
+      setHighlightedIndex(toIndex);
+    },
+    [dataHook, setHighlightedIndex]
+  );
+
+  const {
+    onMouseDown,
+    isScrolling: isDragDropScrolling,
+    ...dragDropHook
+  } = useDragDrop({
+    allowDragDrop,
+    draggableClassName: "list-item",
+    orientation: "vertical",
+    containerRef,
+    itemQuery: ".uitkListItem",
+    onDrop: handleDrop,
+    viewportRange,
+  });
+
   const selectionHook = useSelection<Item, Selection>({
     defaultSelected,
     highlightedIdx: highlightedIndex,
@@ -171,17 +198,21 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
 
   // This is only appropriate when we are directly controlling a List,
   // not when a control is manipulating the list
-  const { isScrolling, scrollIntoView } = useViewportTracking({
-    containerRef,
-    contentRef,
-    highlightedIdx: highlightedIndex,
-    indexPositions: dataHook.data,
-    stickyHeaders,
-  });
+  const { isScrolling: isViewportScrolling, scrollIntoView } =
+    useViewportTracking({
+      containerRef,
+      contentRef,
+      highlightedIdx: highlightedIndex,
+      indexPositions: dataHook.data,
+      stickyHeaders,
+    });
+
+  const isScrolling =
+    isViewportScrolling.current || isDragDropScrolling.current;
 
   const handleMouseMove = useCallback(
     (evt: MouseEvent) => {
-      if (!isScrolling.current && !disabled) {
+      if (!isScrolling && !disabled) {
         navigationMouseMove();
         const idx = closestListItemIndex(evt.target as HTMLElement);
         if (idx !== highlightedIndex) {
@@ -220,6 +251,7 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     onBlur: navigationControlProps.onBlur,
     onFocus: navigationControlProps.onFocus,
     onKeyDown: handleKeyDown,
+    onMouseDown: onMouseDown,
     onMouseDownCapture: navigationControlProps.onMouseDownCapture,
     onMouseLeave: navigationControlProps.onMouseLeave,
   };
@@ -245,5 +277,6 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     setHighlightedIndex,
     setIgnoreFocus: keyboardHook.setIgnoreFocus,
     setSelected: selectionHook.setSelected,
+    ...dragDropHook,
   };
 };

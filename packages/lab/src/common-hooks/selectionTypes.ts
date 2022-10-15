@@ -6,7 +6,7 @@ export const MULTIPLE = "multiple";
 export const EXTENDED = "extended";
 export const DESELECTABLE = "deselectable";
 
-// export type SelectionDisallowed = "none";
+export type SelectionDisallowed = "none";
 export type SingleSelectionStrategy = "default" | "deselectable";
 export type MultiSelectionStrategy =
   | "multiple"
@@ -14,7 +14,7 @@ export type MultiSelectionStrategy =
   | "extended-multi-range";
 export type SelectionStrategy =
   // | SelectionDisallowed
-  SingleSelectionStrategy | MultiSelectionStrategy;
+  SingleSelectionStrategy | MultiSelectionStrategy | SelectionDisallowed;
 
 export type selectedType<
   Item,

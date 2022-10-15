@@ -34,6 +34,7 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
       children,
       className: classNameProp,
       disabled,
+      dragging,
       tabIndex,
       item,
       itemHeight,
@@ -51,6 +52,7 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
     const className = cx(withBaseName(), classNameProp, {
       uitkDisabled: disabled,
       [withBaseName("checkbox")]: showCheckbox,
+      [withBaseName("dragAway")]: dragging,
     });
 
     const transform =
@@ -78,12 +80,14 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
         aria-disabled={disabled || undefined}
         aria-selected={selected || undefined}
         ref={forwardedRef}
-        style={style}>
+        style={style}
+      >
         {showCheckbox && <CheckboxIcon aria-hidden checked={selected} />}
         {children && typeof children !== "string" ? (
           children
         ) : itemTextHighlightPattern == null ? (
           <span className={withBaseName("textWrapper")}>
+            {`${props.id}__`}
             {label || children}
           </span>
         ) : (

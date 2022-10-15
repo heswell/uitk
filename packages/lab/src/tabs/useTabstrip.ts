@@ -81,7 +81,7 @@ export const useTabstrip = ({
   onEnterEditMode,
   onExitEditMode,
   onMoveTab,
-  orientation,
+  orientation = "horizontal",
   promptForNewTabName,
 }: tabstripHookProps): tabstripHookResult & DragHookResult => {
   const lastSelection = useRef(
@@ -135,9 +135,10 @@ export const useTabstrip = ({
   const { onMouseDown: dragDropMouseDown, ...dragDropHook } = useDragDrop({
     allowDragDrop,
     containerRef: innerContainerRef,
+    draggableClassName: `tabstrip-${orientation}`,
     extendedDropZone: overflowedItems.length > 0,
     onDrop: handleDrop,
-    orientation: "horizontal",
+    orientation,
     itemQuery: ".uitkTab",
   });
 
@@ -208,7 +209,7 @@ export const useTabstrip = ({
       // mousedown event will trigger focus and the focus event
       const tab = evt.target.closest('[role^="tab"]');
       if (tab?.getAttribute("role") === "tab") {
-        const tabIndex = parseInt(tab.dataset.index ?? "-1");
+        const tabIndex = parseInt(tab.dataset.idx ?? "-1");
         focusTab(tabIndex, true);
       }
       dragDropMouseDown?.(evt);

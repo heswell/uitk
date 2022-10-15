@@ -58,8 +58,6 @@ export const useDragDrop = ({
   const getScrollDirection = useCallback(
     (mousePos) => {
       const { SCROLL_POS, SCROLL_SIZE, CLIENT_SIZE } = dimensions(orientation);
-      // const { current: dropTargets } = measuredDropTargets;
-      // const draggedItem = getDraggedItem(dropTargets);
       const {
         [SCROLL_POS]: scrollPos,
         [SCROLL_SIZE]: scrollSize,

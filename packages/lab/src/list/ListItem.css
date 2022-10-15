@@ -89,3 +89,8 @@
   position: absolute !important;
   visibility: hidden;
 }
+
+.uitkListItem-dragAway {
+  display: none;
+}
+

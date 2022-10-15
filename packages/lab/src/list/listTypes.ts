@@ -7,8 +7,8 @@ import React, {
   MouseEventHandler,
   PropsWithChildren,
   Ref,
-  RefObject
-} from 'react';
+  RefObject,
+} from "react";
 
 import {
   CollectionHookResult,
@@ -21,20 +21,26 @@ import {
   SelectionHookResult,
   SelectionProps,
   SelectionStrategy,
-  ViewportTrackingResult
-} from '../common-hooks';
+  ViewportTrackingResult,
+} from "../common-hooks";
+import { DragHookResult } from "../tabs/drag-drop";
+import { ViewportRange } from "./useScrollPosition";
 
-export type ComponentType<T = unknown> = (props: PropsWithChildren<T>) => JSX.Element;
+export type ComponentType<T = unknown> = (
+  props: PropsWithChildren<T>
+) => JSX.Element;
 
 export type ListItemType<T = unknown> = ComponentType<
   ListItemProps<T> & { ref?: Ref<HTMLDivElement> }
 >;
 
-export interface ListItemProps<T = unknown> extends HTMLAttributes<HTMLDivElement> {
+export interface ListItemProps<T = unknown>
+  extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   disabled?: boolean;
+  dragging?: boolean;
   item?: T;
-  itemHeight?: number | string;
+  itemHeight?: number /* | string */; // TODO would we ever need to use a string here ?
   itemTextHighlightPattern?: RegExp | string;
   label?: string;
   showCheckbox?: boolean;
@@ -56,9 +62,11 @@ export interface ListScrollHandles<Item> {
   scrollTo: (scrollOffset: number) => void;
 }
 
-export interface ListProps<Item = string, Selection extends SelectionStrategy = 'default'>
-  extends SelectionProps<Item, Selection>,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'defaultValue'> {
+export interface ListProps<
+  Item = string,
+  Selection extends SelectionStrategy = "default"
+> extends SelectionProps<Item, Selection>,
+    Omit<HTMLAttributes<HTMLDivElement>, "onSelect" | "defaultValue"> {
   /**
    * The component used to render a ListItem instead of the default. This must itself render a ListItem,
    * must implement props that extend ListItemProps and must forward ListItem props to the ListItem.
@@ -69,6 +77,10 @@ export interface ListProps<Item = string, Selection extends SelectionStrategy = 
    */
   ListPlaceholder?: ComponentType<HTMLAttributes<unknown>>;
 
+  /**
+   * ListItems can be re-ordered by drag drop.
+   */
+  allowDragDrop?: boolean;
   borderless?: boolean; // TODO low emphasis ?
   /**
    * Adds checkbox to list. Defaults to true for multiselect strategy. Only supported for
@@ -127,7 +139,7 @@ export interface ListProps<Item = string, Selection extends SelectionStrategy = 
    *
    * Note that when using a percentage value, the list must have a height.
    */
-  itemHeight?: number | string;
+  itemHeight?: number /*| string */;
   /**
    * Used for providing text highlight.
    *
@@ -164,7 +176,12 @@ export interface ListProps<Item = string, Selection extends SelectionStrategy = 
 
   onHighlight?: (index: number) => void;
 
-  onViewportScroll?: (firstVisibleRowIndex: number, lastVisibleRowIndex: number) => void;
+  onMoveListItem?: (fromIndex: number, toIndex: number) => void;
+
+  onViewportScroll?: (
+    firstVisibleRowIndex: number,
+    lastVisibleRowIndex: number
+  ) => void;
   /**
    * If `true`, the component will remember the last keyboard-interacted position
    * and highlight it when list is focused again.
@@ -195,16 +212,21 @@ export interface ListProps<Item = string, Selection extends SelectionStrategy = 
 }
 
 export interface ListControlProps {
-  'aria-activedescendant'?: string;
+  "aria-activedescendant"?: string;
   onBlur: FocusEventHandler;
   onFocus: FocusEventHandler;
   onKeyDown: KeyboardEventHandler;
+  onMouseDown?: MouseEventHandler;
   onMouseDownCapture: MouseEventHandler;
   onMouseLeave: MouseEventHandler;
 }
 
 export interface ListHookProps<Item, Selection extends SelectionStrategy>
-  extends Omit<SelectionProps<CollectionItem<Item>, Selection>, 'onSelect' | 'onSelectionChange'> {
+  extends Omit<
+    SelectionProps<CollectionItem<Item>, Selection>,
+    "onSelect" | "onSelectionChange"
+  > {
+  allowDragDrop?: boolean;
   collapsibleHeaders?: boolean;
   collectionHook: CollectionHookResult<Item>;
   containerRef: RefObject<HTMLElement>;
@@ -219,20 +241,26 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
   label?: string;
   listHandlers?: ListHandlers;
   onHighlight?: (index: number) => void;
-  onKeyboardNavigation?: (event: React.KeyboardEvent, currentIndex: number) => void;
+  onKeyboardNavigation?: (
+    event: React.KeyboardEvent,
+    currentIndex: number
+  ) => void;
   onKeyDown?: (evt: KeyboardEvent) => void;
+  onMoveListItem?: (fromIndex: number, toIndex: number) => void;
   onSelect?: SelectHandler<Item>;
   onSelectionChange?: SelectionChangeHandler<Item, Selection>;
   restoreLastFocus?: boolean;
   selectionKeys?: string[];
   stickyHeaders?: boolean;
   tabToSelect?: boolean;
+  viewportRange?: ViewportRange;
 }
 
 export interface ListHookResult<Item, Selection extends SelectionStrategy>
   extends Partial<ViewportTrackingResult<Item>>,
-    Pick<SelectionHookResult<Item, Selection>, 'selected' | 'setSelected'>,
-    Partial<Omit<NavigationHookResult, 'listProps'>> {
+    Pick<SelectionHookResult<Item, Selection>, "selected" | "setSelected">,
+    Partial<Omit<NavigationHookResult, "listProps">>,
+    Omit<DragHookResult, "isScrolling"> {
   keyboardNavigation: RefObject<boolean>;
   listHandlers: ListHandlers;
   listItemHeaderHandlers: Partial<ListHandlers>;

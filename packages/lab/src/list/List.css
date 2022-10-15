@@ -6,6 +6,10 @@
   --list-item-height: var(--uitk-size-stackable);
   --list-item-gap: 0px;
   --list-maxHeight: 100%;
+  --uitkDraggable-spacer-height: 0;
+  --uitkDraggable-spacer-width: 100%;
+  --uitkDraggable-display: block;
+  --uitkDraggable-transitionProp: height;
 
   background: var(--list-background);
   border-color: var(--uitk-container-borderColor-medium);
@@ -80,4 +84,8 @@
 }
 .uitkList.uitkFocusVisible:after {
   inset: 2px;
+}
+
+.uitkDraggable-list-item {
+  --list-item-height: var(--uitk-size-stackable);
 }

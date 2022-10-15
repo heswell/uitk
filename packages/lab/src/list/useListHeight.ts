@@ -1,5 +1,9 @@
 import { useMemo, useState, useCallback, RefObject } from "react";
-import { useResizeObserver, HeightOnly } from "@heswell/uitk-core";
+import {
+  useResizeObserver,
+  HeightOnly,
+  useIsomorphicLayoutEffect,
+} from "@heswell/uitk-core";
 
 export interface ListHeightHookProps {
   borderless?: boolean;
@@ -8,13 +12,31 @@ export interface ListHeightHookProps {
   height?: number | string;
   itemCount: number;
   itemGapSize: number;
-  itemHeight?: number | string;
+  itemHeight?: number;
+  rootRef: RefObject<HTMLElement>;
   rowHeightRef: RefObject<HTMLElement | null>;
 }
 
 export interface HeightHookResult {
-  preferredHeight: number | undefined;
+  contentHeight: number;
+  listClientHeight?: number;
+  listItemHeight: number;
+  listHeight: number;
 }
+
+const getContentHeight = (
+  itemCount: number,
+  itemHeight: number,
+  itemGapSize = 0
+) => {
+  if (itemCount === 0) {
+    return 0;
+  } else if (itemGapSize === 0) {
+    return itemCount * itemHeight;
+  } else {
+    return itemCount - 1 * (itemHeight + itemGapSize) + itemHeight;
+  }
+};
 
 export const useListHeight = ({
   borderless,
@@ -25,14 +47,21 @@ export const useListHeight = ({
   itemCount,
   itemGapSize,
   itemHeight: itemHeightProp,
+  rootRef,
   rowHeightRef,
 }: ListHeightHookProps): HeightHookResult => {
   // TODO default by density
   const [measuredItemHeight, setMeasuredItemHeight] = useState(36);
+  const [clientHeight, setClientHeight] = useState<number>();
 
-  const preferredHeight = useMemo(() => {
+  const [contentHeight, listHeight] = useMemo(() => {
     let result = borderless ? 0 : 2;
     const itemHeight = itemHeightProp ?? measuredItemHeight;
+    const contentHeight = getContentHeight(itemCount, itemHeight, itemGapSize);
+    if (height !== undefined && typeof height === "number") {
+      // TODO if this is a percentage, convert to number
+      return [contentHeight, height];
+    }
 
     // if there are 0 items we render with the preferred count
     const preferredItemCount =
@@ -54,18 +83,27 @@ export const useListHeight = ({
         (preferredItemCount - 1) * itemGapSize;
     }
 
-    // list height will be undefined if the item height can not be
-    // converted to a number, for example rem or a percentage string
-    return isNaN(result) ? undefined : result;
+    const listHeight = result;
+
+    return [contentHeight, listHeight, clientHeight];
   }, [
     borderless,
+    clientHeight,
     displayedItemCount,
     getItemHeight,
+    height,
     itemCount,
     itemGapSize,
     itemHeightProp,
     measuredItemHeight,
   ]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (rootRef.current) {
+      const { clientHeight } = rootRef.current;
+      setClientHeight(clientHeight);
+    }
+  }, [rootRef]);
 
   const handleRowHeight = useCallback(({ height }) => {
     setMeasuredItemHeight(height);
@@ -74,6 +112,9 @@ export const useListHeight = ({
   useResizeObserver(rowHeightRef, HeightOnly, handleRowHeight, true);
 
   return {
-    preferredHeight,
+    contentHeight,
+    listClientHeight: clientHeight,
+    listItemHeight: measuredItemHeight,
+    listHeight,
   };
 };

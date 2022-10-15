@@ -1,4 +1,5 @@
 import { MouseEventHandler, RefObject } from "react";
+import { ViewportRange } from "../../list/useScrollPosition";
 
 import { orientationType } from "../../responsive";
 
@@ -20,16 +21,18 @@ export type DragHookResult = {
   dropIndicator: JSX.Element | null;
   draggedItemIndex?: number;
   isDragging: boolean;
+  isScrolling: RefObject<boolean>;
   onMouseDown?: MouseEventHandler;
   revealOverflowedItems: boolean;
-  // tabProps?: Partial<TabProps>;
 };
 
 export type DragDropHook = (props: {
   allowDragDrop?: boolean | dragStrategy;
+  draggableClassName: string;
   extendedDropZone?: boolean;
   onDrop: (fromIndex: number, toIndex: number) => void;
   orientation: orientationType;
   containerRef: RefObject<HTMLElement>;
   itemQuery?: string;
+  viewportRange?: ViewportRange;
 }) => DragHookResult;

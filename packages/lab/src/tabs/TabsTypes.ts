@@ -93,7 +93,7 @@ export type exitEditHandler = (
 ) => void;
 
 export interface responsiveDataAttributes {
-  "data-index": number;
+  "data-idx": number;
   "data-overflowed"?: boolean;
   "data-priority": number;
 }
