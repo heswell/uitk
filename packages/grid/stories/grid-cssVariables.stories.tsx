@@ -13,16 +13,11 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   ToggleButtonGroupChangeEventHandler,
-} from "@jpmorganchase/uitk-lab";
-import {
-  Button,
-  Checkbox,
-  FlexItem,
-  FlexLayout,
-} from "@jpmorganchase/uitk-core";
-import { DeleteIcon, UndoIcon } from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-lab";
+import { Button, Checkbox, FlexItem, FlexLayout } from "@heswell/uitk-core";
+import { DeleteIcon, UndoIcon } from "@heswell/uitk-icons";
 import "./grid.stories.css";
-import { DefaultIcon } from "@jpmorganchase/uitk-lab/stories/search-input.stories";
+import { DefaultIcon } from "@heswell/uitk-lab/stories/search-input.stories";
 import { Story } from "@storybook/react";
 
 export default {

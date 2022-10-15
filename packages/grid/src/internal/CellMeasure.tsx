@@ -1,6 +1,6 @@
 import "./CellMeasure.css";
 import { useEffect, useRef } from "react";
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 
 const withBaseName = makePrefixer("uitkGridCellMeasure");
 

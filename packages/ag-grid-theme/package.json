@@ -1,5 +1,5 @@
 {
-  "name": "@jpmorganchase/uitk-ag-grid-theme",
+  "name": "@heswell/uitk-ag-grid-theme",
   "version": "0.2.1",
   "license": "Apache-2.0",
   "style": "uitk-ag-theme.css",

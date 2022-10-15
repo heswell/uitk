@@ -30,7 +30,7 @@ import {
 } from "./utils";
 import { GridContext } from "../GridContext";
 import { CellEditorInfo } from "../CellEditor";
-import { useControlled } from "@jpmorganchase/uitk-core";
+import { useControlled } from "@heswell/uitk-core";
 
 // Attaches active onWheel event to a table element
 // Grid needs to prevent default onWheel event handling for situations when a

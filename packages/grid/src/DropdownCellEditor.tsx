@@ -1,6 +1,6 @@
-import { makePrefixer } from "@jpmorganchase/uitk-core";
+import { makePrefixer } from "@heswell/uitk-core";
 import { useEditorContext } from "./EditorContext";
-import { Dropdown, SelectionChangeHandler } from "@jpmorganchase/uitk-lab";
+import { Dropdown, SelectionChangeHandler } from "@heswell/uitk-lab";
 import "./DropdownCellEditor.css";
 import { useEffect, useRef } from "react";
 

@@ -22,8 +22,8 @@ import {
   ToggleButtonGroup,
   ToggleButtonGroupChangeEventHandler,
   MenuButton,
-} from "@jpmorganchase/uitk-lab";
-import { Button, FlexItem, FlexLayout } from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-lab";
+import { Button, FlexItem, FlexLayout } from "@heswell/uitk-core";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -31,7 +31,7 @@ import {
   LinkedIcon,
   MenuIcon,
   PinIcon,
-} from "@jpmorganchase/uitk-icons";
+} from "@heswell/uitk-icons";
 import { randomAmount, randomInt, randomNumber } from "./utils";
 import "./grid.stories.css";
 import { Story } from "@storybook/react";

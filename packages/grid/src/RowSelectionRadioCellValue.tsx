@@ -1,4 +1,4 @@
-import { RadioButtonIcon } from "@jpmorganchase/uitk-core";
+import { RadioButtonIcon } from "@heswell/uitk-core";
 import { GridCellValueProps } from "./GridColumn";
 import { useSelectionContext } from "./SelectionContext";
 import { MouseEventHandler } from "react";

@@ -5,9 +5,9 @@ import {
   GridColumn,
   RowSelectionCheckboxColumn,
 } from "../src";
-import { LinearProgress } from "@jpmorganchase/uitk-lab";
-import { Button, FlexLayout } from "@jpmorganchase/uitk-core";
-import { FavoriteIcon, LinkedIcon } from "@jpmorganchase/uitk-icons";
+import { LinearProgress } from "@heswell/uitk-lab";
+import { Button, FlexLayout } from "@heswell/uitk-core";
+import { FavoriteIcon, LinkedIcon } from "@heswell/uitk-icons";
 import "./grid.stories.css";
 import { Story } from "@storybook/react";
 

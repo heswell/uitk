@@ -1,4 +1,4 @@
-import { List, ListProps, ListScrollHandles } from "@jpmorganchase/uitk-lab";
+import { List, ListProps, ListScrollHandles } from "@heswell/uitk-lab";
 import { useRef } from "react";
 
 type ItemType = { label: string; value: string };

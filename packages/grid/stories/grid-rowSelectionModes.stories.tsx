@@ -14,8 +14,8 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   ToggleButtonGroupChangeEventHandler,
-} from "@jpmorganchase/uitk-lab";
-import { FlexItem, FlexLayout } from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-lab";
+import { FlexItem, FlexLayout } from "@heswell/uitk-core";
 import "./grid.stories.css";
 
 export default {
