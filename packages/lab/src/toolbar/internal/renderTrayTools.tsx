@@ -39,7 +39,7 @@ export const renderTrayTools = (
         : true;
 
     const toolbarItemProps = {
-      "data-index": index,
+      "data-idx": index,
       "data-priority": props["data-priority"] ?? 2,
       "data-overflowed": overflowed,
       id: item.id,
@@ -57,8 +57,8 @@ export const renderTrayTools = (
           <ToolbarField
             {...toolbarProps}
             {...toolbarItemProps}
-            // don't think we need the data-index
-            data-index={index}
+            // don't think we need the data-idx
+            data-idx={index}
             data-priority={2}
             key={index}
             data-orientation={orientation}
@@ -71,7 +71,7 @@ export const renderTrayTools = (
         return (
           <ToolbarField
             {...toolbarItemProps}
-            data-index={index}
+            data-idx={index}
             data-overflowed={overflowed}
             data-priority={2}
             key={index}

@@ -209,14 +209,14 @@ const Header = () => {
     <>
       <AppHeader>
         <strong>LOGO</strong>
-        <Tabstrip data-index={1} data-priority={2}>
+        <Tabstrip data-idx={1} data-priority={2}>
           {tabs.map((label, i) => (
             <Tab label={label} key={i} />
           ))}
         </Tabstrip>
         <Tooltray
           data-collapsible="dynamic"
-          data-index={2}
+          data-idx={2}
           data-priority={1}
           data-align-end
           data-reclaim-space
