@@ -7,6 +7,8 @@ export type DropdownPlacement =
   | "top-start"
   | "top-end"; // do any others make sense ?
 
+export type OpenChangeReason = "selection" | "click-away" | "esc";
+
 export interface DropdownBaseProps
   extends Omit<HTMLAttributes<HTMLDivElement>, "onSelect">,
     Pick<PortalProps, "disablePortal" | "container"> {
@@ -15,7 +17,7 @@ export interface DropdownBaseProps
   fullWidth?: boolean;
   isOpen?: boolean;
   onKeyDown?: (e: KeyboardEvent<HTMLElement>) => void;
-  onOpenChange?: (isOpen: boolean) => void;
+  onOpenChange?: (isOpen: boolean, reason: OpenChangeReason) => void;
   openOnFocus?: boolean;
   placement?: DropdownPlacement;
   popupWidth?: number;

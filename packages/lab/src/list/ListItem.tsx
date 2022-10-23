@@ -87,7 +87,6 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
           children
         ) : itemTextHighlightPattern == null ? (
           <span className={withBaseName("textWrapper")}>
-            {`${props.id}__`}
             {label || children}
           </span>
         ) : (
