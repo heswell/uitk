@@ -471,7 +471,7 @@ export const Tabstrip = forwardRef(function Tabstrip(
     }
   );
 
-  const { id: selectedTabId } = collectionHook.data[activeTabIndex];
+  const selectedItem = collectionHook.data[activeTabIndex];
 
   return (
     <div
@@ -489,7 +489,7 @@ export const Tabstrip = forwardRef(function Tabstrip(
         <TabActivationIndicator
           hideThumb={selectedTabOverflowed || tabstripHook.isDragging}
           orientation={orientation}
-          tabId={selectedTabId}
+          tabId={selectedItem?.id}
         />
       ) : null}
       {tabstripHook.draggable}
