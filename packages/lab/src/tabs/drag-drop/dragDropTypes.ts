@@ -1,4 +1,5 @@
 import { MouseEventHandler, RefObject } from "react";
+import { CollectionItem } from "../../common-hooks";
 import { ViewportRange } from "../../list/useScrollPosition";
 
 import { orientationType } from "../../responsive";
@@ -26,13 +27,18 @@ export type DragHookResult = {
   revealOverflowedItems: boolean;
 };
 
-export type DragDropHook = (props: {
+export type DragDropProps = {
   allowDragDrop?: boolean | dragStrategy;
+  /** this is the className that will be assigned during drag to the dragged element  */
   draggableClassName: string;
   extendedDropZone?: boolean;
+  onDragStart?: () => void;
   onDrop: (fromIndex: number, toIndex: number) => void;
   orientation: orientationType;
   containerRef: RefObject<HTMLElement>;
   itemQuery?: string;
+  selected?: CollectionItem<unknown> | CollectionItem<unknown>[];
   viewportRange?: ViewportRange;
-}) => DragHookResult;
+};
+
+export type DragDropHook = (props: DragDropProps) => DragHookResult;

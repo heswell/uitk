@@ -114,13 +114,23 @@ export const getItemById = (
 export const moveDragItem = (
   measuredItems: MeasuredDropTarget[],
   dropTarget: MeasuredDropTarget,
-  draggedItem: MeasuredDropTarget
+  draggedItem: MeasuredDropTarget,
+  direction: "fwd" | "bwd"
 ): MeasuredDropTarget[] => {
+  console.log(`moveDragItem ${direction}`);
   const items: MeasuredDropTarget[] = measuredItems.slice();
   const draggedIndex = items.findIndex((item) => item.id === draggedItem.id);
   const targetIndex = items.findIndex((item) => item.id === dropTarget.id);
   const firstPos = Math.min(draggedIndex, targetIndex);
   const lastPos = Math.max(draggedIndex, targetIndex);
+
+  if (!items[firstPos]) {
+    console.log(
+      `moveDragItem, no draggable item ${items.map(
+        (d, i) => `\n[${i}] @ ${d.currentIndex} ${d.element.textContent} `
+      )}`
+    );
+  }
   let { start } = items[firstPos];
 
   let currentIndex = items[firstPos].currentIndex;
@@ -138,6 +148,7 @@ export const moveDragItem = (
     currentIndex += 1;
   }
 
+  // console.table(items.map((i) => ({ ...i, element: i.element.textContent })));
   return items;
 };
 
@@ -148,38 +159,41 @@ export const measureDropTargets = (
   viewportRange?: ViewportRange
 ) => {
   const dragThresholds: MeasuredDropTarget[] = [];
-  const { DIMENSION, START, END } = dimensions(orientation);
-  const { [START]: containerStart, [END]: containerEnd } =
-    container.getBoundingClientRect();
-  // TODO need to make sure we're including only the children we should
+  const { DIMENSION } = dimensions(orientation);
   const children = Array.from(
     itemQuery ? container.querySelectorAll(itemQuery) : container.children
   );
 
-  let previousThreshold = null;
   const itemCount = children.length;
-  const start = viewportRange?.from ?? 0;
-  const end = viewportRange?.to ?? itemCount - 1;
+  // const start = viewportRange?.from ?? 0;
+  const start =
+    typeof viewportRange?.from === "number"
+      ? viewportRange.atEnd
+        ? Math.max(0, viewportRange.from - 1)
+        : viewportRange.from
+      : 0;
+  const end =
+    typeof viewportRange?.to === "number"
+      ? Math.min(viewportRange.to + 1, itemCount - 1)
+      : itemCount - 1;
   for (let index = start; index <= end; index++) {
     const element = children[index] as HTMLElement;
-    let [start, size] = measureElementSizeAndPosition(element, DIMENSION);
+    const [start, size] = measureElementSizeAndPosition(element, DIMENSION);
     const isLast = index === itemCount - 1;
 
-    dragThresholds.push(
-      (previousThreshold = {
-        currentIndex: index,
-        dataIndex: parseInt(element.dataset.idx ?? "-1"),
-        id: element.id,
-        index,
-        isLast,
-        isOverflowIndicator: element.dataset.overflowIndicator === "true",
-        element: element as HTMLElement,
-        start,
-        end: start + size,
-        size,
-        mid: start + size / 2,
-      })
-    );
+    dragThresholds.push({
+      currentIndex: index,
+      dataIndex: parseInt(element.dataset.idx ?? "-1"),
+      id: element.id,
+      index,
+      isLast,
+      isOverflowIndicator: element.dataset.overflowIndicator === "true",
+      element: element as HTMLElement,
+      start,
+      end: start + size,
+      size,
+      mid: start + size / 2,
+    });
   }
   return dragThresholds;
 };
@@ -188,34 +202,70 @@ export const getNextDropTarget = (
   dropTargets: MeasuredDropTarget[],
   draggedItem: MeasuredDropTarget,
   pos: number,
-  direction: Direction
+  direction: Direction | "static"
 ) => {
   const len = dropTargets.length;
-  if (direction === FWD) {
+  const { size } = draggedItem;
+
+  if (direction === "static") {
+    console.log(`find static dropTarget`);
+    // pos is the midpos of our draggeditem
+    const startPos = pos - size / 2;
+    const endPos = pos + size / 2;
     for (let index = 0; index < len; index++) {
-      let dropTarget = dropTargets[index];
+      const dropTarget = dropTargets[index];
+      const { start, mid, end } = dropTarget;
+      if (startPos > end) {
+        // we haven't reached target yet
+        continue;
+      } else if (endPos < start) {
+        // somethings gone wrong, we ve passed the target
+        throw Error("Failed to identify next drop target");
+      } else if (startPos < mid) {
+        console.log(`static dropTarget is ${dropTarget.element.textContent}`);
+        return dropTarget;
+      } /*else if (pos > start) {
+        const previousDropTarget = dropTargets[index - 1];
+        const trailingEdge = pos - size;
+        if (trailingEdge < previousDropTarget.end) {
+          return previousDropTarget;
+        } else {
+          // draggedItem is over spacer gap
+        }
+      } */
+    }
+  } else if (direction === FWD) {
+    // pos is the end of our draggeditem
+    for (let index = 0; index < len; index++) {
+      const dropTarget = dropTargets[index];
       const { start, mid, end } = dropTarget;
       if (pos > end) {
         continue;
       } else if (pos > mid) {
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
+        return dropTarget;
       } else if (pos > start) {
-        dropTarget = dropTargets[index - 1];
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
+        const previousDropTarget = dropTargets[index - 1];
+        const trailingEdge = pos - size;
+        if (trailingEdge < previousDropTarget.end) {
+          return previousDropTarget;
+        } else {
+          // draggedItem is over spacer gap
+        }
       }
     }
   } else {
+    // pos is the start of our draggeditem
     for (let index = len - 1; index >= 0; index--) {
-      let dropTarget = dropTargets[index];
-      const { start, mid, end } = dropTarget;
+      const dropTarget = dropTargets[index];
+      const { start, mid } = dropTarget;
       if (pos < start) {
         continue;
       } else if (pos < mid) {
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
-      } else if (pos < end) {
+        return dropTarget;
+      } /* else if (pos < end) {
         dropTarget = dropTargets[Math.min(len - 1, index + 1)];
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
-      }
+        return dropTarget;
+      }*/
     }
   }
   return null;

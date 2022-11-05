@@ -17,7 +17,7 @@ export interface DropdownBaseProps
   fullWidth?: boolean;
   isOpen?: boolean;
   onKeyDown?: (e: KeyboardEvent<HTMLElement>) => void;
-  onOpenChange?: (isOpen: boolean, reason: OpenChangeReason) => void;
+  onOpenChange?: (isOpen: boolean, reason?: OpenChangeReason) => void;
   openOnFocus?: boolean;
   placement?: DropdownPlacement;
   popupWidth?: number;

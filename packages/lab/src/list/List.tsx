@@ -225,7 +225,6 @@ export const List = forwardRef(function List<
         uitkFocusVisible: appliedFocusVisible === idx.value,
       }),
       disabled: disabled || listDisabled,
-      dragging: draggedItemIndex === idx.value,
       id: itemId,
       item: isChildItem ? undefined : item?.value ?? undefined,
       itemHeight: getItemHeight(idx.value),
@@ -279,6 +278,7 @@ export const List = forwardRef(function List<
     end = items.length
   ): ReactElement[] | undefined => {
     const listItems: ReactElement[] = [];
+
     while (idx.value < end) {
       const item = items[idx.value];
       if (item.header) {
@@ -308,7 +308,12 @@ export const List = forwardRef(function List<
 
   const renderContent = () => {
     if (collectionHook.data.length) {
-      return renderCollectionItems(collectionHook.data);
+      const itemsToRender =
+        typeof draggedItemIndex === "number" && draggedItemIndex >= 0
+          ? collectionHook.data.filter((d) => d.index !== draggedItemIndex)
+          : collectionHook.data;
+
+      return renderCollectionItems(itemsToRender);
     } else {
       renderEmpty();
     }

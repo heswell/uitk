@@ -2,8 +2,9 @@
   align-items: center;
   color: var(--uitk-text-primary-foreground);
   display: flex;
-  min-width: 200px;
+  min-width: var(--uitkLinearProgress-minWidth, 200px);
   font-size: var(--linearProgress-fontSize);
+  width: var(--uitkLinearProgress-width, auto);
 }
 
 .uitkLinearProgress-large {

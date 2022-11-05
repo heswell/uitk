@@ -6,6 +6,6 @@ export function isSelected<Item>(
 ): boolean {
   const isSelected = Array.isArray(selected)
     ? selected.includes(item)
-    : selected === item;
+    : selected?.id === item.id;
   return isSelected;
 }

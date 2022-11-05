@@ -1,5 +1,6 @@
 import { DragDropHook } from "./dragDropTypes";
 import { useDragDropNaturalMovement } from "./useDragDropNaturalMovement";
+import { useDragDropIndicator } from "./useDragDropIndicator";
 
 const NULL_DRAG_DROP_RESULT = {
   draggable: null,
@@ -14,9 +15,12 @@ export const useDragDrop: DragDropHook = ({
   allowDragDrop,
   ...dragDropProps
 }) => {
-  const useDragDropHook: DragDropHook = allowDragDrop
-    ? useDragDropNaturalMovement
-    : noDragDrop;
+  const useDragDropHook: DragDropHook =
+    allowDragDrop === true || allowDragDrop === "natural-movement"
+      ? useDragDropNaturalMovement
+      : allowDragDrop === "drop-indicator"
+      ? useDragDropIndicator
+      : noDragDrop;
 
   return useDragDropHook(dragDropProps);
 };

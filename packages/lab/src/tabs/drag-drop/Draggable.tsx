@@ -58,3 +58,25 @@ export const createDragSpacer = (
   }
   return spacer;
 };
+// const colors = ["black", "red", "green", "yellow"];
+// let color_idx = 0;
+export const createDropIndicatorPosition = (): HTMLElement => {
+  // const idx = color_idx++ % 4;
+  const spacer = document.createElement("div");
+  spacer.className = "uitkDraggable-dropIndicatorPosition";
+  return spacer;
+};
+
+export const createDropIndicator = (
+  transitioning?: MutableRefObject<boolean>
+): HTMLElement => {
+  // const idx = color_idx++ % 4;
+  const spacer = document.createElement("div");
+  spacer.className = "uitkDraggable-dropIndicator";
+  if (transitioning) {
+    spacer.addEventListener("transitionend", () => {
+      transitioning.current = false;
+    });
+  }
+  return spacer;
+};

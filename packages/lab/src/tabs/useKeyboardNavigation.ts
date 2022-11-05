@@ -1,4 +1,4 @@
-import { useControlled, useIsomorphicLayoutEffect } from "@heswell/uitk-core";
+import { useControlled } from "@heswell/uitk-core";
 import {
   FocusEvent,
   FocusEventHandler,
