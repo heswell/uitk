@@ -23,7 +23,7 @@ import {
   SelectionStrategy,
   ViewportTrackingResult,
 } from "../common-hooks";
-import { DragHookResult } from "../tabs/drag-drop";
+import { DragHookResult, dragStrategy } from "../tabs/drag-drop";
 import { ViewportRange } from "./useScrollPosition";
 
 export type ComponentType<T = unknown> = (
@@ -38,7 +38,6 @@ export interface ListItemProps<T = unknown>
   extends HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   disabled?: boolean;
-  dragging?: boolean;
   item?: T;
   itemHeight?: number /* | string */; // TODO would we ever need to use a string here ?
   itemTextHighlightPattern?: RegExp | string;
@@ -80,7 +79,7 @@ export interface ListProps<
   /**
    * ListItems can be re-ordered by drag drop.
    */
-  allowDragDrop?: boolean;
+  allowDragDrop?: boolean | dragStrategy;
   borderless?: boolean; // TODO low emphasis ?
   /**
    * Adds checkbox to list. Defaults to true for multiselect strategy. Only supported for
@@ -226,7 +225,7 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
     SelectionProps<CollectionItem<Item>, Selection>,
     "onSelect" | "onSelectionChange"
   > {
-  allowDragDrop?: boolean;
+  allowDragDrop?: boolean | dragStrategy;
   collapsibleHeaders?: boolean;
   collectionHook: CollectionHookResult<Item>;
   containerRef: RefObject<HTMLElement>;
@@ -238,6 +237,7 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
   disableTypeToSelect?: boolean;
   focusVisible?: boolean;
   highlightedIndex?: number;
+  id: string;
   label?: string;
   listHandlers?: ListHandlers;
   onHighlight?: (index: number) => void;
@@ -260,7 +260,7 @@ export interface ListHookResult<Item, Selection extends SelectionStrategy>
   extends Partial<ViewportTrackingResult<Item>>,
     Pick<SelectionHookResult<Item, Selection>, "selected" | "setSelected">,
     Partial<Omit<NavigationHookResult, "listProps">>,
-    Omit<DragHookResult, "isScrolling"> {
+    Omit<DragHookResult, "isDragging" | "isScrolling"> {
   keyboardNavigation: RefObject<boolean>;
   listHandlers: ListHandlers;
   listItemHeaderHandlers: Partial<ListHandlers>;

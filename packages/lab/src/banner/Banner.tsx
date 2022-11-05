@@ -16,11 +16,11 @@ import {
   useAriaAnnouncer,
   useForkRef,
   ValidationStatus,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 
 import { Link, LinkProps } from "../link";
 import getInnerText from "./internal/getInnerText";
-import { CloseIcon, IconProps } from "@jpmorganchase/uitk-icons";
+import { CloseIcon, IconProps } from "@heswell/uitk-icons";
 import cx from "classnames";
 
 import "./Banner.css";

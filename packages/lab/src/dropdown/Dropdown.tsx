@@ -111,6 +111,7 @@ export const Dropdown = forwardRef(function Dropdown<
     (
       itemOrItems?: CollectionItem<Item> | null | CollectionItem<Item>[]
     ):
+      | null
       | undefined
       | (Selection extends SingleSelectionStrategy ? Item | null : Item[]) => {
       type returnType = Selection extends SingleSelectionStrategy
@@ -120,6 +121,8 @@ export const Dropdown = forwardRef(function Dropdown<
         return itemOrItems.map((i) => i.value) as returnType;
       } else if (itemOrItems) {
         return itemOrItems.value as returnType;
+      } else if (itemOrItems === null) {
+        return null;
       }
     },
     []

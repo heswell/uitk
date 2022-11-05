@@ -1,6 +1,11 @@
 import { Portal, useForkRef } from "@heswell/uitk-core";
 import cx from "classnames";
-import { forwardRef, MutableRefObject, useCallback } from "react";
+import {
+  forwardRef,
+  MutableRefObject,
+  TransitionEventHandler,
+  useCallback,
+} from "react";
 import { Rect } from "./dragDropTypes";
 
 import "./Draggable.css";
@@ -9,9 +14,15 @@ const makeClassNames = (classNames: string) =>
   classNames.split(" ").map((className) => `uitkDraggable-${className}`);
 export const Draggable = forwardRef<
   HTMLDivElement,
-  { wrapperClassName: string; element: HTMLElement; rect: Rect; scale?: number }
+  {
+    wrapperClassName: string;
+    element: HTMLElement;
+    rect: Rect;
+    scale?: number;
+    onTransitionEnd?: TransitionEventHandler;
+  }
 >(function Draggable(
-  { wrapperClassName, element, rect, scale = 1 },
+  { wrapperClassName, element, onTransitionEnd, rect, scale = 1 },
   forwardedRef
 ) {
   const callbackRef = useCallback(
@@ -35,6 +46,7 @@ export const Draggable = forwardRef<
       <div
         className={cx("uitkDraggable", ...makeClassNames(wrapperClassName))}
         ref={forkedRef}
+        onTransitionEnd={onTransitionEnd}
         style={{ left, top, width, height }}
       />
     </Portal>
@@ -51,6 +63,26 @@ export const createDragSpacer = (
   const spacer = document.createElement("div");
   // spacer.className = `uitkDraggable-spacer ${colors[idx]}`;
   spacer.className = "uitkDraggable-spacer";
+  if (transitioning) {
+    spacer.addEventListener("transitionend", () => {
+      transitioning.current = false;
+    });
+  }
+  return spacer;
+};
+
+export const createDropIndicatorPosition = (): HTMLElement => {
+  const spacer = document.createElement("div");
+  spacer.className = "uitkDraggable-dropIndicatorPosition";
+  return spacer;
+};
+
+export const createDropIndicator = (
+  transitioning?: MutableRefObject<boolean>
+): HTMLElement => {
+  // const idx = color_idx++ % 4;
+  const spacer = document.createElement("div");
+  spacer.className = "uitkDraggable-dropIndicator";
   if (transitioning) {
     spacer.addEventListener("transitionend", () => {
       transitioning.current = false;

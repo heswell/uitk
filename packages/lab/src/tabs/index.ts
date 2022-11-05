@@ -1,3 +1,4 @@
+export * from "./drag-drop";
 export * from "./TabActivationIndicator";
 export * from "./Tabstrip";
 export * from "./Tab";

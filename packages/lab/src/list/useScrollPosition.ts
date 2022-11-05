@@ -2,6 +2,8 @@ import { useIsomorphicLayoutEffect } from "@heswell/uitk-core";
 import { UIEvent, useCallback, useMemo, useRef, useState } from "react";
 
 export type ViewportRange = {
+  atEnd: boolean;
+  atStart: boolean;
   from: number;
   to: number;
 };
@@ -20,13 +22,18 @@ interface ScrollPositionHookProps {
 const getRange = (
   scrollPos: number,
   height: number,
+  itemCount: number,
   itemHeight: number
 ): ViewportRange => {
   const viewportRowCount = Math.ceil(height / itemHeight);
-  const from = scrollPos / itemHeight;
-  const to = from + viewportRowCount - 1;
-
-  return { from: Math.floor(from), to: Math.ceil(to) };
+  const from = Math.floor(scrollPos / itemHeight);
+  const to = Math.ceil(from + viewportRowCount - 1);
+  return {
+    atStart: from === 0,
+    atEnd: to === itemCount - 1,
+    from,
+    to,
+  };
 };
 
 export const useScrollPosition = ({
@@ -44,9 +51,10 @@ export const useScrollPosition = ({
     return getRange(
       scrollPosRef.current,
       listHeight,
+      listItemCount,
       listItemHeight + listItemGapSize
     );
-  }, [listHeight, listItemHeight, listItemGapSize]);
+  }, [listHeight, listItemCount, listItemHeight, listItemGapSize]);
 
   const [viewportRange, setViewportRange] = useState<ViewportRange>(range);
 
@@ -60,7 +68,12 @@ export const useScrollPosition = ({
       if (scrollTop !== scrollPosRef.current) {
         scrollPosRef.current = scrollTop;
         const itemHeight = listItemHeight + listItemGapSize;
-        const range = getRange(scrollTop, listHeight, itemHeight);
+        const range = getRange(
+          scrollTop,
+          listHeight,
+          listItemCount,
+          itemHeight
+        );
         if (
           range.from !== firstVisibleRowRef.current ||
           range.to !== lastVisibleRowRef.current
@@ -72,7 +85,13 @@ export const useScrollPosition = ({
         }
       }
     },
-    [listItemHeight, listItemGapSize, listHeight, onViewportScroll]
+    [
+      listItemHeight,
+      listItemGapSize,
+      listHeight,
+      listItemCount,
+      onViewportScroll,
+    ]
   );
 
   return {

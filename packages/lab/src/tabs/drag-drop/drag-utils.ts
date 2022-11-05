@@ -1,6 +1,5 @@
 import { ViewportRange } from "../../list/useScrollPosition";
 import { orientationType } from "../../responsive";
-import { Direction, FWD } from "./dragDropTypes";
 
 const LEFT_RIGHT = ["left", "right"];
 const TOP_BOTTOM = ["top", "bottom"];
@@ -26,6 +25,17 @@ export type targetType = {
   isLast?: boolean;
 };
 
+/** clones and removes id */
+export const cloneElement = <T extends HTMLElement>(element: T): T => {
+  const dolly = element.cloneNode(true) as T;
+  // TOSO should we care about nested id values - perhaps an additional param, defaulting to false ?
+  dolly.removeAttribute("id");
+  // Set idx to -1 in case a moueMove event as we wait for drop to take effect might set highlighted
+  // index to wrong value (see useList) -1 will be ignored;
+  dolly.dataset.idx = "-1";
+  return dolly;
+};
+
 type MousePosKey = keyof Pick<MouseEvent, "clientX" | "clientY">;
 type DOMRectKey = keyof Omit<DOMRect, "toJSON">;
 type DOMRectDimensionKey = keyof Pick<DOMRect, "width" | "height">;
@@ -39,6 +49,8 @@ type ElementDimension = keyof Pick<
   | "scrollTop"
   | "scrollLeft"
 >;
+
+type ElementPosition = "x" | "y";
 
 export const measureElementSizeAndPosition = (
   element: HTMLElement,
@@ -73,23 +85,29 @@ export const measureElementSizeAndPosition = (
 
 const DIMENSIONS = {
   horizontal: {
+    CLIENT_POS: "clientX" as MousePosKey,
     CLIENT_SIZE: "clientWidth" as ElementDimension,
     CONTRA: "top" as DOMRectKey,
-    CONTRA_POS: "clientY" as MousePosKey,
+    CONTRA_CLIENT_POS: "clientY" as MousePosKey,
+    CONTRA_END: "bottom" as DOMRectDimensionKey,
+    CONTRA_POS: "y" as ElementPosition,
     DIMENSION: "width" as DOMRectDimensionKey,
     END: "right" as DOMRectKey,
-    POS: "clientX" as MousePosKey,
+    POS: "x" as ElementPosition,
     SCROLL_POS: "scrollLeft" as ElementDimension,
     SCROLL_SIZE: "scrollWidth" as ElementDimension,
     START: "left" as DOMRectKey,
   },
   vertical: {
+    CLIENT_POS: "clientY" as MousePosKey,
     CLIENT_SIZE: "clientHeight" as ElementDimension,
     CONTRA: "left" as DOMRectKey,
-    CONTRA_POS: "clientX" as MousePosKey,
+    CONTRA_CLIENT_POS: "clientX" as MousePosKey,
+    CONTRA_END: "right" as DOMRectDimensionKey,
+    CONTRA_POS: "x" as ElementPosition,
     DIMENSION: "height" as DOMRectDimensionKey,
     END: "bottom" as DOMRectKey,
-    POS: "clientY" as MousePosKey,
+    POS: "y" as ElementPosition,
     SCROLL_POS: "scrollTop" as ElementDimension,
     SCROLL_SIZE: "scrollHeight" as ElementDimension,
     START: "top" as DOMRectKey,
@@ -114,13 +132,23 @@ export const getItemById = (
 export const moveDragItem = (
   measuredItems: MeasuredDropTarget[],
   dropTarget: MeasuredDropTarget,
-  draggedItem: MeasuredDropTarget
+  draggedItem: MeasuredDropTarget,
+  direction: "fwd" | "bwd"
 ): MeasuredDropTarget[] => {
+  console.log(`moveDragItem ${direction}`);
   const items: MeasuredDropTarget[] = measuredItems.slice();
   const draggedIndex = items.findIndex((item) => item.id === draggedItem.id);
   const targetIndex = items.findIndex((item) => item.id === dropTarget.id);
   const firstPos = Math.min(draggedIndex, targetIndex);
   const lastPos = Math.max(draggedIndex, targetIndex);
+
+  if (!items[firstPos]) {
+    console.log(
+      `moveDragItem, no draggable item ${items.map(
+        (d, i) => `\n[${i}] @ ${d.currentIndex} ${d.element.textContent} `
+      )}`
+    );
+  }
   let { start } = items[firstPos];
 
   let currentIndex = items[firstPos].currentIndex;
@@ -138,8 +166,21 @@ export const moveDragItem = (
     currentIndex += 1;
   }
 
+  // console.table(items.map((i) => ({ ...i, element: i.element.textContent })));
   return items;
 };
+
+export const removeDraggedItem = (
+  measuredItems: MeasuredDropTarget[],
+  index: number
+) => {
+  measuredItems.splice(index, 1);
+  for (let i = index; i < measuredItems.length; i++) {
+    measuredItems[i].currentIndex -= 1;
+  }
+};
+
+export type dropZone = "start" | "end";
 
 export const measureDropTargets = (
   container: HTMLElement,
@@ -148,38 +189,41 @@ export const measureDropTargets = (
   viewportRange?: ViewportRange
 ) => {
   const dragThresholds: MeasuredDropTarget[] = [];
-  const { DIMENSION, START, END } = dimensions(orientation);
-  const { [START]: containerStart, [END]: containerEnd } =
-    container.getBoundingClientRect();
-  // TODO need to make sure we're including only the children we should
+  const { DIMENSION } = dimensions(orientation);
   const children = Array.from(
     itemQuery ? container.querySelectorAll(itemQuery) : container.children
   );
 
-  let previousThreshold = null;
   const itemCount = children.length;
-  const start = viewportRange?.from ?? 0;
-  const end = viewportRange?.to ?? itemCount - 1;
+  // const start = viewportRange?.from ?? 0;
+  const start =
+    typeof viewportRange?.from === "number"
+      ? viewportRange.atEnd
+        ? Math.max(0, viewportRange.from - 1)
+        : viewportRange.from
+      : 0;
+  const end =
+    typeof viewportRange?.to === "number"
+      ? Math.min(viewportRange.to + 2, itemCount - 1)
+      : itemCount - 1;
   for (let index = start; index <= end; index++) {
     const element = children[index] as HTMLElement;
-    let [start, size] = measureElementSizeAndPosition(element, DIMENSION);
+    const [start, size] = measureElementSizeAndPosition(element, DIMENSION);
     const isLast = index === itemCount - 1;
 
-    dragThresholds.push(
-      (previousThreshold = {
-        currentIndex: index,
-        dataIndex: parseInt(element.dataset.idx ?? "-1"),
-        id: element.id,
-        index,
-        isLast,
-        isOverflowIndicator: element.dataset.overflowIndicator === "true",
-        element: element as HTMLElement,
-        start,
-        end: start + size,
-        size,
-        mid: start + size / 2,
-      })
-    );
+    dragThresholds.push({
+      currentIndex: index,
+      dataIndex: parseInt(element.dataset.idx ?? "-1"),
+      id: element.id,
+      index,
+      isLast,
+      isOverflowIndicator: element.dataset.overflowIndicator === "true",
+      element: element as HTMLElement,
+      start,
+      end: start + size,
+      size,
+      mid: start + size / 2,
+    });
   }
   return dragThresholds;
 };
@@ -187,36 +231,22 @@ export const measureDropTargets = (
 export const getNextDropTarget = (
   dropTargets: MeasuredDropTarget[],
   draggedItem: MeasuredDropTarget,
-  pos: number,
-  direction: Direction
-) => {
+  pos: number
+): [MeasuredDropTarget | null, dropZone] => {
   const len = dropTargets.length;
-  if (direction === FWD) {
-    for (let index = 0; index < len; index++) {
-      let dropTarget = dropTargets[index];
-      const { start, mid, end } = dropTarget;
-      if (pos > end) {
-        continue;
-      } else if (pos > mid) {
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
-      } else if (pos > start) {
-        dropTarget = dropTargets[index - 1];
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
-      }
-    }
-  } else {
-    for (let index = len - 1; index >= 0; index--) {
-      let dropTarget = dropTargets[index];
-      const { start, mid, end } = dropTarget;
-      if (pos < start) {
-        continue;
-      } else if (pos < mid) {
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
-      } else if (pos < end) {
-        dropTarget = dropTargets[Math.min(len - 1, index + 1)];
-        return dropTarget.id === draggedItem.id ? null : dropTarget;
-      }
+  const dragMid = pos + draggedItem.size / 2;
+  for (let index = 0; index < len; index++) {
+    const dropTarget = dropTargets[index];
+    if (dropTarget.end < dragMid) {
+      continue;
+    } else if (dropTarget.start > dragMid) {
+      // during natural movement drag we mat=y be over the spacer between two items,
+      // dropTarget here willl be null
+      return [null, "end"];
+    } else {
+      const dropZone = dropTarget.mid > dragMid ? "start" : "end";
+      return [dropTarget, dropZone];
     }
   }
-  return null;
+  return [null, "end"];
 };

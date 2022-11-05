@@ -36,7 +36,7 @@ export type SelectionChangeHandler<
 
 export const hasSelection = <Item = unknown>(
   selected: Item | Item[] | null
-): boolean => {
+): selected is Item | Item[] => {
   return Array.isArray(selected)
     ? selected.length > 0
     : selected !== null && selected !== undefined;

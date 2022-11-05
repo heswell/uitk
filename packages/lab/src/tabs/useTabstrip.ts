@@ -204,10 +204,11 @@ export const useTabstrip = ({
   };
 
   const handleMouseDown = useCallback(
-    (evt) => {
+    (evt: MouseEvent<HTMLElement>) => {
       // This piece of code is a no-op in many scenarios - the
       // mousedown event will trigger focus and the focus event
-      const tab = evt.target.closest('[role^="tab"]');
+      const target = evt.target as HTMLElement;
+      const tab = target.closest('[role^="tab"]') as HTMLElement;
       if (tab?.getAttribute("role") === "tab") {
         const tabIndex = parseInt(tab.dataset.idx ?? "-1");
         focusTab(tabIndex, true);

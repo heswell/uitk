@@ -52,9 +52,7 @@ export const useListHeight = ({
   rowHeightRef,
 }: ListHeightHookProps): HeightHookResult => {
   // TODO default by density
-  const [measuredItemHeight, setMeasuredItemHeight] = useState<
-    number | undefined
-  >(36);
+  const [measuredItemHeight, setMeasuredItemHeight] = useState<number>(36);
   const [clientHeight, setClientHeight] = useState<number>();
 
   const [contentHeight, listHeight] = useMemo(() => {
@@ -109,7 +107,9 @@ export const useListHeight = ({
   }, [rootRef]);
 
   const handleRowHeight: ResizeHandler = useCallback(({ height }) => {
-    setMeasuredItemHeight(height);
+    if (typeof height === "number") {
+      setMeasuredItemHeight(height);
+    }
   }, []);
 
   useResizeObserver(rowHeightRef, HeightOnly, handleRowHeight, true);

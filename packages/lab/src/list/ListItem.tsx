@@ -34,7 +34,6 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
       children,
       className: classNameProp,
       disabled,
-      dragging,
       tabIndex,
       item,
       itemHeight,
@@ -52,7 +51,6 @@ export const ListItem = forwardRef<HTMLDivElement, ListItemProps>(
     const className = cx(withBaseName(), classNameProp, {
       uitkDisabled: disabled,
       [withBaseName("checkbox")]: showCheckbox,
-      [withBaseName("dragAway")]: dragging,
     });
 
     const transform =

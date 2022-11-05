@@ -2,7 +2,7 @@ import {
   makePrefixer,
   StatusIndicator as BaseStatusIndicator,
   StatusIndicatorProps as BaseStatusIndicatorProps,
-} from "@jpmorganchase/uitk-core";
+} from "@heswell/uitk-core";
 import { ReactElement } from "react";
 import cx from "classnames";
 

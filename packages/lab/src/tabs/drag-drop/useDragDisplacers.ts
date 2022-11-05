@@ -1,43 +1,46 @@
 import { useCallback, useMemo, useRef } from "react";
 import { MeasuredDropTarget } from "./drag-utils";
-import { createDragSpacer } from "./Draggable";
+import { createDragSpacer as createDragDisplacer } from "./Draggable";
 import { Direction } from "./dragDropTypes";
 
-export type DragSpacersHookResult = {
+export type DragDisplacersHookResult = {
   clearDisplacedItem: () => void;
   displaceItem: (
-    item: MeasuredDropTarget | null,
+    dropTarget: MeasuredDropTarget,
     size: number,
     useTransition?: boolean,
-    direction?: Direction,
+    direction?: Direction | "static",
     orientation?: "horizontal" | "vertical"
   ) => void;
   displaceLastItem: (
-    item: MeasuredDropTarget,
+    dropTarget: MeasuredDropTarget,
     size: number,
     useTransition?: boolean,
+    direction?: Direction | "static",
     orientation?: "horizontal" | "vertical"
   ) => void;
   clearSpacers: () => void;
 };
 
-export type DragSpacersHook = () => DragSpacersHookResult;
-
-export const useDragSpacers: DragSpacersHook = () => {
+export type DragDisplacersHook = () => DragDisplacersHookResult;
+/**
+ * Manage a pair of displacer elements to smoothly display a moving gap between
+ * list items of any kind. Designed to be used in a drag drop operation. The 'static'
+ * direction option should be used at drag start or following scroll.
+ */
+export const useDragDisplacers: DragDisplacersHook = () => {
   const animationFrame = useRef(0);
   const transitioning = useRef(false);
-  const displacedItem = useRef<MeasuredDropTarget | null>(null);
 
   const spacers = useMemo(
     // We only need to listen for transition end on one of the spacers
-    () => [createDragSpacer(transitioning), createDragSpacer()],
+    () => [createDragDisplacer(transitioning), createDragDisplacer()],
     []
   );
 
   const clearSpacers = useCallback(
-    () =>
-      spacers.forEach((spacer) => spacer.parentElement?.removeChild(spacer)),
-    []
+    () => spacers.forEach((spacer) => spacer.remove()),
+    [spacers]
   );
 
   const animateTransition = useCallback(
@@ -51,7 +54,7 @@ export const useDragSpacers: DragSpacersHook = () => {
         spacers[1] = spacer1;
       });
     },
-    []
+    [spacers]
   );
 
   const cancelAnyPendingAnimation = useCallback(() => {
@@ -63,93 +66,87 @@ export const useDragSpacers: DragSpacersHook = () => {
 
   const clearDisplacedItem = useCallback(() => {
     clearSpacers();
-    displacedItem.current = null;
-  }, []);
+  }, [clearSpacers]);
 
   const displaceItem = useCallback(
     (
-      item: MeasuredDropTarget | null = null,
+      dropTarget: MeasuredDropTarget,
       size: number,
       useTransition = false,
-      direction?: Direction,
+      direction?: Direction | "static",
       orientation: "horizontal" | "vertical" = "horizontal"
     ) => {
-      if (item) {
+      if (dropTarget) {
         const propertyName = orientation === "horizontal" ? "width" : "height";
         const [spacer1, spacer2] = spacers;
         cancelAnyPendingAnimation();
         if (useTransition) {
           if (transitioning.current) {
             clearSpacers();
-
             spacer1.style.cssText = `${propertyName}: ${size}px`;
             spacer2.style.cssText = `${propertyName}: 0px`;
-
-            const target =
-              direction === "fwd"
-                ? item.element.previousElementSibling
-                : item.element.nextElementSibling;
-
-            item.element.parentElement?.insertBefore(spacer1, target);
-            item.element.parentElement?.insertBefore(spacer2, item.element);
+            if (direction === "fwd") {
+              dropTarget.element.before(spacer1);
+              dropTarget.element.after(spacer2);
+            } else {
+              dropTarget.element.after(spacer1);
+              dropTarget.element.before(spacer2);
+            }
           } else {
-            item.element.parentElement?.insertBefore(spacer2, item.element);
+            if (direction === "fwd") {
+              dropTarget.element.after(spacer2);
+            } else {
+              dropTarget.element.before(spacer2);
+            }
           }
           animateTransition(size, propertyName);
-        } else {
+        } else if (direction === "static") {
           spacer1.style.cssText = `${propertyName}: ${size}px`;
-          item.element.parentElement?.insertBefore(spacer1, item.element);
+          dropTarget.element.before(spacer1);
+        } else {
+          throw Error(
+            "useDragDisplacers currently only supports noTransition for static displacement"
+          );
         }
-        displacedItem.current = item;
+        return dropTarget;
       }
     },
-    []
+    [animateTransition, cancelAnyPendingAnimation, clearSpacers, spacers]
   );
   const displaceLastItem = useCallback(
     (
-      item: MeasuredDropTarget,
+      dropTarget: MeasuredDropTarget,
       size: number,
       useTransition = false,
+      direction: Direction | "static" = "static",
       orientation: "horizontal" | "vertical" = "horizontal"
     ) => {
       const propertyName = orientation === "horizontal" ? "width" : "height";
       const [spacer1, spacer2] = spacers;
 
-      if (item === undefined) {
-        debugger;
-      }
       cancelAnyPendingAnimation();
+
       if (useTransition) {
         if (transitioning.current) {
           clearSpacers();
-
           spacer1.style.cssText = `${propertyName}: ${size}px`;
           spacer2.style.cssText = `${propertyName}: 0px`;
-
-          item.element.parentElement?.insertBefore(
-            spacer1,
-            item.element.previousElementSibling
-          );
-          item.element.parentElement?.insertBefore(
-            spacer2,
-            item.element.nextElementSibling
-          );
+          dropTarget.element.before(spacer1);
+          dropTarget.element.after(spacer2);
         } else {
-          item.element.parentElement?.insertBefore(
-            spacer2,
-            item.element.nextElementSibling
-          );
+          if (direction === "fwd") {
+            dropTarget.element.after(spacer2);
+          } else {
+            dropTarget.element.before(spacer2);
+          }
         }
         animateTransition(size, propertyName);
       } else {
         spacer1.style.cssText = `${propertyName}: ${size}px`;
-        item.element.parentElement?.insertBefore(
-          spacer1,
-          item.element.nextElementSibling
-        );
+        dropTarget.element.after(spacer1);
       }
     },
-    []
+    [animateTransition, cancelAnyPendingAnimation, clearSpacers, spacers]
   );
 
   return {
