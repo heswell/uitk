@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "dependencies": {
     "@floating-ui/react-dom-interactions": "^0.5.0",
-    "@heswell/uitk-core": "0.7.0-vuu.1",
-    "@heswell/uitk-icons": "0.5.0-vuu.1",
+    "@heswell/uitk-core": "0.8.0",
+    "@heswell/uitk-icons": "0.7.0",
     "@internationalized/date": "^3.0.0",
     "attr-accept": "^2.0.0",
     "clipboard-copy": "^4.0.1",
