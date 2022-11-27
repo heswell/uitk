@@ -26,6 +26,7 @@ const NOT_OVERFLOWED = ':not([data-overflowed="true"])';
 const NOT_HIDDEN = ':not([aria-hidden="true"])';
 
 export const useDragDropIndicator = ({
+  draggableRef,
   onDrop,
   orientation = "horizontal",
   containerRef,
@@ -35,7 +36,6 @@ export const useDragDropIndicator = ({
   viewportRange,
 }: InternalDragDropProps): InternalDragHookResult => {
   const dragDirectionRef = useRef<Direction | undefined>();
-  const draggableRef = useRef<HTMLDivElement>(null);
   const dropIndicatorRef = useRef<HTMLDivElement>(null);
   const dropTargetRef = useRef<MeasuredDropTarget | null>(null);
   const dropZoneRef = useRef<dropZone | "">("");
@@ -235,7 +235,6 @@ export const useDragDropIndicator = ({
       if (draggedItem) {
         if (draggableRef.current && containerRef.current) {
           const START = orientation === "horizontal" ? "left" : "top";
-          draggableRef.current.style[START] = `${dragPos}px`;
           dragPosRef.current = dragPos;
 
           const { current: dropTargets } = measuredDropTargets;
@@ -292,7 +291,7 @@ export const useDragDropIndicator = ({
         }
       }
     },
-    [containerRef, positionDropIndicator, orientation, setVizData]
+    [draggableRef, containerRef, orientation, setVizData, positionDropIndicator]
   );
 
   const drop = useCallback(() => {
@@ -341,7 +340,6 @@ export const useDragDropIndicator = ({
   return {
     beginDrag,
     drag,
-    draggableRef,
     drop,
     dropIndicator,
     draggedItemIndex,

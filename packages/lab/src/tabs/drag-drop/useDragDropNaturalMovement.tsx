@@ -24,6 +24,7 @@ import { ViewportRange } from "../../list/useScrollPosition";
 const NOT_OVERFLOWED = ':not([data-overflowed="true"])';
 const NOT_HIDDEN = ':not([aria-hidden="true"])';
 export const useDragDropNaturalMovement = ({
+  draggableRef,
   id,
   onDrop,
   orientation = "horizontal",
@@ -34,7 +35,6 @@ export const useDragDropNaturalMovement = ({
   viewportRange,
 }: InternalDragDropProps): InternalDragHookResult => {
   const dragDirectionRef = useRef<Direction | undefined>();
-  const draggableRef = useRef<HTMLDivElement>(null);
   const dropTargetRef = useRef<MeasuredDropTarget | null>(null);
   const dropZoneRef = useRef<dropZone | "">("");
   const insertPosRef = useRef<number>(-1);
@@ -224,8 +224,8 @@ export const useDragDropNaturalMovement = ({
 
       if (draggedItem) {
         if (draggableRef.current && containerRef.current) {
-          const START = orientation === "horizontal" ? "left" : "top";
-          draggableRef.current.style[START] = `${dragPos}px`;
+          // const START = orientation === "horizontal" ? "left" : "top";
+          // draggableRef.current.style[START] = `${dragPos}px`;
           dragPosRef.current = dragPos;
 
           const { current: dropTargets } = measuredDropTargets;
@@ -292,7 +292,14 @@ export const useDragDropNaturalMovement = ({
         }
       }
     },
-    [containerRef, displaceItem, displaceLastItem, orientation, setVizData]
+    [
+      containerRef,
+      displaceItem,
+      displaceLastItem,
+      draggableRef,
+      orientation,
+      setVizData,
+    ]
   );
 
   const drop = useCallback(() => {
@@ -328,8 +335,6 @@ export const useDragDropNaturalMovement = ({
   return {
     beginDrag,
     drag,
-    draggableRef,
-    dropIndicator: null,
     draggedItemIndex,
     drop,
     handleScrollStart,

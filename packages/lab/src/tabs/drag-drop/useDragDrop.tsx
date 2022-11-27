@@ -21,12 +21,10 @@ import { Draggable } from "./Draggable";
 const NULL_DRAG_DROP_RESULT = {
   beginDrag: () => undefined,
   drag: () => undefined,
-  draggable: null,
   draggableRef: { current: null },
   drop: () => undefined,
   isDragging: false,
   isScrolling: false,
-  dropIndicator: null,
   handleScrollStart: () => undefined,
   handleScrollStop: () => undefined,
   revealOverflowedItems: false,
@@ -38,6 +36,14 @@ type DragBoundary = {
   contraStart: number;
   contraEnd: number;
 };
+
+const UNBOUNDED: DragBoundary = {
+  start: 0,
+  end: 1000,
+  contraStart: 0,
+  contraEnd: 1000,
+};
+
 type InternalHook = (props: InternalDragDropProps) => InternalDragHookResult;
 const noDragDrop: InternalHook = () => NULL_DRAG_DROP_RESULT;
 const dragThreshold = 3;
@@ -73,8 +79,9 @@ export const useDragDrop: DragDropHook = ({
     contraEnd: 0,
   });
   const [isDragging, setIsDragging] = useState(false);
-  const [dragPortal, setDragPortal] = useState<JSX.Element | null>(null);
-
+  const [dragPortal, setDragPortal] = useState<JSX.Element | undefined>();
+  // A ref to the draggable element
+  const draggableRef = useRef<HTMLDivElement>(null);
   const mouseDownTimer = useRef<number | null>(null);
   /** do we actually have scrollable content  */
   const isScrollable = useRef(false);
@@ -164,7 +171,6 @@ export const useDragDrop: DragDropHook = ({
   const {
     beginDrag,
     drag,
-    draggableRef,
     drop,
     handleScrollStart,
     handleScrollStop,
@@ -172,6 +178,7 @@ export const useDragDrop: DragDropHook = ({
   } = useDragDropHook({
     ...dragDropProps,
     containerRef,
+    draggableRef,
     isDragging,
     isDragSource,
     isDropTarget,
@@ -184,7 +191,7 @@ export const useDragDrop: DragDropHook = ({
 
   const dragMouseMoveHandler = useCallback(
     (evt: MouseEvent) => {
-      const { CLIENT_POS, CONTRA_CLIENT_POS, CONTRA_POS, POS } =
+      const { CLIENT_POS, CONTRA_CLIENT_POS, CONTRA_POS, POS, START } =
         dimensions(orientation);
       const { clientX, clientY } = evt;
       const { [CLIENT_POS]: clientPos, [CONTRA_CLIENT_POS]: clientContraPos } =
@@ -199,12 +206,21 @@ export const useDragDrop: DragDropHook = ({
 
       if (dragOutDistance - dragDistance > 5) {
         console.log("DRAG AWAY");
+        // remove the drag boundaries
+        dragBoundaries.current = UNBOUNDED;
+        // Need to notify the dragDropHook, so it can clearSpacers
+        // and begin tracking draggabler coordinates for entry into a droptarget
       }
 
       mousePosRef.current.x = clientX;
       mousePosRef.current.y = clientY;
 
-      if (dragDistance > 0) {
+      if (dragBoundaries.current === UNBOUNDED && draggableRef.current) {
+        const dragPosX = mousePosRef.current.x - mouseOffsetRef.current.x;
+        const dragPosY = mousePosRef.current.y - mouseOffsetRef.current.y;
+        draggableRef.current.style.top = `${dragPosY}px`;
+        draggableRef.current.style.left = `${dragPosX}px`;
+      } else if (dragDistance > 0 && draggableRef.current) {
         const mouseMoveDirection = lastClientPos < clientPos ? "fwd" : "bwd";
         const scrollDirection = getScrollDirection(clientPos);
         const dragPos = mousePosRef.current[POS] - mouseOffsetRef.current[POS];
@@ -222,12 +238,16 @@ export const useDragDrop: DragDropHook = ({
             Math.min(dragBoundaries.current.end, dragPos)
           );
 
+          const START = orientation === "horizontal" ? "left" : "top";
+          draggableRef.current.style[START] = `${dragPos}px`;
+
           drag(renderDragPos, mouseMoveDirection);
         }
       }
     },
     [
       drag,
+      draggableRef,
       getScrollDirection,
       handleScrollStart,
       isDragSource,

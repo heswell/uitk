@@ -35,7 +35,6 @@ export interface InternalDragHookResult
   extends Omit<DragHookResult, "isDragging" | "isScrolling"> {
   beginDrag: (evt: MouseEvent) => void;
   drag: (dragPos: number, mouseMoveDirection: "fwd" | "bwd") => void;
-  draggableRef: RefObject<HTMLDivElement>;
   drop: () => void;
   handleScrollStart: () => void;
   handleScrollStop: (
@@ -67,6 +66,7 @@ export type DragDropHook = (props: DragDropProps) => DragHookResult;
 
 export interface InternalDragDropProps
   extends Omit<DragDropProps, "draggableClassName"> {
+  draggableRef: RefObject<HTMLDivElement>;
   isDragging: boolean;
   isDragSource?: boolean;
   isDropTarget?: boolean;
