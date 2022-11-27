@@ -16,6 +16,7 @@ import {
   measureDropTargets,
   getNextDropTarget,
   dropZone,
+  removeDraggedItem,
 } from "./drag-utils";
 
 import { createDropIndicator, Draggable } from "./Draggable";
@@ -25,9 +26,7 @@ const NOT_OVERFLOWED = ':not([data-overflowed="true"])';
 const NOT_HIDDEN = ':not([aria-hidden="true"])';
 
 export const useDragDropIndicator = ({
-  draggableClassName,
   onDrop,
-  onDropSettle,
   orientation = "horizontal",
   containerRef,
   isDragging,
@@ -41,17 +40,14 @@ export const useDragDropIndicator = ({
   const dropTargetRef = useRef<MeasuredDropTarget | null>(null);
   const dropZoneRef = useRef<dropZone | "">("");
   const isScrollable = useRef(false);
-  /** Distance between start (top | left) of dragged element and point where user pressed to drag */
-  const mouseOffset = useRef(0);
-  /** current mouse position */
-  const mousePos = useRef(0);
+  /** current position of dragged element */
+  const dragPosRef = useRef<number>(-1);
   const dropIndexRef = useRef(-1);
-
   const measuredDropTargets = useRef<MeasuredDropTarget[]>([]);
   const overflowMenuShowingRef = useRef(false);
 
   const [showOverflow, setShowOverflow] = useState(false);
-  const [dragPortal, setDragPortal] = useState<JSX.Element | null>(null);
+  const [dropIndicator, setDropIndicator] = useState<JSX.Element | undefined>();
 
   const { clearSpacer, positionDropIndicator } = useDropIndicator();
 
@@ -99,7 +95,7 @@ export const useDragDropIndicator = ({
         setVizData(measuredDropTargets.current);
 
         const { size } = draggedItem;
-        const dragPos = mousePos.current - mouseOffset.current;
+        const dragPos = dragPosRef.current;
         const midPos = dragPos + size / 2;
         const { current: dropTargets } = measuredDropTargets;
         const [nextDropTarget, nextDropZone] = getNextDropTarget(
@@ -130,13 +126,6 @@ export const useDragDropIndicator = ({
     ]
   );
 
-  const handleDropTransitionEnd = useCallback(() => {
-    const { current: toIndex } = dropIndexRef;
-    dropIndexRef.current = -1;
-    onDropSettle?.(toIndex);
-    setDragPortal(null);
-  }, [onDropSettle]);
-
   const beginDrag = useCallback(
     (evt: MouseEvent) => {
       const evtTarget = evt.target as HTMLElement;
@@ -150,10 +139,8 @@ export const useDragDropIndicator = ({
       }
       const { current: container } = containerRef;
       if (container && dragElement) {
-        const { CLIENT_POS, SCROLL_SIZE, CLIENT_SIZE } =
-          dimensions(orientation);
+        const { SCROLL_SIZE, CLIENT_SIZE } = dimensions(orientation);
         const { id: draggedItemId } = dragElement;
-        const { [CLIENT_POS]: mousePos } = evt;
 
         const { [SCROLL_SIZE]: scrollSize, [CLIENT_SIZE]: clientSize } =
           container;
@@ -169,10 +156,12 @@ export const useDragDropIndicator = ({
         const draggedItem = getItemById(dropTargets, draggedItemId);
 
         if (draggedItem && container) {
-          const { current: range } = rangeRef;
-
           const targetIndex = indexOf(draggedItem);
-          dropTargets.splice(targetIndex, 1);
+          removeDraggedItem(dropTargets, targetIndex);
+          draggedItemRef.current = draggedItem;
+
+          // This begins to deviate from NaturalMovement here -----------
+          const { current: range } = rangeRef;
           //TODO when our viewport is the last 'page' of a scrolling viewport
           // the viewport will scoll up by one row when we remove an item, so
           // the position of each item will move down.
@@ -184,11 +173,6 @@ export const useDragDropIndicator = ({
           for (let i = targetIndex; i < dropTargets.length; i++) {
             reposition(dropTargets[i], -draggedItem.size, -1);
           }
-
-          draggedItemRef.current = draggedItem;
-
-          const draggableRect = draggedItem.element.getBoundingClientRect();
-          mouseOffset.current = mousePos - draggedItem.start;
 
           const [dropTarget, dropZone] = draggedItem.isLast
             ? [dropTargets[dropTargets.length - 1], "end"]
@@ -219,28 +203,13 @@ export const useDragDropIndicator = ({
             height: 2,
           };
 
-          const wrapperRect = {
-            top: draggableRect.top + 0,
-            left: draggableRect.left + 12,
-            width: draggableRect.width,
-            height: draggableRect.height,
-          };
-          setDragPortal(
-            <>
-              <Draggable
-                wrapperClassName="dropIndicatorContainer"
-                rect={dropIndicatorRect}
-                ref={dropIndicatorRef}
-                element={createDropIndicator()}
-              />
-              <Draggable
-                wrapperClassName={draggableClassName}
-                rect={wrapperRect}
-                ref={draggableRef}
-                element={dragElement.cloneNode(true) as HTMLElement}
-                onTransitionEnd={handleDropTransitionEnd}
-              />
-            </>
+          setDropIndicator(
+            <Draggable
+              wrapperClassName="dropIndicatorContainer"
+              rect={dropIndicatorRect}
+              ref={dropIndicatorRef}
+              element={createDropIndicator()}
+            />
           );
         }
       }
@@ -254,8 +223,6 @@ export const useDragDropIndicator = ({
       viewportRange,
       setVizData,
       positionDropIndicator,
-      draggableClassName,
-      handleDropTransitionEnd,
     ]
   );
 
@@ -269,6 +236,7 @@ export const useDragDropIndicator = ({
         if (draggableRef.current && containerRef.current) {
           const START = orientation === "horizontal" ? "left" : "top";
           draggableRef.current.style[START] = `${dragPos}px`;
+          dragPosRef.current = dragPos;
 
           const { current: dropTargets } = measuredDropTargets;
           const [nextDropTarget, nextDropZone] = getNextDropTarget(
@@ -363,6 +331,7 @@ export const useDragDropIndicator = ({
           );
         }
       }
+      setDropIndicator(undefined);
     }
     setShowOverflow(false);
   }, [clearSpacer, onDrop]);
@@ -372,10 +341,9 @@ export const useDragDropIndicator = ({
   return {
     beginDrag,
     drag,
-    draggable: dragPortal,
     draggableRef,
     drop,
-    dropIndicator: null,
+    dropIndicator,
     draggedItemIndex,
     handleScrollStart,
     handleScrollStop,

@@ -239,10 +239,6 @@ export const getNextDropTarget = (
     const dropTarget = dropTargets[index];
     if (dropTarget.end < dragMid) {
       continue;
-    } else if (dropTarget.start > dragMid) {
-      // during natural movement drag we mat=y be over the spacer between two items,
-      // dropTarget here willl be null
-      return [null, "end"];
     } else {
       const dropZone = dropTarget.mid > dragMid ? "start" : "end";
       return [dropTarget, dropZone];

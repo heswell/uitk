@@ -14,8 +14,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { dimensions } from "./drag-utils";
+import { cloneElement, dimensions } from "./drag-utils";
 import { useAutoScroll, ScrollStopHandler } from "./useAutoScroll";
+import { Draggable } from "./Draggable";
 
 const NULL_DRAG_DROP_RESULT = {
   beginDrag: () => undefined,
@@ -57,9 +58,11 @@ const getLastElement = (container: HTMLElement): [HTMLElement, boolean] => {
 export const useDragDrop: DragDropHook = ({
   allowDragDrop,
   containerRef,
+  draggableClassName,
   itemQuery = "*",
   onDragStart,
   onDrop,
+  onDropSettle,
   orientation,
   ...dragDropProps
 }) => {
@@ -70,6 +73,7 @@ export const useDragDrop: DragDropHook = ({
     contraEnd: 0,
   });
   const [isDragging, setIsDragging] = useState(false);
+  const [dragPortal, setDragPortal] = useState<JSX.Element | null>(null);
 
   const mouseDownTimer = useRef<number | null>(null);
   /** do we actually have scrollable content  */
@@ -84,6 +88,7 @@ export const useDragDrop: DragDropHook = ({
   const settlingItemRef = useRef<HTMLDivElement | null>(null);
 
   const dropPosRef = useRef(-1);
+  const dropIndexRef = useRef(-1);
 
   const handleScrollStopRef = useRef<ScrollStopHandler>();
 
@@ -94,6 +99,13 @@ export const useDragDrop: DragDropHook = ({
   if (dragDropProps.id && (isDragSource || isDropTarget)) {
     register(dragDropProps.id);
   }
+
+  const handleDropTransitionEnd = useCallback(() => {
+    const { current: toIndex } = dropIndexRef;
+    dropIndexRef.current = -1;
+    onDropSettle?.(toIndex);
+    setDragPortal(null);
+  }, [onDropSettle]);
 
   const getScrollDirection = useCallback(
     (mousePos) => {
@@ -276,6 +288,16 @@ export const useDragDrop: DragDropHook = ({
 
         beginDrag(evt);
 
+        setDragPortal(
+          <Draggable
+            element={cloneElement(dragElement)}
+            onTransitionEnd={handleDropTransitionEnd}
+            ref={draggableRef}
+            rect={draggableRect}
+            wrapperClassName={draggableClassName}
+          />
+        );
+
         setIsDragging(true);
         onDragStart?.();
 
@@ -288,6 +310,9 @@ export const useDragDrop: DragDropHook = ({
       containerRef,
       dragMouseMoveHandler,
       dragMouseUpHandler,
+      draggableClassName,
+      draggableRef,
+      handleDropTransitionEnd,
       itemQuery,
       onDragStart,
       orientation,
@@ -371,6 +396,7 @@ export const useDragDrop: DragDropHook = ({
 
   return {
     ...dragResult,
+    draggable: dragPortal,
     isDragging,
     isScrolling,
     onMouseDown: mouseDownHandler,

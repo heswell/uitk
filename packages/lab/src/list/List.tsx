@@ -126,6 +126,7 @@ export const List = forwardRef(function List<
   const {
     draggable,
     draggedItemIndex,
+    dropIndicator,
     focusVisible,
     highlightedIndex,
     listControlProps,
@@ -366,6 +367,7 @@ export const List = forwardRef(function List<
           style={{ height: contentHeight }}
         >
           {renderContent()}
+          {dropIndicator}
           {draggable}
         </div>
       )}

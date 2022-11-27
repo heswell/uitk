@@ -22,8 +22,8 @@ export type Rect = {
 };
 
 export interface DragHookResult {
-  draggable: JSX.Element | null;
-  dropIndicator: JSX.Element | null;
+  draggable?: JSX.Element;
+  dropIndicator?: JSX.Element;
   draggedItemIndex?: number;
   isDragging: boolean;
   isScrolling: RefObject<boolean>;
@@ -65,7 +65,8 @@ export interface DragDropProps {
 
 export type DragDropHook = (props: DragDropProps) => DragHookResult;
 
-export interface InternalDragDropProps extends DragDropProps {
+export interface InternalDragDropProps
+  extends Omit<DragDropProps, "draggableClassName"> {
   isDragging: boolean;
   isDragSource?: boolean;
   isDropTarget?: boolean;
