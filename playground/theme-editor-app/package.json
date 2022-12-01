@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "@heswell/layout": "*",
-    "@heswell/uitk-core": "0.7.0-vuu.1",
-    "@heswell/uitk-lab": "0.7.1-vuu.4",
+    "@heswell/uitk-core": "0.8.0-vuu.1",
+    "@heswell/uitk-lab": "0.8.0-vuu.1",
     "@heswell/uitk-theme": "*"
   }
 }

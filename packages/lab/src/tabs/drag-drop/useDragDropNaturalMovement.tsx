@@ -7,7 +7,7 @@ import {
 } from "./dragDropTypes";
 import { useDragDisplacers } from "./useDragDisplacers";
 
-import { useListViz } from "../../../../../../showcase/src/examples/uitk/ListVisualizer";
+// import { useListViz } from "../../../../../../showcase/src/examples/uitk/ListVisualizer";
 
 import {
   dimensions,
@@ -54,7 +54,7 @@ export const useDragDropNaturalMovement = ({
   const draggedItemRef = useRef<MeasuredDropTarget>();
   const fullItemQuery = `:is(${itemQuery}${NOT_OVERFLOWED}${NOT_HIDDEN},[data-overflow-indicator])`;
 
-  const { setMeasurements: setVizData } = useListViz();
+  // const { setMeasurements: setVizData } = useListViz();
 
   const indexOf = (dropTarget: MeasuredDropTarget) =>
     measuredDropTargets.current.findIndex((d) => d.id === dropTarget.id);
@@ -87,7 +87,7 @@ export const useDragDropNaturalMovement = ({
           rangeRef.current
         );
 
-        setVizData?.(measuredDropTargets.current);
+        // setVizData?.(measuredDropTargets.current);
 
         const { size } = draggedItem;
         const dragPos = dragPosRef.current;
@@ -126,11 +126,11 @@ export const useDragDropNaturalMovement = ({
             }
             insertPosRef.current = dropTargets.length - 1;
           }
-          setVizData?.(
-            measuredDropTargets.current,
-            nextDropTarget,
-            dropZoneRef.current
-          );
+          // setVizData?.(
+          //   measuredDropTargets.current,
+          //   nextDropTarget,
+          //   dropZoneRef.current
+          // );
         }
       }
     },
@@ -140,7 +140,7 @@ export const useDragDropNaturalMovement = ({
       displaceLastItem,
       fullItemQuery,
       orientation,
-      setVizData,
+      // setVizData,
     ]
   );
 
@@ -190,7 +190,7 @@ export const useDragDropNaturalMovement = ({
           dropZoneRef.current = dropZone as dropZone;
           insertPosRef.current = insertPos;
 
-          setVizData?.(dropTargets, displacedItem, dropZone);
+          // setVizData?.(dropTargets, displacedItem, dropZone);
 
           displaceFunction(
             displacedItem,
@@ -210,7 +210,7 @@ export const useDragDropNaturalMovement = ({
       itemQuery,
       orientation,
       selected,
-      setVizData,
+      // setVizData,
       viewportRange,
     ]
   );
@@ -273,12 +273,12 @@ export const useDragDropNaturalMovement = ({
                     mouseMoveDirection,
                     orientation
                   );
-                  setVizData?.(dropTargets, nextDropTarget, nextDropZone);
+                  // setVizData?.(dropTargets, nextDropTarget, nextDropZone);
                   const restoredSize =
                     mouseMoveDirection === "fwd" ? -size : size;
                   reposition(nextDropTarget, restoredSize);
                 }
-                setVizData?.(dropTargets, nextDropTarget, nextDropZone);
+                // setVizData?.(dropTargets, nextDropTarget, nextDropZone);
 
                 setShowOverflow((overflowMenuShowingRef.current = false));
                 insertPosRef.current = nextInsertPos;
@@ -298,7 +298,7 @@ export const useDragDropNaturalMovement = ({
       displaceLastItem,
       draggableRef,
       orientation,
-      setVizData,
+      // setVizData,
     ]
   );
 

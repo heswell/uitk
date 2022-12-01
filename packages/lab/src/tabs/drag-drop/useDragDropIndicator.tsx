@@ -7,7 +7,7 @@ import {
 } from "./dragDropTypes";
 import { useDropIndicator } from "./useDropIndicator";
 
-import { useListViz } from "../../../../../../showcase/src/examples/uitk/ListVisualizer";
+// import { useListViz } from "../../../../../../showcase/src/examples/uitk/ListVisualizer";
 
 import {
   dimensions,
@@ -54,7 +54,7 @@ export const useDragDropIndicator = ({
   const draggedItemRef = useRef<MeasuredDropTarget>();
   const fullItemQuery = `:is(${itemQuery}${NOT_OVERFLOWED}${NOT_HIDDEN},[data-overflow-indicator])`;
 
-  const { setMeasurements: setVizData } = useListViz();
+  // const { setMeasurements: setVizData } = useListViz();
 
   const indexOf = (dropTarget: MeasuredDropTarget) =>
     measuredDropTargets.current.findIndex((d) => d.id === dropTarget.id);
@@ -92,7 +92,7 @@ export const useDragDropIndicator = ({
           fullItemQuery,
           rangeRef.current
         );
-        setVizData(measuredDropTargets.current);
+        // setVizData(measuredDropTargets.current);
 
         const { size } = draggedItem;
         const dragPos = dragPosRef.current;
@@ -114,7 +114,7 @@ export const useDragDropIndicator = ({
           }
         }
 
-        setVizData(measuredDropTargets.current, nextDropTarget);
+        // setVizData(measuredDropTargets.current, nextDropTarget);
       }
     },
     [
@@ -122,7 +122,7 @@ export const useDragDropIndicator = ({
       positionDropIndicator,
       fullItemQuery,
       orientation,
-      setVizData,
+      // setVizData,
     ]
   );
 
@@ -181,7 +181,7 @@ export const useDragDropIndicator = ({
           dropTargetRef.current = dropTarget;
           dropZoneRef.current = dropZone as dropZone;
 
-          setVizData(dropTargets, dropTarget, dropZone);
+          // setVizData(dropTargets, dropTarget, dropZone);
 
           const dropIndicatorPosition = positionDropIndicator(
             dropTarget,
@@ -221,7 +221,7 @@ export const useDragDropIndicator = ({
       orientation,
       fullItemQuery,
       viewportRange,
-      setVizData,
+      // setVizData,
       positionDropIndicator,
     ]
   );
@@ -279,7 +279,7 @@ export const useDragDropIndicator = ({
                   START
                 ] = `${dropIndicatorRect.top}px`;
               }
-              setVizData(dropTargets, nextDropTarget, nextDropZone);
+              // setVizData(dropTargets, nextDropTarget, nextDropZone);
 
               setShowOverflow((overflowMenuShowingRef.current = false));
             }
@@ -291,7 +291,7 @@ export const useDragDropIndicator = ({
         }
       }
     },
-    [draggableRef, containerRef, orientation, setVizData, positionDropIndicator]
+    [draggableRef, containerRef, orientation, positionDropIndicator]
   );
 
   const drop = useCallback(() => {

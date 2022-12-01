@@ -111,11 +111,11 @@ export const useDragDrop: DragDropHook = ({
     const { current: toIndex } = dropIndexRef;
     dropIndexRef.current = -1;
     onDropSettle?.(toIndex);
-    setDragPortal(null);
+    setDragPortal(undefined);
   }, [onDropSettle]);
 
   const getScrollDirection = useCallback(
-    (mousePos) => {
+    (mousePos: number) => {
       if (containerRef.current) {
         const { POS, SCROLL_POS, SCROLL_SIZE, CLIENT_SIZE } =
           dimensions(orientation);

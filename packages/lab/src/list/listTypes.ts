@@ -237,7 +237,7 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
   disableTypeToSelect?: boolean;
   focusVisible?: boolean;
   highlightedIndex?: number;
-  id: string;
+  id?: string;
   label?: string;
   listHandlers?: ListHandlers;
   onHighlight?: (index: number) => void;

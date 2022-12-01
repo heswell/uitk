@@ -173,6 +173,7 @@ export const Dropdown = forwardRef(function Dropdown<
           highlightedIndex={highlightedIndex}
           listHandlers={listHandlers}
           onSelectionChange={onSelectionChange}
+          // @ts-ignore
           selected={collectionItemsToItem(selected)}
           selectionStrategy={selectionStrategy}
           data-testid="dropdown-list"
