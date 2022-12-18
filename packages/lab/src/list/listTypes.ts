@@ -23,6 +23,8 @@ import {
   SelectionStrategy,
   ViewportTrackingResult,
 } from "../common-hooks";
+import { DragHookResult, dragStrategy } from "../tabs/drag-drop";
+import { ViewportRange } from "./useScrollPosition";
 
 export type ComponentType<T = unknown> = (
   props: PropsWithChildren<T>
@@ -37,7 +39,7 @@ export interface ListItemProps<T = unknown>
   children?: React.ReactNode;
   disabled?: boolean;
   item?: T;
-  itemHeight?: number | string;
+  itemHeight?: number /* | string */; // TODO would we ever need to use a string here ?
   itemTextHighlightPattern?: RegExp | string;
   label?: string;
   showCheckbox?: boolean;
@@ -46,6 +48,11 @@ export interface ListItemProps<T = unknown>
    */
   selectable?: boolean;
   selected?: boolean;
+  /**
+   *  Will apply transform: translate style. Used for virtualised rendering,
+   *  supplied by VirtualisedList.
+   */
+  translate3d?: number;
 }
 
 export interface ListScrollHandles<Item> {
@@ -69,6 +76,10 @@ export interface ListProps<
    */
   ListPlaceholder?: ComponentType<HTMLAttributes<unknown>>;
 
+  /**
+   * ListItems can be re-ordered by drag drop.
+   */
+  allowDragDrop?: boolean | dragStrategy;
   borderless?: boolean; // TODO low emphasis ?
   /**
    * Adds checkbox to list. Defaults to true for multiselect strategy. Only supported for
@@ -127,7 +138,7 @@ export interface ListProps<
    *
    * Note that when using a percentage value, the list must have a height.
    */
-  itemHeight?: number | string;
+  itemHeight?: number /*| string */;
   /**
    * Used for providing text highlight.
    *
@@ -163,6 +174,13 @@ export interface ListProps<
   minWidth?: number | string;
 
   onHighlight?: (index: number) => void;
+
+  onMoveListItem?: (fromIndex: number, toIndex: number) => void;
+
+  onViewportScroll?: (
+    firstVisibleRowIndex: number,
+    lastVisibleRowIndex: number
+  ) => void;
   /**
    * If `true`, the component will remember the last keyboard-interacted position
    * and highlight it when list is focused again.
@@ -197,6 +215,7 @@ export interface ListControlProps {
   onBlur: FocusEventHandler;
   onFocus: FocusEventHandler;
   onKeyDown: KeyboardEventHandler;
+  onMouseDown?: MouseEventHandler;
   onMouseDownCapture: MouseEventHandler;
   onMouseLeave: MouseEventHandler;
 }
@@ -206,6 +225,7 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
     SelectionProps<CollectionItem<Item>, Selection>,
     "onSelect" | "onSelectionChange"
   > {
+  allowDragDrop?: boolean | dragStrategy;
   collapsibleHeaders?: boolean;
   collectionHook: CollectionHookResult<Item>;
   containerRef: RefObject<HTMLElement>;
@@ -217,6 +237,7 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
   disableTypeToSelect?: boolean;
   focusVisible?: boolean;
   highlightedIndex?: number;
+  id?: string;
   label?: string;
   listHandlers?: ListHandlers;
   onHighlight?: (index: number) => void;
@@ -225,18 +246,21 @@ export interface ListHookProps<Item, Selection extends SelectionStrategy>
     currentIndex: number
   ) => void;
   onKeyDown?: (evt: KeyboardEvent) => void;
+  onMoveListItem?: (fromIndex: number, toIndex: number) => void;
   onSelect?: SelectHandler<Item>;
   onSelectionChange?: SelectionChangeHandler<Item, Selection>;
   restoreLastFocus?: boolean;
   selectionKeys?: string[];
   stickyHeaders?: boolean;
   tabToSelect?: boolean;
+  viewportRange?: ViewportRange;
 }
 
 export interface ListHookResult<Item, Selection extends SelectionStrategy>
   extends Partial<ViewportTrackingResult<Item>>,
     Pick<SelectionHookResult<Item, Selection>, "selected" | "setSelected">,
-    Partial<Omit<NavigationHookResult, "listProps">> {
+    Partial<Omit<NavigationHookResult, "listProps">>,
+    Omit<DragHookResult, "isDragging" | "isScrolling"> {
   keyboardNavigation: RefObject<boolean>;
   listHandlers: ListHandlers;
   listItemHeaderHandlers: Partial<ListHandlers>;

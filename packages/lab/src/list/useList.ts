@@ -3,10 +3,12 @@ import {
   KeyboardEvent,
   MouseEvent,
   useCallback,
+  useEffect,
   useRef,
 } from "react";
 import {
   closestListItemIndex,
+  hasSelection,
   CollectionItem,
   ListHandlers,
   selectedType,
@@ -19,10 +21,12 @@ import {
   useTypeahead,
   useViewportTracking,
 } from "../common-hooks";
+import { useDragDrop } from "../tabs/drag-drop";
 
 import { ListHookProps, ListHookResult, ListControlProps } from "./listTypes";
 
 export const useList = <Item, Selection extends SelectionStrategy = "default">({
+  allowDragDrop = false,
   collapsibleHeaders,
   collectionHook: dataHook,
   containerRef,
@@ -34,22 +38,27 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
   disableHighlightOnFocus,
   disableTypeToSelect,
   highlightedIndex: highlightedIndexProp,
+  id,
   label = "",
   listHandlers: listHandlersProp,
-  onSelect,
-  onSelectionChange,
   onHighlight,
   onKeyboardNavigation,
   onKeyDown,
+  onMoveListItem,
+  onSelect,
+  onSelectionChange,
   restoreLastFocus,
   selected,
   selectionStrategy,
   selectionKeys,
   stickyHeaders,
   tabToSelect,
+  viewportRange,
 }: ListHookProps<Item, Selection>): ListHookResult<Item, Selection> => {
   type selectedItem = selectedType<Item, Selection>;
 
+  // Used to preserve selection across a drop event.
+  const selectedByIndexRef = useRef<number | null | number[]>(null);
   const lastSelection = useRef<typeof selected>(selected || defaultSelected);
   const handleKeyboardNavigation = (evt: KeyboardEvent, nextIndex: number) => {
     selectionHook.listHandlers.onKeyboardNavigation?.(evt, nextIndex);
@@ -119,6 +128,10 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     collectionHook: dataHook,
   });
 
+  const handleDragStart = useCallback(() => {
+    setHighlightedIndex(-1);
+  }, [setHighlightedIndex]);
+
   const selectionHook = useSelection<Item, Selection>({
     defaultSelected,
     highlightedIdx: highlightedIndex,
@@ -132,6 +145,101 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     tabToSelect,
   });
 
+  const adjustIndex = useCallback(
+    (item: CollectionItem<Item>, fromIndex: number, toIndex: number) => {
+      const index = dataHook.data.indexOf(item);
+      if (index === fromIndex) {
+        return toIndex;
+      } else if (
+        index < Math.min(fromIndex, toIndex) ||
+        index > Math.max(fromIndex, toIndex)
+      ) {
+        return index;
+      }
+      if (fromIndex < index) {
+        return index - 1;
+      } else {
+        return index + 1;
+      }
+    },
+    [dataHook.data]
+  );
+
+  // Used after a drop event, to calculate wht the new selected indices will be
+  const reorderSelectedIndices = useCallback(
+    (
+      selected: CollectionItem<Item> | CollectionItem<Item>[],
+      fromIndex: number,
+      toIndex: number
+    ) => {
+      if (Array.isArray(selected)) {
+        return selected.map((item) => adjustIndex(item, fromIndex, toIndex));
+      } else {
+        return adjustIndex(selected, fromIndex, toIndex);
+      }
+    },
+    [adjustIndex]
+  );
+
+  const handleDrop = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      if (hasSelection(selectionHook.selected)) {
+        selectedByIndexRef.current = reorderSelectedIndices(
+          selectionHook.selected,
+          fromIndex,
+          toIndex
+        );
+      }
+      onMoveListItem?.(fromIndex, toIndex);
+      setHighlightedIndex(-1);
+    },
+    [
+      selectionHook.selected,
+      onMoveListItem,
+      setHighlightedIndex,
+      reorderSelectedIndices,
+    ]
+  );
+
+  const handleDropSettle = useCallback(
+    (toIndex: number) => {
+      setHighlightedIndex(toIndex);
+    },
+    [setHighlightedIndex]
+  );
+
+  const { setSelected } = selectionHook;
+  useEffect(() => {
+    const { current: selectedByIndex } = selectedByIndexRef;
+    if (hasSelection(selectedByIndex)) {
+      const postDropSelected = Array.isArray(selectedByIndex)
+        ? selectedByIndex.map((i) => dataHook.data[i])
+        : dataHook.data[selectedByIndex];
+
+      // TODO gave up trying to figure out how to type this correctly
+      setSelected(postDropSelected as any);
+    }
+  }, [dataHook.data, setSelected]);
+
+  const {
+    onMouseDown,
+    isDragging,
+    isScrolling: isDragDropScrolling,
+    ...dragDropHook
+  } = useDragDrop({
+    allowDragDrop,
+    draggableClassName: "list-item",
+    orientation: "vertical",
+    containerRef,
+    id,
+    itemQuery: ".uitkListItem",
+    onDragStart: handleDragStart,
+    onDrop: handleDrop,
+    onDropSettle: handleDropSettle,
+    selected: selectionHook.selected,
+    viewportRange,
+  });
+
   const { onKeyDown: typeaheadOnKeyDown } = useTypeahead<Item>({
     disableTypeToSelect,
     highlightedIdx: highlightedIndex,
@@ -142,7 +250,6 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
 
   const handleKeyDown = useCallback(
     (evt: KeyboardEvent) => {
-      console.log(`useList handleKeyDown`);
       if (!evt.defaultPrevented) {
         typeaheadOnKeyDown?.(evt);
       }
@@ -172,20 +279,24 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
 
   // This is only appropriate when we are directly controlling a List,
   // not when a control is manipulating the list
-  const { isScrolling, scrollIntoView } = useViewportTracking({
-    containerRef,
-    contentRef,
-    highlightedIdx: highlightedIndex,
-    indexPositions: dataHook.data,
-    stickyHeaders,
-  });
+  const { isScrolling: isViewportScrolling, scrollIntoView } =
+    useViewportTracking({
+      containerRef,
+      contentRef,
+      highlightedIdx: highlightedIndex,
+      indexPositions: dataHook.data,
+      stickyHeaders,
+    });
+
+  const isScrolling =
+    isViewportScrolling.current || isDragDropScrolling.current;
 
   const handleMouseMove = useCallback(
     (evt: MouseEvent) => {
-      if (!isScrolling.current && !disabled) {
+      if (!isScrolling && !disabled && !isDragging) {
         navigationMouseMove();
         const idx = closestListItemIndex(evt.target as HTMLElement);
-        if (idx !== highlightedIndex) {
+        if (idx !== -1 && idx !== highlightedIndex) {
           const item = dataHook.data[idx];
           if (!item || item.disabled) {
             setHighlightedIndex(-1);
@@ -196,6 +307,7 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
       }
     },
     [
+      isDragging,
       isScrolling,
       disabled,
       setHighlightedIndex,
@@ -221,6 +333,7 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     onBlur: navigationControlProps.onBlur,
     onFocus: navigationControlProps.onFocus,
     onKeyDown: handleKeyDown,
+    onMouseDown: onMouseDown,
     onMouseDownCapture: navigationControlProps.onMouseDownCapture,
     onMouseLeave: navigationControlProps.onMouseLeave,
   };
@@ -246,5 +359,6 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     setHighlightedIndex,
     setIgnoreFocus: keyboardHook.setIgnoreFocus,
     setSelected: selectionHook.setSelected,
+    ...dragDropHook,
   };
 };

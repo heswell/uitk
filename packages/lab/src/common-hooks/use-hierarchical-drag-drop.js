@@ -132,8 +132,8 @@ export const useDragDrop = ({
 
   const dragMouseMoveHandler = useCallback(
     (evt) => {
-      const { POS } = dimensions(orientation);
-      const { [POS]: clientPos } = evt;
+      const { CLIENT_POS } = dimensions(orientation);
+      const { [CLIENT_POS]: clientPos } = evt;
       const { current: lastClientPos } = previousPos;
       const { current: currentDropTarget } = dropTarget;
       let { current: dropTargets } = measuredDropTargets;
@@ -232,8 +232,8 @@ export const useDragDrop = ({
 
   const preDragMouseMoveHandler = useCallback(
     (evt) => {
-      const { DIMENSION, POS, START } = dimensions(orientation);
-      const { [POS]: clientPos } = evt;
+      const { DIMENSION, CLIENT_POS, START } = dimensions(orientation);
+      const { [CLIENT_POS]: clientPos } = evt;
       let mouseMoveDistance = Math.abs(clientPos - startPos.current);
       if (mouseMoveDistance > dragThreshold && containerRef.current) {
         removeEventListener("mousemove", preDragMouseMoveHandler, false);
@@ -314,8 +314,9 @@ export const useDragDrop = ({
   const mouseDownHandler = useCallback(
     (evt) => {
       if (containerRef.current) {
-        const { POS, SCROLL_SIZE, CLIENT_SIZE } = dimensions(orientation);
-        const { [POS]: clientPos } = evt;
+        const { CLIENT_POS, SCROLL_SIZE, CLIENT_SIZE } =
+          dimensions(orientation);
+        const { [CLIENT_POS]: clientPos } = evt;
         startPos.current = clientPos;
         previousPos.current = clientPos;
 

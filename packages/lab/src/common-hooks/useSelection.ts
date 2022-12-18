@@ -39,7 +39,6 @@ export const useSelection = <
   // groupSelection = GROUP_SELECTION_NONE,
   highlightedIdx,
   indexPositions,
-  label = "",
   onSelect,
   onSelectionChange,
   selected: selectedProp,

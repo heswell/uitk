@@ -50,10 +50,11 @@
   content: "";
   position: absolute;
   background: var(--salt-separable-primary-borderColor);
-  top: 8px;
+  background: #c5c9d0;
+  top: 2px;
   left: 0;
   width: 1px;
-  height: 28px;
+  height: calc(var(--toolbar-tooltray-height) - 4px);
 }
 
 .saltTooltray > .Responsive-inner > .saltToolbarField {

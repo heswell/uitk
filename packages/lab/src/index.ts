@@ -1,5 +1,6 @@
 export type {
   SelectHandler,
+  CollectionItem,
   SelectionChangeHandler,
   SelectionStrategy,
   useCollectionItems,
@@ -9,6 +10,8 @@ export type {
   ListChangeHandler as ListChangeHandlerDeprecated,
   ListSelectHandler as ListSelectHandlerDeprecated,
 } from "./list-deprecated";
+
+export { CollectionProvider } from "./common-hooks";
 export {
   ListItemBase as ListItemBaseDeprecated,
   useListItem as useListItemDeprecated,

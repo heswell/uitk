@@ -1,4 +1,4 @@
-import {
+import React, {
   useCallback,
   useReducer,
   useRef,
@@ -12,8 +12,7 @@ import { useIsomorphicLayoutEffect } from "@salt-ds/core";
 import {
   OverflowItem,
   OverflowCollectionOptions,
-  OverflowCollectionHookProps,
-  OverflowCollectionHookResult,
+  OverflowCollectionHook,
   OverflowSource,
 } from "./overflowTypes";
 import { measureOverflowItems } from "./overflowUtils";
@@ -63,9 +62,46 @@ const getItemsIdentity = (
   return identity;
 };
 
-type OverflowCollectionHook = (
-  props: OverflowCollectionHookProps
-) => OverflowCollectionHookResult;
+const syncIncomingChildrenToState = (
+  data: OverflowItem[],
+  children: ReactNode,
+  existingIdentity: string
+): string => {
+  if (children) {
+    // TODO will need to exclude any items which are not child items
+    const oldCount = data.length;
+    const newCount = React.Children.count(children);
+    // if the count is dufferent we need to remeasure
+
+    if (newCount === oldCount) {
+      let newIdentity = false;
+      React.Children.forEach(children, (child, index: number) => {
+        const overflowItem = data[index];
+        if (
+          React.isValidElement(child) &&
+          child.type === overflowItem.element.type
+        ) {
+          overflowItem.element = child;
+
+          // if (componentName === "ToolbarField") {
+          //   const newChildProps = child.props.children.props;
+          //   const oldChildProps = element.props.children.props;
+          //   console.log({
+          //     oldChildProps,
+          //     newChildProps,
+          //   });
+          // }
+        } else {
+          newIdentity = true;
+        }
+      });
+      return newIdentity ? "new identity" : existingIdentity;
+    } else {
+      // this will be picked up with current identity scheme, need to have it here
+    }
+  }
+  return existingIdentity;
+};
 
 export const useOverflowCollectionItems: OverflowCollectionHook = ({
   children,
@@ -82,7 +118,6 @@ export const useOverflowCollectionItems: OverflowCollectionHook = ({
   const measureTimeout = useRef<number | null>(null);
   const previousIdentityRef = useRef("");
   const fontsLoaded = useRef(false);
-  const identity = getItemsIdentity(defaultSource, source, children);
   const isControlled = Array.isArray(source) || Children.count(children) > 0;
   if (isControlled && defaultSource !== undefined) {
     throw Error(
@@ -171,6 +206,10 @@ export const useOverflowCollectionItems: OverflowCollectionHook = ({
     [measureManagedItems]
   );
 
+  let identity = getItemsIdentity(defaultSource, source, children);
+  if (label === "Toolbar" || label === "Tooltray") {
+    identity = syncIncomingChildrenToState(data, children, identity);
+  }
   useIsomorphicLayoutEffect(() => {
     if (previousIdentityRef.current !== "") {
       const overflowItems = reducerInitialiser({
@@ -180,7 +219,6 @@ export const useOverflowCollectionItems: OverflowCollectionHook = ({
         idRoot,
         options,
       });
-
       dispatch({ type: "init", overflowItems });
       measureManagedItems(true);
     }

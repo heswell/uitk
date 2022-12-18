@@ -25,7 +25,10 @@ const getItemTop = (
   const { transform = "none" } = getComputedStyle(element);
   if (transform.startsWith("matrix")) {
     const pos = transform.lastIndexOf(",");
-    return parseInt(transform.slice(pos + 1));
+    const transformY = transform.slice(pos + 1, -1).trim();
+    // very large numbers will be represented in scientific notation. Might run
+    // into this in a Virtualized list. Number deals with this, parseInt would fail.
+    return Number(transformY);
   } else {
     let offsetParent = element.offsetParent as HTMLElement;
     if (offsetParent === offsetContainer || offsetContainer === null) {
@@ -62,20 +65,24 @@ export const useViewportTracking = <Item>({
   stickyHeaders = false,
 }: ViewportTrackingProps<Item>): ViewportTrackingResult<Item> => {
   const scrolling = useRef<boolean>(false);
+
   const viewport = useRef({
     height: 0,
     contentHeight: 0,
   });
 
-  const scrollTo = useCallback((scrollPos: number) => {
-    scrolling.current = true;
-    if (containerRef.current) {
-      containerRef.current.scrollTop = scrollPos;
-    }
-    setTimeout(() => {
-      scrolling.current = false;
-    });
-  }, []);
+  const scrollTo = useCallback(
+    (scrollPos: number) => {
+      scrolling.current = true;
+      if (containerRef.current) {
+        containerRef.current.scrollTop = scrollPos;
+      }
+      setTimeout(() => {
+        scrolling.current = false;
+      });
+    },
+    [containerRef]
+  );
 
   const scrollToStart = useCallback(() => scrollTo(0), [scrollTo]);
 
@@ -94,19 +101,18 @@ export const useViewportTracking = <Item>({
             el.ariaExpanded && el.firstChild
               ? (el.firstChild as HTMLElement)
               : el;
+          //TODO - use the actual height
           const headerHeight = stickyHeaders ? 36 : 0;
           const itemTop = getItemTop(targetEl, offsetContainer);
           const itemHeight = targetEl.offsetHeight;
           const { scrollTop } = containerRef.current;
           const viewportStart = scrollTop + headerHeight;
           const viewportEnd = viewportStart + viewportHeight - headerHeight;
-
           if (itemTop + itemHeight > viewportEnd || itemTop < viewportStart) {
             const newScrollTop =
               itemTop + itemHeight > viewportEnd
                 ? scrollTop + (itemTop + itemHeight) - viewportEnd
                 : itemTop - headerHeight;
-
             scrollTo(newScrollTop);
           }
         }

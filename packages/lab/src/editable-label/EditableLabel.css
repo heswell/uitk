@@ -4,11 +4,13 @@
   --editableLabel-padding: var(--saltEditableLabel-padding, 6px);
   --editableLabel-height: var(--saltEditableLabel-height, 26px);
   color: inherit;
+  cursor: default;
   display: flex;
   flex-direction: column;
   font-size: var(--salt-text-fontSize);
   height: var(--editableLabel-height);
   justify-content: center;
+  outline: none;
   padding: 0 var(--editableLabel-padding);
   position: relative;
   z-index: var(--salt-zIndex-default);

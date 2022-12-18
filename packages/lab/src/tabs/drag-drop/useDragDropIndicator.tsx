@@ -1,31 +1,32 @@
 import { useCallback, useRef, useState } from "react";
 
 import {
-  Direction,
   InternalDragDropProps,
   InternalDragHookResult,
+  Direction,
 } from "./dragDropTypes";
-import { useDragDisplacers } from "./useDragDisplacers";
+import { useDropIndicator } from "./useDropIndicator";
 
-// import { useListViz } from "../../../../../../showcase/src/examples/Table/DragVisualizer";
+// import { useListViz } from "../../../../../../showcase/src/examples/uitk/ListVisualizer";
 
 import {
   dimensions,
-  dropZone,
   getItemById,
-  getNextDropTarget,
   MeasuredDropTarget,
   measureDropTargets,
+  getNextDropTarget,
+  dropZone,
   removeDraggedItem,
 } from "./dragUtils";
 
+import { createDropIndicator, Draggable } from "./Draggable";
 import { ViewportRange } from "../../list/useScrollPosition";
 
 const NOT_OVERFLOWED = ':not([data-overflowed="true"])';
 const NOT_HIDDEN = ':not([aria-hidden="true"])';
-export const useDragDropNaturalMovement = ({
+
+export const useDragDropIndicator = ({
   draggableRef,
-  id,
   onDrop,
   orientation = "horizontal",
   containerRef,
@@ -34,10 +35,9 @@ export const useDragDropNaturalMovement = ({
   viewportRange,
 }: InternalDragDropProps): InternalDragHookResult => {
   const dragDirectionRef = useRef<Direction | undefined>();
+  const dropIndicatorRef = useRef<HTMLDivElement>(null);
   const dropTargetRef = useRef<MeasuredDropTarget | null>(null);
   const dropZoneRef = useRef<dropZone | "">("");
-  const insertPosRef = useRef<number>(-1);
-
   const isScrollable = useRef(false);
   /** current position of dragged element */
   const dragPosRef = useRef<number>(-1);
@@ -46,9 +46,9 @@ export const useDragDropNaturalMovement = ({
   const overflowMenuShowingRef = useRef(false);
 
   const [showOverflow, setShowOverflow] = useState(false);
+  const [dropIndicator, setDropIndicator] = useState<JSX.Element | undefined>();
 
-  const { clearDisplacedItem, clearSpacers, displaceItem, displaceLastItem } =
-    useDragDisplacers();
+  const { clearSpacer, positionDropIndicator } = useDropIndicator();
 
   const draggedItemRef = useRef<MeasuredDropTarget>();
   const fullItemQuery = `:is(${itemQuery}${NOT_OVERFLOWED}${NOT_HIDDEN},[data-overflow-indicator])`;
@@ -58,10 +58,17 @@ export const useDragDropNaturalMovement = ({
   const indexOf = (dropTarget: MeasuredDropTarget) =>
     measuredDropTargets.current.findIndex((d) => d.id === dropTarget.id);
 
-  const reposition = (dropTarget: MeasuredDropTarget, distance: number) => {
+  const reposition = (
+    dropTarget: MeasuredDropTarget,
+    distance: number,
+    indexShift?: number
+  ) => {
     dropTarget.start += distance;
     dropTarget.mid += distance;
     dropTarget.end += distance;
+    if (typeof indexShift === "number") {
+      dropTarget.currentIndex += indexShift;
+    }
   };
 
   // Shouldn't need this - but viewportRange is always stale in stopScrolling. Checked all dependencies
@@ -70,9 +77,8 @@ export const useDragDropNaturalMovement = ({
   rangeRef.current = viewportRange;
 
   const handleScrollStart = useCallback(() => {
-    console.log("start scroll");
-    clearDisplacedItem();
-  }, [clearDisplacedItem]);
+    clearSpacer();
+  }, [clearSpacer]);
 
   const handleScrollStop = useCallback(
     (scrollDirection: "fwd" | "bwd", _scrollPos: number, atEnd: boolean) => {
@@ -85,58 +91,34 @@ export const useDragDropNaturalMovement = ({
           fullItemQuery,
           rangeRef.current
         );
-
-        // setVizData?.(measuredDropTargets.current);
+        // setVizData(measuredDropTargets.current);
 
         const { size } = draggedItem;
         const dragPos = dragPosRef.current;
         const midPos = dragPos + size / 2;
         const { current: dropTargets } = measuredDropTargets;
-        const [dropTarget, dropZone] = getNextDropTarget(
+        const [nextDropTarget, nextDropZone] = getNextDropTarget(
           dropTargets,
           draggedItem,
           midPos
         );
-
-        if (dropTarget) {
-          const targetIndex = indexOf(dropTarget);
-          // const nextInsertPos =
-          //   dropZone === "end" ? targetIndex + 1 : targetIndex;
-          const nextInsertPos = targetIndex;
-          const nextDropTarget = dropTargets[nextInsertPos];
-
-          dropTargetRef.current = nextDropTarget;
-          dropZoneRef.current = scrollDirection === "fwd" ? "start" : dropZone;
-          insertPosRef.current = nextInsertPos;
-
+        if (nextDropTarget) {
           if (atEnd && scrollDirection === "fwd") {
-            displaceLastItem(
+            positionDropIndicator(
               dropTargets[dropTargets.length - 1],
-              size,
-              false,
-              "static",
-              orientation
+              nextDropZone
             );
-            insertPosRef.current = dropTargets.length - 1;
           } else {
-            displaceItem(nextDropTarget, size, true, "static", orientation);
-            for (let i = targetIndex; i < dropTargets.length; i++) {
-              reposition(dropTargets[i], size);
-            }
-            insertPosRef.current = dropTargets.length - 1;
+            positionDropIndicator(nextDropTarget, nextDropZone);
           }
-          // setVizData?.(
-          //   measuredDropTargets.current,
-          //   nextDropTarget,
-          //   dropZoneRef.current
-          // );
         }
+
+        // setVizData(measuredDropTargets.current, nextDropTarget);
       }
     },
     [
       containerRef,
-      displaceItem,
-      displaceLastItem,
+      positionDropIndicator,
       fullItemQuery,
       orientation,
       // setVizData,
@@ -162,6 +144,7 @@ export const useDragDropNaturalMovement = ({
         const { [SCROLL_SIZE]: scrollSize, [CLIENT_SIZE]: clientSize } =
           container;
         isScrollable.current = scrollSize > clientSize;
+
         const dropTargets = (measuredDropTargets.current = measureDropTargets(
           container,
           orientation,
@@ -176,40 +159,69 @@ export const useDragDropNaturalMovement = ({
           removeDraggedItem(dropTargets, targetIndex);
           draggedItemRef.current = draggedItem;
 
-          const insertPos = draggedItem.isLast
-            ? dropTargets.length - 1
-            : targetIndex;
+          // This begins to deviate from NaturalMovement here -----------
+          const { current: range } = rangeRef;
+          //TODO when our viewport is the last 'page' of a scrolling viewport
+          // the viewport will scoll up by one row when we remove an item, so
+          // the position of each item will move down.
+          if (range?.atEnd) {
+            for (let i = 0; i < dropTargets.length; i++) {
+              reposition(dropTargets[i], draggedItem.size);
+            }
+          }
+          for (let i = targetIndex; i < dropTargets.length; i++) {
+            reposition(dropTargets[i], -draggedItem.size, -1);
+          }
 
-          const [displacedItem, dropZone, displaceFunction] = draggedItem.isLast
-            ? [dropTargets[insertPos], "end", displaceLastItem]
-            : [dropTargets[insertPos], "start", displaceItem];
+          const [dropTarget, dropZone] = draggedItem.isLast
+            ? [dropTargets[dropTargets.length - 1], "end"]
+            : [dropTargets[targetIndex], "start"];
 
-          dropTargetRef.current = displacedItem;
+          dropTargetRef.current = dropTarget;
           dropZoneRef.current = dropZone as dropZone;
-          insertPosRef.current = insertPos;
 
-          // setVizData?.(dropTargets, displacedItem, dropZone);
+          // setVizData(dropTargets, dropTarget, dropZone);
 
-          displaceFunction(
-            displacedItem,
-            draggedItem.size,
-            false,
-            "static",
-            orientation
+          const dropIndicatorPosition = positionDropIndicator(
+            dropTarget,
+            dropZone as dropZone
+          );
+
+          const { top, left, width } =
+            dropIndicatorPosition.getBoundingClientRect();
+          // Next render will remove the dragged item, that will offset our initial
+          // dropIndicatorPosition
+          const dropIndicatorRect = {
+            top: draggedItem.isLast
+              ? range?.atEnd && !range.atStart
+                ? top + draggedItem.size - 2
+                : top - 2
+              : top - draggedItem.size - 2,
+            left,
+            width,
+            height: 2,
+          };
+
+          setDropIndicator(
+            <Draggable
+              wrapperClassName="dropIndicatorContainer"
+              rect={dropIndicatorRect}
+              ref={dropIndicatorRef}
+              element={createDropIndicator()}
+            />
           );
         }
       }
     },
     [
-      containerRef,
-      displaceItem,
-      displaceLastItem,
-      fullItemQuery,
       itemQuery,
-      orientation,
       selected,
-      // setVizData,
+      containerRef,
+      orientation,
+      fullItemQuery,
       viewportRange,
+      // setVizData,
+      positionDropIndicator,
     ]
   );
 
@@ -217,13 +229,11 @@ export const useDragDropNaturalMovement = ({
     (dragPos: number, mouseMoveDirection: "fwd" | "bwd") => {
       const { current: currentDropTarget } = dropTargetRef;
       const { current: currentDropZone } = dropZoneRef;
-      const { current: currentInsertPos } = insertPosRef;
       const { current: draggedItem } = draggedItemRef;
 
       if (draggedItem) {
         if (draggableRef.current && containerRef.current) {
-          // const START = orientation === "horizontal" ? "left" : "top";
-          // draggableRef.current.style[START] = `${dragPos}px`;
+          const START = orientation === "horizontal" ? "left" : "top";
           dragPosRef.current = dragPos;
 
           const { current: dropTargets } = measuredDropTargets;
@@ -237,50 +247,40 @@ export const useDragDropNaturalMovement = ({
             nextDropTarget &&
             (nextDropTarget.index !== currentDropTarget?.index ||
               nextDropZone !== currentDropZone)
+            // mouseMoveDirection !== dragDirectionRef.current
           ) {
             if (nextDropTarget.isOverflowIndicator) {
               // Does this belong in here or can we abstract it out
               setShowOverflow((overflowMenuShowingRef.current = true));
-            } else {
-              const { size } = draggedItem;
+            } else if (dropIndicatorRef.current) {
               const targetIndex = indexOf(nextDropTarget);
-              const nextInsertPos =
-                nextDropZone === "end" ? targetIndex + 1 : targetIndex;
-
-              if (nextInsertPos !== currentInsertPos) {
-                if (targetIndex === dropTargets.length - 1) {
-                  // because we maintain at least one out-of-viewport row in
-                  // the dropTargets, this means we are at the very last item.
-                  const dropTarget = dropTargets[dropTargets.length - 1];
-                  displaceLastItem(
-                    dropTarget,
-                    size,
-                    true,
-                    mouseMoveDirection,
-                    orientation
-                  );
-                  reposition(
-                    dropTarget,
-                    mouseMoveDirection === "fwd" ? -size : size
-                  );
-                } else {
-                  displaceItem(
-                    nextDropTarget,
-                    size,
-                    true,
-                    mouseMoveDirection,
-                    orientation
-                  );
-                  // setVizData?.(dropTargets, nextDropTarget, nextDropZone);
-                  const restoredSize =
-                    mouseMoveDirection === "fwd" ? -size : size;
-                  reposition(nextDropTarget, restoredSize);
-                }
-                // setVizData?.(dropTargets, nextDropTarget, nextDropZone);
-
-                setShowOverflow((overflowMenuShowingRef.current = false));
-                insertPosRef.current = nextInsertPos;
+              if (targetIndex === dropTargets.length - 1) {
+                // because we maintain at least one out-of-viewport row in
+                // the dropTargets, this means we are at the very last item.
+                const dropTarget = dropTargets[dropTargets.length - 1];
+                const dropIndicatorPosition = positionDropIndicator(
+                  dropTarget,
+                  nextDropZone
+                );
+                const dropIndicatorRect =
+                  dropIndicatorPosition.getBoundingClientRect();
+                dropIndicatorRef.current.style[
+                  START
+                ] = `${dropIndicatorRect.top}px`;
+              } else {
+                const dropIndicatorPosition = positionDropIndicator(
+                  nextDropTarget,
+                  nextDropZone
+                ) as unknown as HTMLElement;
+                const dropIndicatorRect =
+                  dropIndicatorPosition.getBoundingClientRect();
+                dropIndicatorRef.current.style[
+                  START
+                ] = `${dropIndicatorRect.top}px`;
               }
+              // setVizData(dropTargets, nextDropTarget, nextDropZone);
+
+              setShowOverflow((overflowMenuShowingRef.current = false));
             }
 
             dropTargetRef.current = nextDropTarget;
@@ -290,48 +290,55 @@ export const useDragDropNaturalMovement = ({
         }
       }
     },
-    [
-      containerRef,
-      displaceItem,
-      displaceLastItem,
-      draggableRef,
-      orientation,
-      // setVizData,
-    ]
+    [draggableRef, containerRef, orientation, positionDropIndicator]
   );
 
   const drop = useCallback(() => {
-    clearSpacers();
+    clearSpacer();
     const { current: draggedItem } = draggedItemRef;
     const { current: dropTarget } = dropTargetRef;
-    if (draggedItem && dropTarget) {
+    const { current: dropZone } = dropZoneRef;
+    const { current: range } = rangeRef;
+
+    if (draggedItem && range && dropTarget) {
       const { index: fromIndex } = draggedItem;
-      const { currentIndex: toIndex } = dropTarget;
+      const { index: toIndex } = dropTarget;
+
+      const dropBefore = dropZone === "start";
+      const {
+        index: originalDropTargetIndex,
+        currentIndex: currentDropTargetIndex,
+      } = dropTarget;
+
       dropTargetRef.current = null;
       dragDirectionRef.current = undefined;
       dropIndexRef.current = toIndex;
+
       if (overflowMenuShowingRef.current) {
         onDrop(fromIndex, -1);
       } else {
-        onDrop(fromIndex, toIndex);
+        if (fromIndex < originalDropTargetIndex) {
+          onDrop(
+            fromIndex,
+            dropBefore ? currentDropTargetIndex : currentDropTargetIndex + 1
+          );
+        } else {
+          onDrop(
+            fromIndex,
+            dropBefore ? originalDropTargetIndex : originalDropTargetIndex + 1
+          );
+        }
       }
+      setDropIndicator(undefined);
     }
     setShowOverflow(false);
-
-    if (containerRef.current) {
-      // TODO we're not catching every scenario where we need to control
-      // the final scroll position here.
-      const scrollTop = containerRef.current?.scrollTop;
-      if (!dropTarget?.isLast) {
-        containerRef.current.scrollTop = scrollTop;
-      }
-    }
-  }, [clearSpacers, containerRef, onDrop]);
+  }, [clearSpacer, onDrop]);
 
   return {
     beginDrag,
     drag,
     drop,
+    dropIndicator,
     handleScrollStart,
     handleScrollStop,
     revealOverflowedItems: showOverflow,

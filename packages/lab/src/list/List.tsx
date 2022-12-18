@@ -19,11 +19,11 @@ import {
   useCollectionItems,
   useImperativeScrollingAPI,
 } from "../common-hooks";
-
 import { ListItem as DefaultListItem, ListItemProxy } from "./ListItem";
 import { ListItemProps, ListProps } from "./listTypes";
 import { useList } from "./useList";
 import { useListHeight } from "./useListHeight";
+import { useScrollPosition } from "./useScrollPosition";
 
 import "./List.css";
 
@@ -38,6 +38,7 @@ export const List = forwardRef(function List<
   {
     ListItem = DefaultListItem,
     ListPlaceholder,
+    allowDragDrop,
     borderless,
     children,
     className,
@@ -64,6 +65,7 @@ export const List = forwardRef(function List<
     maxWidth,
     minHeight,
     minWidth,
+    onMoveListItem,
     onSelect,
     onSelectionChange,
     onHighlight,
@@ -102,7 +104,7 @@ export const List = forwardRef(function List<
     },
   });
 
-  const { preferredHeight } = useListHeight({
+  const { listClientHeight, listHeight, listItemHeight } = useListHeight({
     borderless,
     displayedItemCount,
     getItemHeight: getItemHeightProp,
@@ -110,10 +112,21 @@ export const List = forwardRef(function List<
     itemCount: collectionHook.data.length,
     itemGapSize,
     itemHeight: itemHeightProp,
+    rootRef,
     rowHeightRef: rowHeightProxyRef,
   });
 
+  const { onVerticalScroll, viewportRange } = useScrollPosition({
+    containerSize: listClientHeight ?? listHeight,
+    itemCount: collectionHook.data.length,
+    itemGapSize: itemGapSize,
+    itemSize: listItemHeight,
+  });
+
   const {
+    draggable,
+    draggedItemIndex,
+    dropIndicator,
     focusVisible,
     highlightedIndex,
     listControlProps,
@@ -122,6 +135,7 @@ export const List = forwardRef(function List<
     scrollIntoView,
     selected,
   } = useList<Item, Selection>({
+    allowDragDrop,
     collapsibleHeaders,
     collectionHook,
     containerRef: rootRef,
@@ -134,8 +148,10 @@ export const List = forwardRef(function List<
     disabled: listDisabled,
     disableTypeToSelect,
     highlightedIndex: highlightedIndexProp,
+    id,
     label: id,
     listHandlers: listHandlersProp, // should this be in context ?
+    onMoveListItem,
     onSelect,
     onSelectionChange,
     onHighlight,
@@ -148,6 +164,7 @@ export const List = forwardRef(function List<
     selectionKeys,
     stickyHeaders,
     tabToSelect,
+    viewportRange,
   });
 
   useImperativeScrollingAPI({
@@ -262,6 +279,7 @@ export const List = forwardRef(function List<
     end = items.length
   ): ReactElement[] | undefined => {
     const listItems: ReactElement[] = [];
+
     while (idx.value < end) {
       const item = items[idx.value];
       if (item.header) {
@@ -291,7 +309,12 @@ export const List = forwardRef(function List<
 
   const renderContent = () => {
     if (collectionHook.data.length) {
-      return renderCollectionItems(collectionHook.data);
+      const itemsToRender =
+        typeof draggedItemIndex === "number" && draggedItemIndex >= 0
+          ? collectionHook.data.filter((d) => d.index !== draggedItemIndex)
+          : collectionHook.data;
+
+      return renderCollectionItems(itemsToRender);
     } else {
       renderEmpty();
     }
@@ -305,7 +328,7 @@ export const List = forwardRef(function List<
     width: width ?? "100%",
     height: height ?? "100%",
     maxWidth: maxWidth ?? width,
-    maxHeight: maxHeight ?? preferredHeight,
+    maxHeight: maxHeight ?? listHeight,
   };
   return (
     <div
@@ -328,6 +351,7 @@ export const List = forwardRef(function List<
       id={`${id}`}
       ref={useForkRef<HTMLDivElement>(rootRef, forwardedRef)}
       role="listbox"
+      onScroll={onVerticalScroll}
       style={{ ...styleProp, ...sizeStyles }}
       tabIndex={listDisabled || disableFocus ? undefined : 0}
     >
@@ -343,6 +367,8 @@ export const List = forwardRef(function List<
           style={{ height: contentHeight }}
         >
           {renderContent()}
+          {dropIndicator}
+          {draggable}
         </div>
       )}
     </div>

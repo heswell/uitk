@@ -1,7 +1,11 @@
 import { useControlled } from "@salt-ds/core";
 import { useCallback, useMemo } from "react";
 import { ListHookProps, ListHookResult, useList } from "../list";
-import { DropdownHookResult, DropdownHookProps } from "./dropdownTypes";
+import {
+  DropdownHookResult,
+  DropdownHookProps,
+  OpenChangeReason,
+} from "./dropdownTypes";
 import {
   CollectionItem,
   itemToString as defaultItemToString,
@@ -61,7 +65,7 @@ export const useDropdown = <
     (evt, selected) => {
       if (!isMultiSelect) {
         setIsOpen(false);
-        onOpenChange?.(false);
+        onOpenChange?.(false, "selection");
       }
       onSelectionChange?.(evt, selected);
     },
@@ -86,9 +90,9 @@ export const useDropdown = <
   });
 
   const handleOpenChange = useCallback(
-    (open: boolean) => {
+    (open: boolean, reason: OpenChangeReason) => {
       setIsOpen(open);
-      onOpenChange?.(open);
+      onOpenChange?.(open, reason);
     },
     [onOpenChange, setIsOpen]
   );

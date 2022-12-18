@@ -44,9 +44,9 @@
   width: 100%;
 }
 
-.saltToolbar[aria-orientation="horizontal"] > .Responsive-inner > :not(.saltTooltray) {
-  margin-top: var(--salt-size-unit);
-  margin-right: var(--salt-size-unit);
+.saltToolbar[aria-orientation="horizontal"] > .Responsive-inner > :not(.uitkTooltray) {
+  margin-top: var(--uitkToolbarField-marginTop, var(--uitk-size-unit));
+  margin-right: var(--uitk-size-unit);
 }
 
 .saltToolbar[aria-orientation="horizontal"] > .Responsive-inner > .saltTooltray > .Responsive-inner > * {
@@ -110,12 +110,16 @@
   flex-grow: 0;
 }
 
-.saltToolbarField.saltFormField-labelLeft > .saltFormLabel {
-  padding-left: var(--salt-size-unit);
+.uitkToolbar > .Responsive-inner > .uitkToolbarField[data-collapsing="true"] {
+  flex-shrink: 1;
+}
+
+.uitkToolbarField.uitkFormField-labelLeft > .uitkFormLabel {
+  padding-left: var(--uitk-size-unit);
 }
 
 .saltToolbar .saltFormField-primary.saltFormField > .saltToolbarButton {
-  background: var(--toolbar-background);
+  background: var(--saltToolbar-background, var(--toolbar-background));
 }
 .saltToolbar .saltFormField-primary.saltFormField > .saltToolbarButton:hover {
   background: var(--salt-actionable-secondary-background-hover);

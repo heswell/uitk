@@ -119,6 +119,10 @@ export type OverflowCollectionHookResult = {
   version: number;
 };
 
+export type OverflowCollectionHook = (
+  props: OverflowCollectionHookProps
+) => OverflowCollectionHookResult;
+
 export interface OverflowLayoutHookProps {
   collectionHook: OverflowCollectionHookResult;
   disableOverflow?: boolean;

@@ -127,10 +127,6 @@ export const Tab = forwardRef(function Tab(
     setCloseHover(false);
   };
 
-  const handleMouseDown = (e: MouseEvent<HTMLElement>): void => {
-    onMouseDown?.(e);
-  };
-
   const getLabel = () => {
     if (editable) {
       return (
@@ -178,7 +174,7 @@ export const Tab = forwardRef(function Tab(
       onFocus={handleFocus}
       onKeyDown={handleKeyDownMain}
       onKeyUp={handleKeyUp}
-      onMouseDown={handleMouseDown}
+      onMouseDown={onMouseDown}
       ref={setForkRef}
       role="tab"
       tabIndex={tabIndex}

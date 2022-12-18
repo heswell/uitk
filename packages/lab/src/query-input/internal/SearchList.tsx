@@ -64,9 +64,9 @@ export function SearchList(props: SearchListProps) {
           </ListItemGroup>
         );
       })}
-      <ListItem className={withBaseName("addKeyword")}>
-        {`Add keyword: "${inputValue}"`}
-      </ListItem>
+      <ListItem
+        className={withBaseName("addKeyword")}
+      >{`Add keyword: "${inputValue}"`}</ListItem>
     </List>
   );
 }

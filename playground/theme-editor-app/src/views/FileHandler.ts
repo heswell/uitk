@@ -30,7 +30,9 @@ export async function saveToDirectory(cssByPattern: CSSByPattern[]) {
 
     let characteristicsFolder = await dirHandle.getDirectoryHandle(
       `characteristics`,
-      { create: true }
+      {
+        create: true,
+      }
     );
     let foundationsFolder = await dirHandle.getDirectoryHandle(`foundations`, {
       create: true,

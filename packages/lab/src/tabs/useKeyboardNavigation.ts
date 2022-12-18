@@ -264,7 +264,7 @@ export const useKeyboardNavigation = ({
     setHighlightedIdx(tabIndex);
   };
 
-  const handleFocus = useCallback(
+  const handleContainerFocus = useCallback(
     (evt: FocusEvent) => {
       if (!hasFocus) {
         setHasFocus(true);
@@ -298,7 +298,7 @@ export const useKeyboardNavigation = ({
       }
     },
     onMouseDownCapture: handleContainerMouseDown,
-    onFocus: handleFocus,
+    onFocus: handleContainerFocus,
     onMouseLeave: () => {
       keyboardNavigation.current = true;
       setHighlightedIdx(-1);
@@ -306,11 +306,12 @@ export const useKeyboardNavigation = ({
     },
   };
 
-  useIsomorphicLayoutEffect(() => {
-    if (hasFocus && selectedTabIndex !== undefined) {
-      focusTab(selectedTabIndex);
-    }
-  }, [focusTab, hasFocus, selectedTabIndex]);
+  // useIsomorphicLayoutEffect(() => {
+  //   if (hasFocus && selectedTabIndex !== undefined) {
+  //     console.log(`2) focusTab ${selectedTabIndex}`);
+  //     focusTab(selectedTabIndex);
+  //   }
+  // }, [focusTab, hasFocus, selectedTabIndex]);
 
   return {
     containerProps,

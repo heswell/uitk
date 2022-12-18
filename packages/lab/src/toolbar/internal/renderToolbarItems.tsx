@@ -74,7 +74,7 @@ export const renderToolbarItems = (
       const toolbarItemProps = {
         id: item.id,
         key: item.id,
-        "data-index": index,
+        "data-idx": index,
         "data-priority": props["data-priority"] ?? 2,
         "data-pad-start": dataPadStart || undefined,
         "data-pad-end": dataPadEnd || undefined,
