@@ -73,7 +73,7 @@ export const createDragSpacer = (
 
 export const createDropIndicatorPosition = (): HTMLElement => {
   const spacer = document.createElement("div");
-  spacer.className = "uitkDraggable-dropIndicatorPosition";
+  spacer.className = "saltDraggable-dropIndicatorPosition";
   return spacer;
 };
 
@@ -82,7 +82,7 @@ export const createDropIndicator = (
 ): HTMLElement => {
   // const idx = color_idx++ % 4;
   const spacer = document.createElement("div");
-  spacer.className = "uitkDraggable-dropIndicator";
+  spacer.className = "saltDraggable-dropIndicator";
   if (transitioning) {
     spacer.addEventListener("transitionend", () => {
       transitioning.current = false;

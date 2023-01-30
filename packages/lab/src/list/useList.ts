@@ -232,7 +232,7 @@ export const useList = <Item, Selection extends SelectionStrategy = "default">({
     orientation: "vertical",
     containerRef,
     id,
-    itemQuery: ".uitkListItem",
+    itemQuery: ".saltListItem",
     onDragStart: handleDragStart,
     onDrop: handleDrop,
     onDropSettle: handleDropSettle,

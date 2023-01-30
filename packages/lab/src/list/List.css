@@ -6,10 +6,10 @@
   --list-item-height: var(--salt-size-stackable);
   --list-item-gap: 0px;
   --list-maxHeight: 100%;
-  --uitkDraggable-spacer-height: 0;
-  --uitkDraggable-spacer-width: 100%;
-  --uitkDraggable-display: block;
-  --uitkDraggable-transitionProp: height;
+  --saltDraggable-spacer-height: 0;
+  --saltDraggable-spacer-width: 100%;
+  --saltDraggable-display: block;
+  --saltDraggable-transitionProp: height;
 
   background: var(--list-background);
   border-color: var(--salt-container-primary-borderColor);
@@ -86,6 +86,6 @@
   inset: 2px;
 }
 
-.uitkDraggable-list-item {
-  --list-item-height: var(--uitk-size-stackable);
+.saltDraggable-list-item {
+  --list-item-height: var(--salt-size-stackable);
 }

@@ -7,7 +7,7 @@ import {
 } from "./dragDropTypes";
 import { useDragDisplacers } from "./useDragDisplacers";
 
-// import { useListViz } from "../../../../../../showcase/src/examples/Table/DragVisualizer";
+// import { useListViz } from "../../../../../../showcase/src/examples/salt/ListVisualizer";
 
 import {
   dimensions,
@@ -41,7 +41,6 @@ export const useDragDropNaturalMovement = ({
   const isScrollable = useRef(false);
   /** current position of dragged element */
   const dragPosRef = useRef<number>(-1);
-  const dropIndexRef = useRef(-1);
   const measuredDropTargets = useRef<MeasuredDropTarget[]>([]);
   const overflowMenuShowingRef = useRef(false);
 
@@ -70,7 +69,6 @@ export const useDragDropNaturalMovement = ({
   rangeRef.current = viewportRange;
 
   const handleScrollStart = useCallback(() => {
-    console.log("start scroll");
     clearDisplacedItem();
   }, [clearDisplacedItem]);
 
@@ -309,7 +307,6 @@ export const useDragDropNaturalMovement = ({
       const { currentIndex: toIndex } = dropTarget;
       dropTargetRef.current = null;
       dragDirectionRef.current = undefined;
-      dropIndexRef.current = toIndex;
       if (overflowMenuShowingRef.current) {
         onDrop(fromIndex, -1);
       } else {

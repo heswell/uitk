@@ -20,7 +20,7 @@
 } */
 
 .saltToolbar > .Responsive-inner {
-  align-items: flex-start;
+  align-items: var(--saltToolbar-alignItems, flex-start);
   flex: 1;
   flex-wrap: wrap;
   justify-content: inherit;

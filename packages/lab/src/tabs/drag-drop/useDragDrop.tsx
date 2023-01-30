@@ -124,7 +124,6 @@ export const useDragDrop: DragDropHook = ({
     setDraggableStatus((status) => ({
       ...status,
       draggable: undefined,
-      draggedItemIndex: -1,
     }));
   }, [onDropSettle]);
 
@@ -178,6 +177,7 @@ export const useDragDrop: DragDropHook = ({
     (fromIndex: number, toIndex: number) => {
       dropPosRef.current = toIndex;
       onDrop?.(fromIndex, toIndex);
+      dropIndexRef.current = toIndex;
     },
     [onDrop]
   );
@@ -278,8 +278,13 @@ export const useDragDrop: DragDropHook = ({
     document.removeEventListener("mousemove", dragMouseMoveHandler, false);
     document.removeEventListener("mouseup", dragMouseUpHandler, false);
     settlingItemRef.current = draggableRef.current;
+    // The implementation hook is currently invoking the onDrop callback, we should move it into here
     drop();
-    setDraggableStatus((status) => ({ ...status, isDragging: false }));
+    setDraggableStatus((status) => ({
+      ...status,
+      draggedItemIndex: -1,
+      isDragging: false,
+    }));
     dragElementRef.current = undefined;
   }, [dragMouseMoveHandler, draggableRef, drop]);
 
@@ -428,13 +433,12 @@ export const useDragDrop: DragDropHook = ({
         `${itemQuery}[data-idx="${dropPos}"]`
       );
       if (droppedItem) {
-        console.log(`set item as settinlg`);
         const { top: targetTop, left: targetLeft } =
           droppedItem.getBoundingClientRect();
         const { top: currentTop, left: currentLeft } =
           settlingItem.getBoundingClientRect();
         if (currentLeft !== targetLeft || currentTop !== targetTop) {
-          settlingItem.classList.add("uitkDraggable-settling");
+          settlingItem.classList.add("saltDraggable-settling");
           settlingItem.style.top = `${targetTop}px`;
           settlingItem.style.left = `${targetLeft}px`;
         } else {

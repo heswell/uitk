@@ -41,7 +41,6 @@ export const useDragDropIndicator = ({
   const isScrollable = useRef(false);
   /** current position of dragged element */
   const dragPosRef = useRef<number>(-1);
-  const dropIndexRef = useRef(-1);
   const measuredDropTargets = useRef<MeasuredDropTarget[]>([]);
   const overflowMenuShowingRef = useRef(false);
 
@@ -302,7 +301,6 @@ export const useDragDropIndicator = ({
 
     if (draggedItem && range && dropTarget) {
       const { index: fromIndex } = draggedItem;
-      const { index: toIndex } = dropTarget;
 
       const dropBefore = dropZone === "start";
       const {
@@ -312,8 +310,8 @@ export const useDragDropIndicator = ({
 
       dropTargetRef.current = null;
       dragDirectionRef.current = undefined;
-      dropIndexRef.current = toIndex;
 
+      //TODO why is this different from Natural Movement ?
       if (overflowMenuShowingRef.current) {
         onDrop(fromIndex, -1);
       } else {

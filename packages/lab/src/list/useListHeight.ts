@@ -18,7 +18,7 @@ export interface HeightHookResult {
   contentHeight: number;
   listClientHeight?: number;
   listItemHeight: number;
-  listHeight: number;
+  listHeight: number | string;
 }
 
 const getContentHeight = (
@@ -55,7 +55,10 @@ export const useListHeight = ({
     let result = borderless ? 0 : 2;
     const itemHeight = itemHeightProp ?? measuredItemHeight;
     const contentHeight = getContentHeight(itemCount, itemHeight, itemGapSize);
-    if (height !== undefined && typeof height === "number") {
+    if (
+      (height !== undefined && typeof height === "number") ||
+      typeof height === "string"
+    ) {
       // TODO if this is a percentage, convert to number
       return [contentHeight, height];
     }

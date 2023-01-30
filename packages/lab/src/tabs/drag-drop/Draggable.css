@@ -4,13 +4,14 @@
   cursor: var(--salt-draggable-grab-cursor-active);
   position: absolute;
   opacity: .95;
+  z-index: 2000;
 }
 
 .saltDraggable-spacer {
-  display: var(--uitkDraggable-display, inline-block);
-  height: var(--uitkDraggable-spacer-height, var(--tabs-tabstrip-height));
-  transition: var(--uitkDraggable-transitionProp, width) 0.3s ease;
-  width: var(--uitkDraggable-spacer-width, 0);
+  display: var(--saltDraggable-display, inline-block);
+  height: var(--saltDraggable-spacer-height, var(--tabs-tabstrip-height));
+  transition: var(--saltDraggable-transitionProp, width) 0.3s ease;
+  width: var(--saltDraggable-spacer-width, 0);
 }
 
 .saltDraggable-dropIndicatorPosition {
