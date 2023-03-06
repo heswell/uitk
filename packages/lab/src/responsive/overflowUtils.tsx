@@ -1,9 +1,4 @@
-import {
-  collapsibleType,
-  ElementRef,
-  OverflowItem,
-  orientationType,
-} from "./overflowTypes";
+import { ElementRef, OverflowItem, orientationType } from "./overflowTypes";
 
 export const DropdownPlaceholder = () => null;
 export const getDropdownPlaceholder = () => <DropdownPlaceholder />;
@@ -86,7 +81,9 @@ const isContainerOverflowing = (
       },
       isHorizontal ? bottom : right
     );
-    return isHorizontal ? maxPos > bottom : maxPos > right;
+    return isHorizontal
+      ? Math.round(maxPos) > Math.round(bottom)
+      : Math.round(maxPos) > Math.round(right);
   }
 };
 
@@ -156,34 +153,8 @@ export const byDescendingPriority = (m1: OverflowItem, m2: OverflowItem) => {
   return result;
 };
 
-// Helper function to try and determine the display label for an overflow item
-// Currently, Tab uses data-text, so this works for any Tab. Need to decide
-// whether this is appropriate for other components.
-// Note: Tab uses data-text for another reason, it is not implemented there just to
-// support this function.
-// There may be an aria attribute we should use instead
-// function getElementText(element: HTMLElement) {
-//   if (element.dataset.text) {
-//     return element.dataset.text;
-//   }
-//   const textNode = element.querySelector("[data-text]") as HTMLElement;
-//   if (textNode) {
-//     return textNode.dataset.text;
-//   }
-//   return "";
-// }
-// const asCollapsibleType = (value?: string): collapsibleType | undefined =>
-//   value === "instant" || value == "dynamic"
-//     ? (value as collapsibleType)
-//     : undefined;
-
 export const getOverflowIndicator = (managedItems: OverflowItem[]) =>
   managedItems.find((item) => item.isOverflowIndicator);
-
-// TODO whats the right way to deduce the label. AccessibleText added
-// to eg delete button makes innerText unreliable.
-// const getLabelForElement = (element: HTMLElement) =>
-//   element.title || getElementText(element) || element.innerText;
 
 const getPriority = (item: OverflowItem) => item.priority;
 
