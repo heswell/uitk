@@ -1,5 +1,11 @@
 # @salt-ds/ag-grid-theme
 
+## 1.1.1
+
+### Patch Changes
+
+- 982da8e2: Fix ag-grid uitk theme floating filter input height in High density
+
 ## 1.1.0
 
 ### Minor Changes
