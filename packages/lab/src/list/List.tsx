@@ -117,7 +117,9 @@ export const List = forwardRef(function List<
   });
 
   const { onVerticalScroll, viewportRange } = useScrollPosition({
-    containerSize: listClientHeight ?? listHeight,
+    containerSize:
+      // TODO whats the right way to handle string values - ie percentages
+      listClientHeight ?? (typeof listHeight === "number" ? listHeight : 0),
     itemCount: collectionHook.data.length,
     itemGapSize: itemGapSize,
     itemSize: listItemHeight,

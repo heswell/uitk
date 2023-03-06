@@ -1,6 +1,6 @@
 import { makePrefixer, useForkRef, useIdMemo } from "@salt-ds/core";
 import { clsx } from "clsx";
-import { ForwardedRef, forwardRef, ReactElement, useRef } from "react";
+import { ForwardedRef, forwardRef, memo, ReactElement, useRef } from "react";
 import {
   CollectionIndexer,
   isSelected,
@@ -135,7 +135,7 @@ export const VirtualizedList = forwardRef(function List<
   });
 
   const { onVerticalScroll, viewportRange } = useScrollPosition({
-    containerSize: listHeight,
+    containerSize: typeof listHeight === "number" ? listHeight : 0,
     itemCount: collectionHook.data.length,
     itemGapSize: itemGapSize,
     itemSize: listItemHeight,
