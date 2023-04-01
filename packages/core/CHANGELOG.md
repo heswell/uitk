@@ -1,5 +1,20 @@
 # @salt-ds/core
 
+## 1.5.0
+
+### Minor Changes
+
+- ea010ffa: New `--salt-size-container-spacing` and `--salt-size-adornmentGap` tokens
+
+  ```diff
+  +  --salt-size-container-spacing: calc(3 * var(--salt-size-unit));
+  +  --salt-size-adornmentGap: calc(0.75 * var(--salt-size-unit));
+  ```
+
+### Patch Changes
+
+- 0c33a60c: Fix Avatar fallback not working
+
 ## 1.4.0
 
 ### Minor Changes

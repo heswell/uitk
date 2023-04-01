@@ -1,5 +1,24 @@
 # @salt-ds/theme
 
+## 1.3.0
+
+### Minor Changes
+
+- 6d2c3a32: Deprecate delay foundation; replace with duration
+- ea010ffa: New `--salt-size-container-spacing` and `--salt-size-adornmentGap` tokens
+
+  ```diff
+  +  --salt-size-container-spacing: calc(3 * var(--salt-size-unit));
+  +  --salt-size-adornmentGap: calc(0.75 * var(--salt-size-unit));
+  ```
+
+- 91e7cbdf: Added `--salt-accent-borderColor-disabled`
+
+  ```diff
+  + --salt-accent-borderColor-disabled: var(--salt-palette-accent-border-disabled);
+  + --salt-palette-accent-border-disabled
+  ```
+
 ## 1.2.0
 
 ### Minor Changes

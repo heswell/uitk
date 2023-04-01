@@ -1,5 +1,11 @@
 # @salt-ds/ag-grid-theme
 
+## 1.1.3
+
+### Patch Changes
+
+- 09cc1177: Fix broken reference to font
+
 ## 1.1.2
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @salt-ds/data-grid
 
+## 1.0.4
+
+### Patch Changes
+
+- 3e7a1b0f: Checkbox
+
+  Removed `CheckboxBase` and replaced with `Checkbox`
+  Added `error` prop for error state styling.
+
+  CheckboxGroup
+
+  Removed `legend` and `LegendProps` prop; will be implemented by FormField.
+  Replaced `row` prop with `direction` prop.
+  Added `wrap` prop.
+
+  CheckboxIcon
+
+  Added `error` prop for error state styling.
+  Added `disabled` prop for disabled state styling.
+
 ## 1.0.3
 
 ### Patch Changes

@@ -1,5 +1,34 @@
 # @salt-ds/lab
 
+## 1.0.0-alpha.5
+
+### Minor Changes
+
+- ea010ffa: New `--salt-size-container-spacing` and `--salt-size-adornmentGap` tokens
+
+  ```diff
+  +  --salt-size-container-spacing: calc(3 * var(--salt-size-unit));
+  +  --salt-size-adornmentGap: calc(0.75 * var(--salt-size-unit));
+  ```
+
+### Patch Changes
+
+- 3e7a1b0f: Checkbox
+
+  Removed `CheckboxBase` and replaced with `Checkbox`
+  Added `error` prop for error state styling.
+
+  CheckboxGroup
+
+  Removed `legend` and `LegendProps` prop; will be implemented by FormField.
+  Replaced `row` prop with `direction` prop.
+  Added `wrap` prop.
+
+  CheckboxIcon
+
+  Added `error` prop for error state styling.
+  Added `disabled` prop for disabled state styling.
+
 ## 1.0.0-alpha.4
 
 ### Minor Changes
