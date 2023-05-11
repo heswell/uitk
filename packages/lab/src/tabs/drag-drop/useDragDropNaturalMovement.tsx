@@ -167,6 +167,8 @@ export const useDragDropNaturalMovement = ({
           viewportRange
         ));
 
+        console.log({ dropTargets });
+
         const draggedItem = getItemById(dropTargets, draggedItemId);
 
         if (draggedItem && container) {

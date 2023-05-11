@@ -203,10 +203,11 @@ export const useDragDropIndicator = ({
 
           setDropIndicator(
             <Draggable
-              wrapperClassName="dropIndicatorContainer"
+              element={createDropIndicator()}
+              orientation={orientation}
               rect={dropIndicatorRect}
               ref={dropIndicatorRef}
-              element={createDropIndicator()}
+              wrapperClassName="dropIndicatorContainer"
             />
           );
         }

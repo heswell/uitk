@@ -45,12 +45,12 @@
 }
 
 .saltToolbar[aria-orientation="horizontal"] > .Responsive-inner > :not(.uitkTooltray) {
-  margin-top: var(--uitkToolbarField-marginTop, var(--uitk-size-unit));
+  /* margin-top: var(--uitkToolbarField-marginTop, var(--uitk-size-unit)); */
   margin-right: var(--uitk-size-unit);
 }
 
 .saltToolbar[aria-orientation="horizontal"] > .Responsive-inner > .saltTooltray > .Responsive-inner > * {
-  margin-top: var(--salt-size-unit);
+  /* margin-top: var(--salt-size-unit); */
   /* margin-right: var(--salt-size-unit); */
 }
 
